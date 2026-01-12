@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -22,7 +22,7 @@ const useSessionTimeout = (timeoutMinutes = 5, warningMinutes = 1) => {
   /**
    * Cerrar sesión y limpiar datos
    */
-  const logout = () => {
+  const logout = useCallback(() => {
     console.log('Cerrando sesión por inactividad...');
     
     // Limpiar localStorage
@@ -35,12 +35,12 @@ const useSessionTimeout = (timeoutMinutes = 5, warningMinutes = 1) => {
     
     // Redirigir al login
     navigate('/login');
-  };
+  }, [navigate]);
 
   /**
    * Reiniciar el temporizador de inactividad
    */
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     // Limpiar timeouts existentes
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
@@ -70,7 +70,7 @@ const useSessionTimeout = (timeoutMinutes = 5, warningMinutes = 1) => {
     timeoutRef.current = setTimeout(() => {
       logout();
     }, timeoutMs);
-  };
+  }, [logout, timeoutMs, warningMs, warningMinutes]);
 
   /**
    * Detectar eventos de actividad del usuario
@@ -103,7 +103,7 @@ const useSessionTimeout = (timeoutMinutes = 5, warningMinutes = 1) => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
       if (warningTimeoutRef.current) clearTimeout(warningTimeoutRef.current);
     };
-  }, []);
+  }, [resetTimer]);
 
   return {
     showWarning,      // Boolean: si debe mostrar advertencia
