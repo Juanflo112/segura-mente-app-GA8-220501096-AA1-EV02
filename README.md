@@ -47,19 +47,19 @@ segura-mente-app/
 
 ### Requisitos Previos
 
-- Node.js (v14 o superior)
+- Node.js (v o superior)
 - XAMPP (para MySQL y phpMyAdmin)
 - Git
 - Editor de código (VS Code recomendado)
 
-### 1️ Clonar el Repositorio
+### ️ Clonar el Repositorio
 
 ```bash
-git clone https://github.com/Juanflo112/GA7-220501096-AA5-EV03-Dise-o-y-desarrollo-de-servicios-web----Proyecto.git
+git clone https://github.com/Juanflo/GA7-000-AA-EV0-Dise-o-y-desarrollo-de-servicios-web----Proyecto.git
 cd segura-mente-app
 ```
 
-### 2️ Configurar el Frontend
+### ️ Configurar el Frontend
 
 ```bash
 # Instalar dependencias
@@ -69,9 +69,9 @@ npm install
 npm start
 ```
 
-La aplicación se abrirá en [http://localhost:3000](http://localhost:3000)
+La aplicación se abrirá en [http://localhost:000](http://localhost:000)
 
-### 3️ Configurar el Backend
+### ️ Configurar el Backend
 
 ```bash
 # Navegar a la carpeta backend
@@ -81,63 +81,63 @@ cd backend
 npm install
 ```
 
-### 4️ Configurar la Base de Datos
+### ️ Configurar la Base de Datos
 
-1. **Inicia XAMPP** y activa MySQL
-2. **Abre phpMyAdmin**: `http://localhost/phpmyadmin`
-3. **Ejecuta el script SQL** que está en `backend/database.sql`
+. **Inicia XAMPP** y activa MySQL
+. **Abre phpMyAdmin**: `http://localhost/phpmyadmin`
+. **Ejecuta el script SQL** que está en `backend/database.sql`
 
-### 5️ Configurar Variables de Entorno
+### ️ Configurar Variables de Entorno
 
 Edita el archivo `backend/.env` con tus credenciales:
 
 ```env
-PORT=5000
+PORT=000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=seguramente_db
 JWT_SECRET=tu_clave_secreta_muy_segura
 EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+EMAIL_PORT=7
 EMAIL_USER=tu_email@gmail.com
 EMAIL_PASSWORD=tu_contraseña_app_gmail
-FRONTEND_URL=http://localhost:3000
+FRONTEND_URL=http://localhost:000
 ```
 
 ** Importante:** Para enviar emails, necesitas una "Contraseña de aplicación" de Gmail. Ver instrucciones en `backend/README.md`
 
-### 6️ Iniciar el Backend
+### ️ Iniciar el Backend
 
 ```bash
 # Desde la carpeta backend
 npm start
 ```
 
-El servidor se ejecutará en [http://localhost:5000](http://localhost:5000)
+El servidor se ejecutará en [http://localhost:000](http://localhost:000)
 
 ## Uso de la Aplicación
 
 ### Registro de Usuario
 
-1. Navega a la página de registro
-2. Completa el formulario con:
+. Navega a la página de registro
+. Completa el formulario con:
    - Nombre de usuario
    - Documento de identificación
    - Fecha de nacimiento
    - Teléfono
    - Dirección
    - Correo electrónico
-   - Contraseña (mínimo 8 caracteres, con mayúsculas, minúsculas, números y símbolos)
-3. Haz clic en "Crear cuenta"
-4. Verifica tu correo electrónico
-5. Haz clic en el enlace de verificación
-6. ¡Cuenta activada!
+   - Contraseña (mínimo  caracteres, con mayúsculas, minúsculas, números y símbolos)
+. Haz clic en "Crear cuenta"
+. Verifica tu correo electrónico
+. Haz clic en el enlace de verificación
+. ¡Cuenta activada!
 
 ### Login
 
-1. Ingresa tu correo y contraseña
-2. Accede al dashboard
+. Ingresa tu correo y contraseña
+. Accede al dashboard
 
 ##  Scripts Disponibles
 
@@ -196,12 +196,12 @@ Ver `backend/README.md` para documentación completa de la API.
 ### Frontend
 - React.js
 - React Router
-- CSS3
+- CSS
 
 ### Backend
 - Node.js
 - Express.js
-- MySQL (mysql2)
+- MySQL (mysql)
 - bcryptjs (encriptación)
 - jsonwebtoken (JWT)
 - nodemailer (envío de emails)
@@ -222,10 +222,10 @@ Ver `backend/README.md` para documentación completa de la API.
 
 ### Error al enviar emails
 - Usa una "Contraseña de aplicación" de Gmail
-- Activa la verificación en 2 pasos en tu cuenta de Google
+- Activa la verificación en  pasos en tu cuenta de Google
 
 ### Puerto en uso
-- Verifica que ningún otro proceso esté usando el puerto 3000 o 5000
+- Verifica que ningún otro proceso esté usando el puerto 000 o 000
 - Cambia el puerto en las variables de entorno si es necesario
 
 

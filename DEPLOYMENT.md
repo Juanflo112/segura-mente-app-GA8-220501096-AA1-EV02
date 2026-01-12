@@ -278,4 +278,3 @@ node -e "console.log(require('crypto').randomBytes().toString('hex'))"
 
 ---
 
-¡Listo! Tu aplicación estará en producción y accesible desde cualquier lugar. 

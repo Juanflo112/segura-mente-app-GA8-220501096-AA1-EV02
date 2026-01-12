@@ -1124,6 +1124,4 @@ https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0/issues
 
 ---
 
-**Versión del Manual:** .0.0  
-**Última Actualización:** Enero , 0  
-**Autor:** Juan Felipe
+

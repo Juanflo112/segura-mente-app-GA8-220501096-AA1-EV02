@@ -2,18 +2,18 @@
 
 ## Descripción
 
-Sistema automático que cierra la sesión del usuario después de **5 minutos de inactividad**, con una advertencia **1 minuto antes** de cerrar.
+Sistema automático que cierra la sesión del usuario después de ** minutos de inactividad**, con una advertencia ** minuto antes** de cerrar.
 
 ## Archivos Creados
 
-1. **`src/hooks/useSessionTimeout.js`** - Hook personalizado
-2. **`src/components/SessionWarning.jsx`** - Componente de advertencia
-3. **`src/components/SessionWarning.css`** - Estilos del modal
-4. **`src/pages/DashboardPage.jsx`** - Actualizado con el hook
+. **`src/hooks/useSessionTimeout.js`** - Hook personalizado
+. **`src/components/SessionWarning.jsx`** - Componente de advertencia
+. **`src/components/SessionWarning.css`** - Estilos del modal
+. **`src/pages/DashboardPage.jsx`** - Actualizado con el hook
 
 ## Cómo Funciona
 
-### 1. Detección de Actividad
+### . Detección de Actividad
 El sistema detecta estos eventos del usuario:
 - Movimiento del mouse (`mousemove`)
 - Clicks del mouse (`mousedown`, `click`)
@@ -21,22 +21,22 @@ El sistema detecta estos eventos del usuario:
 - Scroll de la página (`scroll`)
 - Touch en móviles (`touchstart`)
 
-### 2. Temporizador de Inactividad
+### . Temporizador de Inactividad
 ```
-Tiempo total: 5 minutos
-├─ Minutos 0-4: Usuario activo, temporizador se reinicia con cada acción
-├─ Minuto 4: Aparece advertencia "Sesión por expirar"
-└─ Minuto 5: Cierre automático de sesión
+Tiempo total:  minutos
+├─ Minutos 0-: Usuario activo, temporizador se reinicia con cada acción
+├─ Minuto : Aparece advertencia "Sesión por expirar"
+└─ Minuto : Cierre automático de sesión
 ```
 
-### 3. Flujo del Sistema
+### . Flujo del Sistema
 
 ```
 Usuario activo
     ↓
 [Detecta evento] → Reinicia temporizador
     ↓
-4 minutos sin actividad
+ minutos sin actividad
     ↓
 [Muestra advertencia]
     ↓
@@ -52,17 +52,17 @@ Usuario puede:
 import useSessionTimeout from '../hooks/useSessionTimeout';
 
 // Usar en el componente
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(, );
 //                                                                     ↑  ↑
-//                                                      5 min total ─┘  └─ 1 min advertencia
+//                                                       min total ─┘  └─  min advertencia
 ```
 
 ### Parámetros:
 
 | Parámetro | Tipo | Default | Descripción |
 |-----------|------|---------|-------------|
-| `timeoutMinutes` | number | 5 | Tiempo total de inactividad antes de cerrar sesión |
-| `warningMinutes` | number | 1 | Tiempo de advertencia antes del cierre |
+| `timeoutMinutes` | number |  | Tiempo total de inactividad antes de cerrar sesión |
+| `warningMinutes` | number |  | Tiempo de advertencia antes del cierre |
 
 ### Valores de retorno:
 
@@ -76,7 +76,7 @@ const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
 
 ```javascript
 <SessionWarning 
-  remainingTime={60}        // Segundos restantes
+  remainingTime={0}        // Segundos restantes
   onContinue={resetTimer}   // Función al hacer click en "Continuar"
 />
 ```
@@ -92,15 +92,15 @@ const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
 
 Cuando se cierra la sesión automáticamente:
 
-1. **Limpia localStorage:**
+. **Limpia localStorage:**
    - Elimina `userData`
    - Elimina `token`
 
-2. **Limpia temporizadores:**
+. **Limpia temporizadores:**
    - Cancela timeout de advertencia
    - Cancela timeout de cierre
 
-3. **Redirección:**
+. **Redirección:**
    - Envía al usuario a `/login`
 
 ## Configuración Personalizada
@@ -108,18 +108,18 @@ Cuando se cierra la sesión automáticamente:
 ### Cambiar tiempos:
 
 ```javascript
-// 10 minutos de inactividad, advertencia 2 minutos antes
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(10, 2);
+// 0 minutos de inactividad, advertencia  minutos antes
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(0, );
 
-// 3 minutos de inactividad, advertencia 30 segundos antes
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(3, 0.5);
+//  minutos de inactividad, advertencia 0 segundos antes
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(, 0.);
 ```
 
 ### Deshabilitar advertencia:
 
 ```javascript
 // Solo cierre automático sin advertencia
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 0);
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(, 0);
 
 // Y no renderizar el componente SessionWarning
 ```
@@ -131,7 +131,7 @@ Puedes mover el hook a `App.jsx` para que funcione en todas las páginas:
 ```javascript
 // src/App.jsx
 function App() {
-  const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
+  const { showWarning, remainingTime, resetTimer } = useSessionTimeout(, );
 
   return (
     <Router>
@@ -158,19 +158,19 @@ function App() {
 Cambia los tiempos a valores pequeños:
 
 ```javascript
-// 30 segundos de inactividad, advertencia 10 segundos antes
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(0.5, 0.17);
+// 0 segundos de inactividad, advertencia 0 segundos antes
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(0., 0.7);
 ```
 
 ### Pasos para probar:
 
-1. Inicia sesión en la aplicación
-2. Ve al Dashboard
-3. **No muevas el mouse ni toques el teclado**
-4. Después de 4 minutos, verás la advertencia
-5. Opciones:
+. Inicia sesión en la aplicación
+. Ve al Dashboard
+. **No muevas el mouse ni toques el teclado**
+. Después de  minutos, verás la advertencia
+. Opciones:
    - Hacer click en "Continuar sesión" → Reinicia el temporizador
-   - No hacer nada → Después de 1 minuto más, cierra sesión automáticamente
+   - No hacer nada → Después de  minuto más, cierra sesión automáticamente
 
 ##  Logs en Consola
 
@@ -209,13 +209,13 @@ Posibles mejoras:
 
 El sistema está configurado en:
 - **Página:** Dashboard
-- **Tiempo de inactividad:** 5 minutos
-- **Advertencia:** 1 minuto antes
+- **Tiempo de inactividad:**  minutos
+- **Advertencia:**  minuto antes
 - **Eventos detectados:** Mouse, teclado, scroll, touch
 
 ¿Necesitas cambiar alguna configuración? Edita los valores en `DashboardPage.jsx`:
 
 ```javascript
-const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
+const { showWarning, remainingTime, resetTimer } = useSessionTimeout(, );
 //                                                  Cambia aquí ─┘  └─ y aquí
 ```
