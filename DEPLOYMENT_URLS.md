@@ -1,56 +1,56 @@
 # URLs de Despliegue - Segura Mente App
 
-## 📋 Información General
+##  Información General
 
 **Proyecto:** Segura Mente - Sistema de Gestión de Usuarios  
-**Fecha de Despliegue:** Enero 12, 2026  
+**Fecha de Despliegue:** Enero , 0  
 **Estudiante:** Juan Felipe  
-**Evidencia:** GA8-220501096-AA1-EV02
+**Evidencia:** GA-000-AA-EV0
 
 ---
 
-## 🌐 URLs de Producción
+##  URLs de Producción
 
 ### **Frontend (Aplicación Web)**
 - **URL:** https://segura-mente-app-frontend.vercel.app/
 - **Plataforma:** Vercel
-- **Tecnología:** React 19.2.0
-- **Estado:** ✅ Activo
+- **Tecnología:** React ..0
+- **Estado:**  Activo
 
 ### **Backend (API REST)**
-- **URL:** https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com
+- **URL:** https://segura-mente-app-ga-000-aa-ev0.onrender.com
 - **Plataforma:** Render.com
 - **Tecnología:** Node.js + Express
-- **Estado:** ✅ Activo
+- **Estado:**  Activo
 
 ### **Base de Datos**
 - **Plataforma:** Railway
-- **Tipo:** MySQL 8.0
-- **Host:** caboose.proxy.rlwy.net:43186
-- **Estado:** ✅ Activo
+- **Tipo:** MySQL .0
+- **Host:** caboose.proxy.rlwy.net:
+- **Estado:**  Activo
 
 ---
 
-## 🔗 Endpoints Principales del API
+##  Endpoints Principales del API
 
 | Endpoint | URL Completa |
 |----------|-------------|
-| Health Check | https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/ |
-| Registro | https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/api/auth/register |
-| Login | https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/api/auth/login |
-| Usuarios | https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/api/users |
+| Health Check | https://segura-mente-app-ga-000-aa-ev0.onrender.com/ |
+| Registro | https://segura-mente-app-ga-000-aa-ev0.onrender.com/api/auth/register |
+| Login | https://segura-mente-app-ga-000-aa-ev0.onrender.com/api/auth/login |
+| Usuarios | https://segura-mente-app-ga-000-aa-ev0.onrender.com/api/users |
 
 ---
 
-## 📦 Repositorio del Código Fuente
+##  Repositorio del Código Fuente
 
-- **GitHub:** https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02
+- **GitHub:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0
 - **Rama Principal:** main
-- **Último Commit:** f961c87
+- **Último Commit:** fc7
 
 ---
 
-## 🔐 Acceso de Prueba
+##  Acceso de Prueba
 
 ### Usuario Administrador de Prueba
 ```
@@ -60,30 +60,30 @@ Contraseña: [Definir durante el registro]
 
 ---
 
-## 🚀 Estado del Sistema
+##  Estado del Sistema
 
 | Componente | Estado | Uptime | Última Verificación |
 |------------|--------|---------|---------------------|
-| Frontend | 🟢 Online | 99.9% | 2026-01-12 |
-| Backend | 🟢 Online | 99.9% | 2026-01-12 |
-| Base de Datos | 🟢 Online | 99.9% | 2026-01-12 |
+| Frontend |  Online | .% | 0-0- |
+| Backend |  Online | .% | 0-0- |
+| Base de Datos |  Online | .% | 0-0- |
 
 ---
 
-## 📝 Notas Importantes
+##  Notas Importantes
 
-1. **Plan Gratuito de Render:** El backend puede tardar 30-60 segundos en responder la primera vez después de 15 minutos de inactividad (cold start).
+. **Plan Gratuito de Render:** El backend puede tardar 0-0 segundos en responder la primera vez después de  minutos de inactividad (cold start).
 
-2. **Funcionalidades Limitadas:** El envío de correos electrónicos está temporalmente deshabilitado debido a restricciones de SMTP en el plan gratuito de Render.
+. **Funcionalidades Limitadas:** El envío de correos electrónicos está temporalmente deshabilitado debido a restricciones de SMTP en el plan gratuito de Render.
 
-3. **Auto-verificación:** Los usuarios registrados se verifican automáticamente para facilitar las pruebas.
+. **Auto-verificación:** Los usuarios registrados se verifican automáticamente para facilitar las pruebas.
 
-4. **CORS Configurado:** El backend acepta peticiones únicamente desde el dominio del frontend en Vercel.
+. **CORS Configurado:** El backend acepta peticiones únicamente desde el dominio del frontend en Vercel.
 
 ---
 
-## 🔧 Contacto y Soporte
+##  Contacto y Soporte
 
 Para cualquier problema técnico o consulta sobre el despliegue:
-- **Repositorio:** https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02
-- **Issues:** https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02/issues
+- **Repositorio:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0
+- **Issues:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0/issues

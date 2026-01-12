@@ -1,18 +1,18 @@
 # Documentación de Módulos y Componentes - Segura Mente App
 
-## 📋 Índice
+##  Índice
 
-1. [Módulo de Autenticación](#módulo-de-autenticación)
-2. [Módulo de Gestión de Usuarios](#módulo-de-gestión-de-usuarios)
-3. [Módulo de Control de Sesión](#módulo-de-control-de-sesión)
-4. [Componentes del Frontend](#componentes-del-frontend)
-5. [Modelos de Base de Datos](#modelos-de-base-de-datos)
+. [Módulo de Autenticación](#módulo-de-autenticación)
+. [Módulo de Gestión de Usuarios](#módulo-de-gestión-de-usuarios)
+. [Módulo de Control de Sesión](#módulo-de-control-de-sesión)
+. [Componentes del Frontend](#componentes-del-frontend)
+. [Modelos de Base de Datos](#modelos-de-base-de-datos)
 
 ---
 
-## 1. Módulo de Autenticación
+## . Módulo de Autenticación
 
-### 1.1 Registro de Usuario
+### . Registro de Usuario
 
 **Archivo:** `backend/controllers/authController.js` - `register()`
 
@@ -26,7 +26,7 @@
   "telefono": "string (requerido)",
   "direccion": "string (requerido)",
   "email": "string (requerido, único, formato email)",
-  "password": "string (requerido, mín 8 caracteres)"
+  "password": "string (requerido, mín  caracteres)"
 }
 ```
 
@@ -51,16 +51,16 @@
 ```
 
 #### Proceso Interno
-1. Validación de datos de entrada
-2. Verificación de duplicados (email, username, identificación)
-3. Encriptación de contraseña con bcrypt
-4. Generación de token de verificación
-5. Inserción en base de datos
-6. Auto-verificación del usuario (workaround para SMTP)
+. Validación de datos de entrada
+. Verificación de duplicados (email, username, identificación)
+. Encriptación de contraseña con bcrypt
+. Generación de token de verificación
+. Inserción en base de datos
+. Auto-verificación del usuario (workaround para SMTP)
 
 ---
 
-### 1.2 Inicio de Sesión
+### . Inicio de Sesión
 
 **Archivo:** `backend/controllers/authController.js` - `login()`
 
@@ -77,7 +77,7 @@
 {
   "success": true,
   "message": "Login exitoso",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token": "eyJhbGciOiJIUzINiIsInRcCIIkpXVCJ...",
   "user": {
     "email": "usuario@example.com",
     "nombreUsuario": "Usuario Ejemplo",
@@ -96,16 +96,16 @@
 ```
 
 #### Proceso Interno
-1. Búsqueda de usuario por email
-2. Verificación de existencia del usuario
-3. Comparación de contraseña con bcrypt
-4. Verificación del estado de verificación
-5. Generación de JWT token
-6. Actualización de último acceso
+. Búsqueda de usuario por email
+. Verificación de existencia del usuario
+. Comparación de contraseña con bcrypt
+. Verificación del estado de verificación
+. Generación de JWT token
+. Actualización de último acceso
 
 ---
 
-### 1.3 Verificación de Email
+### . Verificación de Email
 
 **Archivo:** `backend/controllers/authController.js` - `verifyEmail()`
 
@@ -123,16 +123,16 @@ Query Parameter: token=<token_de_verificacion>
 ```
 
 #### Proceso Interno
-1. Recepción del token de verificación
-2. Búsqueda de usuario por token
-3. Actualización del campo `verificado` a TRUE
-4. Eliminación del token de verificación
+. Recepción del token de verificación
+. Búsqueda de usuario por token
+. Actualización del campo `verificado` a TRUE
+. Eliminación del token de verificación
 
 ---
 
-## 2. Módulo de Gestión de Usuarios
+## . Módulo de Gestión de Usuarios
 
-### 2.1 Listar Usuarios
+### . Listar Usuarios
 
 **Archivo:** `backend/controllers/userController.js` - `getAllUsers()`
 
@@ -150,30 +150,30 @@ Headers: Authorization: Bearer <token>
       "email": "usuario@example.com",
       "nombre_usuario": "Usuario Ejemplo",
       "tipo_identificacion": "CC",
-      "identificacion": "1234567890",
-      "fecha_nacimiento": "1990-01-01",
-      "telefono": "3001234567",
-      "direccion": "Calle 123 #45-67",
+      "identificacion": "70",
+      "fecha_nacimiento": "0-0-0",
+      "telefono": "007",
+      "direccion": "Calle  #-7",
       "tipo_usuario": "Cliente",
       "formacion_profesional": null,
       "tarjeta_profesional": null,
       "verificado": true,
-      "fecha_registro": "2026-01-12T00:00:00.000Z",
-      "ultimo_acceso": "2026-01-12T10:30:00.000Z"
+      "fecha_registro": "0-0-T00:00:00.000Z",
+      "ultimo_acceso": "0-0-T0:0:00.000Z"
     }
   ]
 }
 ```
 
 #### Proceso Interno
-1. Verificación de autenticación mediante JWT
-2. Consulta a la base de datos
-3. Ordenamiento por fecha de registro descendente
-4. Retorno de lista completa de usuarios
+. Verificación de autenticación mediante JWT
+. Consulta a la base de datos
+. Ordenamiento por fecha de registro descendente
+. Retorno de lista completa de usuarios
 
 ---
 
-### 2.2 Crear Usuario (desde Dashboard)
+### . Crear Usuario (desde Dashboard)
 
 **Archivo:** `backend/controllers/userController.js` - `createUser()`
 
@@ -207,7 +207,7 @@ Headers: Authorization: Bearer <token>
 
 ---
 
-### 2.3 Actualizar Usuario
+### . Actualizar Usuario
 
 **Archivo:** `backend/controllers/userController.js` - `updateUser()`
 
@@ -241,7 +241,7 @@ Headers: Authorization: Bearer <token>
 
 ---
 
-### 2.4 Eliminar Usuario
+### . Eliminar Usuario
 
 **Archivo:** `backend/controllers/userController.js` - `deleteUser()`
 
@@ -261,15 +261,15 @@ Headers: Authorization: Bearer <token>
 
 ---
 
-## 3. Módulo de Control de Sesión
+## . Módulo de Control de Sesión
 
-### 3.1 Hook useSessionTimeout
+### . Hook useSessionTimeout
 
 **Archivo:** `src/hooks/useSessionTimeout.js`
 
 #### Parámetros de Entrada
 ```javascript
-useSessionTimeout(timeoutMinutes = 5, warningMinutes = 1)
+useSessionTimeout(timeoutMinutes = , warningMinutes = )
 ```
 
 #### Datos de Salida
@@ -283,15 +283,15 @@ useSessionTimeout(timeoutMinutes = 5, warningMinutes = 1)
 
 #### Funcionalidad
 - Detecta inactividad del usuario
-- Muestra advertencia 1 minuto antes de cerrar sesión
-- Cierra sesión automáticamente después de 5 minutos de inactividad
+- Muestra advertencia  minuto antes de cerrar sesión
+- Cierra sesión automáticamente después de  minutos de inactividad
 - Monitorea eventos: mousedown, mousemove, keypress, scroll, touchstart, click
 
 ---
 
-## 4. Componentes del Frontend
+## . Componentes del Frontend
 
-### 4.1 LoginForm
+### . LoginForm
 
 **Archivo:** `src/components/Login/LoginForm.jsx`
 
@@ -315,7 +315,7 @@ Ninguno (componente independiente)
 
 ---
 
-### 4.2 RegisterForm
+### . RegisterForm
 
 **Archivo:** `src/components/Register/RegisterForm.jsx`
 
@@ -343,7 +343,7 @@ Ninguno (componente independiente)
 
 ---
 
-### 4.3 UserList
+### . UserList
 
 **Archivo:** `src/components/Dashboard/UserList.jsx`
 
@@ -368,7 +368,7 @@ Ninguno (componente independiente)
 ```
 
 #### Funcionalidades
-- Paginación (5 usuarios por página)
+- Paginación ( usuarios por página)
 - Selección múltiple de usuarios
 - Edición individual
 - Eliminación individual o múltiple
@@ -376,7 +376,7 @@ Ninguno (componente independiente)
 
 ---
 
-### 4.4 UserEditForm
+### . UserEditForm
 
 **Archivo:** `src/components/Dashboard/UserEditForm.jsx`
 
@@ -390,15 +390,15 @@ Ninguno (componente independiente)
 ```
 
 #### Proceso
-1. Carga datos del usuario en el formulario
-2. Permite edición de campos
-3. Valida datos antes de enviar
-4. Actualiza usuario en backend
-5. Notifica resultado
+. Carga datos del usuario en el formulario
+. Permite edición de campos
+. Valida datos antes de enviar
+. Actualiza usuario en backend
+. Notifica resultado
 
 ---
 
-### 4.5 UserRegisterForm
+### . UserRegisterForm
 
 **Archivo:** `src/components/Dashboard/UserRegisterForm.jsx`
 
@@ -411,7 +411,7 @@ Ninguno (componente independiente)
 ```
 
 #### Validaciones Especiales
-- Contraseña mínimo 8 caracteres
+- Contraseña mínimo  caracteres
 - Al menos una mayúscula
 - Al menos un número
 - Al menos un símbolo especial
@@ -419,29 +419,29 @@ Ninguno (componente independiente)
 
 ---
 
-## 5. Modelos de Base de Datos
+## . Modelos de Base de Datos
 
-### 5.1 Tabla: usuarios
+### . Tabla: usuarios
 
 **Archivo:** `backend/database.sql`
 
 #### Estructura
 ```sql
 CREATE TABLE usuarios (
-    email VARCHAR(150) PRIMARY KEY,
-    nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
-    tipo_identificacion VARCHAR(5) NOT NULL,
-    identificacion VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(0) PRIMARY KEY,
+    nombre_usuario VARCHAR(00) NOT NULL UNIQUE,
+    tipo_identificacion VARCHAR() NOT NULL,
+    identificacion VARCHAR(0) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
-    telefono VARCHAR(20) NOT NULL,
-    direccion VARCHAR(255) NOT NULL,
-    tipo_usuario VARCHAR(50) DEFAULT 'Cliente',
-    formacion_profesional VARCHAR(255),
-    tarjeta_profesional VARCHAR(100),
-    password VARCHAR(255) NOT NULL,
+    telefono VARCHAR(0) NOT NULL,
+    direccion VARCHAR() NOT NULL,
+    tipo_usuario VARCHAR(0) DEFAULT 'Cliente',
+    formacion_profesional VARCHAR(),
+    tarjeta_profesional VARCHAR(00),
+    password VARCHAR() NOT NULL,
     verificado BOOLEAN DEFAULT FALSE,
-    token_verificacion VARCHAR(255),
-    token_recuperacion VARCHAR(255) DEFAULT NULL,
+    token_verificacion VARCHAR(),
+    token_recuperacion VARCHAR() DEFAULT NULL,
     token_recuperacion_expira DATETIME DEFAULT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ultimo_acceso TIMESTAMP NULL
@@ -463,9 +463,9 @@ CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 
 ---
 
-## 6. Middleware y Utilidades
+## . Middleware y Utilidades
 
-### 6.1 Validación de Datos
+### . Validación de Datos
 
 **Archivo:** `backend/middleware/validation.js`
 
@@ -473,14 +473,14 @@ CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 
 **Validaciones:**
 - Email válido y requerido
-- Password mínimo 6 caracteres
+- Password mínimo  caracteres
 - Nombre de usuario requerido
 - Identificación requerida
 - Fecha de nacimiento requerida
 - Teléfono requerido
 - Dirección requerida
 
-### 6.2 Utilidades de Email
+### . Utilidades de Email
 
 **Archivo:** `backend/utils/email.js`
 
@@ -498,9 +498,9 @@ CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 ### Backend (.env)
 ```env
 NODE_ENV=production
-PORT=10000
+PORT=0000
 DB_HOST=caboose.proxy.rlwy.net
-DB_PORT=43186
+DB_PORT=
 DB_USER=root
 DB_PASSWORD=[cifrado]
 DB_NAME=railway
@@ -509,7 +509,7 @@ JWT_SECRET=[cifrado]
 JWT_EXPIRE=7d
 CLIENT_URL=https://segura-mente-app-frontend.vercel.app
 EMAIL_HOST=smtp.sendgrid.net
-EMAIL_PORT=587
+EMAIL_PORT=7
 EMAIL_SECURE=false
 EMAIL_USER=apikey
 EMAIL_PASS=[API_KEY]
@@ -518,12 +518,12 @@ EMAIL_FROM=[email]
 
 ### Frontend (.env.production)
 ```env
-REACT_APP_API_URL=https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/api
+REACT_APP_API_URL=https://segura-mente-app-ga-000-aa-ev0.onrender.com/api
 ```
 
 ---
 
-## 8. Flujos de Datos Completos
+## . Flujos de Datos Completos
 
 ### Flujo de Registro
 ```
@@ -547,11 +547,11 @@ Dashboard → UserList → API /users → userController.getAllUsers()
 
 ---
 
-## 📝 Notas de Implementación
+##  Notas de Implementación
 
-1. **Seguridad:** Las contraseñas se encriptan con bcrypt (10 rounds)
-2. **Autenticación:** JWT con expiración de 7 días
-3. **CORS:** Configurado para aceptar solo el dominio del frontend
-4. **Paginación:** Implementada en el frontend (5 registros por página)
-5. **Validación:** Doble validación (frontend y backend)
-6. **Manejo de Errores:** Respuestas consistentes con formato `{success, message, data/error}`
+. **Seguridad:** Las contraseñas se encriptan con bcrypt (0 rounds)
+. **Autenticación:** JWT con expiración de 7 días
+. **CORS:** Configurado para aceptar solo el dominio del frontend
+. **Paginación:** Implementada en el frontend ( registros por página)
+. **Validación:** Doble validación (frontend y backend)
+. **Manejo de Errores:** Respuestas consistentes con formato `{success, message, data/error}`

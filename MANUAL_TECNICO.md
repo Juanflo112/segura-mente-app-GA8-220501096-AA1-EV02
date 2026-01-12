@@ -1,34 +1,34 @@
 # Manual Técnico - Segura Mente App
 
-## 📘 Información del Documento
+##  Información del Documento
 
 **Proyecto:** Segura Mente - Sistema de Gestión de Usuarios  
-**Versión:** 1.0.0  
-**Fecha:** Enero 12, 2026  
+**Versión:** .0.0  
+**Fecha:** Enero , 0  
 **Estudiante:** Juan Felipe  
-**Evidencia:** GA8-220501096-AA1-EV02 - Módulos Integrados  
+**Evidencia:** GA-000-AA-EV0 - Módulos Integrados  
 **Tipo:** Manual Técnico para Desarrolladores y Administradores
 
 ---
 
-## 📋 Índice
+##  Índice
 
-1. [Arquitectura del Sistema](#arquitectura-del-sistema)
-2. [Instalación y Configuración Local](#instalación-y-configuración-local)
-3. [Estructura del Proyecto](#estructura-del-proyecto)
-4. [Tecnologías Utilizadas](#tecnologías-utilizadas)
-5. [Base de Datos](#base-de-datos)
-6. [API REST - Endpoints](#api-rest---endpoints)
+. [Arquitectura del Sistema](#arquitectura-del-sistema)
+. [Instalación y Configuración Local](#instalación-y-configuración-local)
+. [Estructura del Proyecto](#estructura-del-proyecto)
+. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+. [Base de Datos](#base-de-datos)
+. [API REST - Endpoints](#api-rest---endpoints)
 7. [Autenticación y Seguridad](#autenticación-y-seguridad)
-8. [Deployment](#deployment)
-9. [Mantenimiento y Troubleshooting](#mantenimiento-y-troubleshooting)
-10. [Escalabilidad y Mejoras Futuras](#escalabilidad-y-mejoras-futuras)
+. [Deployment](#deployment)
+. [Mantenimiento y Troubleshooting](#mantenimiento-y-troubleshooting)
+0. [Escalabilidad y Mejoras Futuras](#escalabilidad-y-mejoras-futuras)
 
 ---
 
-## 1. Arquitectura del Sistema
+## . Arquitectura del Sistema
 
-### 1.1 Diagrama de Arquitectura
+### . Diagrama de Arquitectura
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -43,8 +43,8 @@
 │                  Vercel Cloud Platform                       │
 │  URL: segura-mente-app-frontend.vercel.app                   │
 │                                                              │
-│  - React 19.2.0                                              │
-│  - React Router 7.10.1                                       │
+│  - React ..0                                              │
+│  - React Router 7.0.                                       │
 │  - Axios para peticiones HTTP                                │
 │  - LocalStorage para JWT                                     │
 └────────────────────────┬────────────────────────────────────┘
@@ -55,21 +55,21 @@
 ┌────────────────────────▼────────────────────────────────────┐
 │                 BACKEND (Node.js + Express)                  │
 │                   Render Cloud Platform                      │
-│  URL: segura-mente-app-ga8-220501096-aa1-ev02.onrender.com  │
+│  URL: segura-mente-app-ga-000-aa-ev0.onrender.com  │
 │                                                              │
-│  - Express 5.2.1                                             │
+│  - Express ..                                             │
 │  - JWT Authentication                                        │
 │  - Bcrypt Password Hashing                                   │
-│  - MySQL2 Driver                                             │
+│  - MySQL Driver                                             │
 │  - Nodemailer (Email)                                        │
 └────────────────────────┬────────────────────────────────────┘
                          │
                          │ MySQL Connection (SSL)
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│                  BASE DE DATOS (MySQL 8.0)                   │
+│                  BASE DE DATOS (MySQL .0)                   │
 │                   Railway Cloud Platform                     │
-│  Host: caboose.proxy.rlwy.net:43186                          │
+│  Host: caboose.proxy.rlwy.net:                          │
 │                                                              │
 │  - Tabla: usuarios                                           │
 │  - Índices optimizados                                       │
@@ -78,7 +78,7 @@
 └──────────────────────────────────────────────────────────────┘
 ```
 
-### 1.2 Patrón de Diseño
+### . Patrón de Diseño
 
 **Arquitectura:** Modelo-Vista-Controlador (MVC) Distribuido
 
@@ -93,28 +93,28 @@
 
 ---
 
-## 2. Instalación y Configuración Local
+## . Instalación y Configuración Local
 
-### 2.1 Requisitos Previos
+### . Requisitos Previos
 
 ```bash
-Node.js: v18.0.0 o superior
-npm: v9.0.0 o superior
-MySQL: v8.0 o superior
-Git: v2.30.0 o superior
+Node.js: v.0.0 o superior
+npm: v.0.0 o superior
+MySQL: v.0 o superior
+Git: v.0.0 o superior
 ```
 
-### 2.2 Clonar el Repositorio
+### . Clonar el Repositorio
 
 ```bash
 # Clonar desde GitHub
-git clone https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02.git
+git clone https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0.git
 
 # Navegar al directorio
-cd segura-mente-app-GA8-220501096-AA1-EV02
+cd segura-mente-app-GA-000-AA-EV0
 ```
 
-### 2.3 Configuración del Backend
+### . Configuración del Backend
 
 ```bash
 # Navegar a la carpeta backend
@@ -131,11 +131,11 @@ npm install
 ```env
 # Configuración del servidor
 NODE_ENV=development
-PORT=5000
+PORT=000
 
 # Configuración de la base de datos
 DB_HOST=localhost
-DB_PORT=3306
+DB_PORT=0
 DB_USER=root
 DB_PASSWORD=tu_password_mysql
 DB_NAME=seguramente_db
@@ -146,25 +146,25 @@ JWT_SECRET=tu_clave_secreta_super_segura_aqui
 JWT_EXPIRE=7d
 
 # URL del Frontend (para CORS)
-CLIENT_URL=http://localhost:3000
+CLIENT_URL=http://localhost:000
 
 # Configuración de Email (opcional en desarrollo)
 EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=587
+EMAIL_PORT=7
 EMAIL_SECURE=false
 EMAIL_USER=tu_email@gmail.com
 EMAIL_PASS=tu_app_password
 EMAIL_FROM=noreply@seguramente.com
 ```
 
-### 2.4 Configuración de la Base de Datos Local
+### . Configuración de la Base de Datos Local
 
 ```bash
 # Conectar a MySQL
 mysql -u root -p
 
 # Crear base de datos
-CREATE DATABASE seguramente_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE seguramente_db CHARACTER SET utfmb COLLATE utfmb_unicode_ci;
 
 # Usar la base de datos
 USE seguramente_db;
@@ -177,18 +177,18 @@ source backend/migrations/add_employee_fields.sql;
 source backend/migrations/add_password_reset_fields.sql;
 ```
 
-### 2.5 Iniciar el Backend
+### . Iniciar el Backend
 
 ```bash
 # Desde la carpeta backend
 npm start
 
 # Deberías ver:
-# Server running on port 5000
+# Server running on port 000
 # MySQL conectado exitosamente
 ```
 
-### 2.6 Configuración del Frontend
+### . Configuración del Frontend
 
 ```bash
 # Volver a la raíz del proyecto
@@ -203,23 +203,23 @@ npm install
 
 **Archivo `.env` (raíz del proyecto):**
 ```env
-REACT_APP_API_URL=http://localhost:5000/api
+REACT_APP_API_URL=http://localhost:000/api
 ```
 
-### 2.7 Iniciar el Frontend
+### .7 Iniciar el Frontend
 
 ```bash
 # Desde la raíz del proyecto
 npm start
 
-# Se abrirá automáticamente en http://localhost:3000
+# Se abrirá automáticamente en http://localhost:000
 ```
 
 ---
 
-## 3. Estructura del Proyecto
+## . Estructura del Proyecto
 
-### 3.1 Estructura Completa
+### . Estructura Completa
 
 ```
 segura-mente-app/
@@ -294,7 +294,7 @@ segura-mente-app/
 └── MANUAL_TECNICO.md                # Manual técnico
 ```
 
-### 3.2 Archivos Clave
+### . Archivos Clave
 
 | Archivo | Propósito |
 |---------|-----------|
@@ -307,102 +307,102 @@ segura-mente-app/
 
 ---
 
-## 4. Tecnologías Utilizadas
+## . Tecnologías Utilizadas
 
-### 4.1 Frontend
+### . Frontend
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
-| React | 19.2.0 | Framework UI |
-| React Router DOM | 7.10.1 | Navegación SPA |
-| Axios | 1.7.9 | Cliente HTTP |
-| CSS3 | - | Estilos |
+| React | ..0 | Framework UI |
+| React Router DOM | 7.0. | Navegación SPA |
+| Axios | .7. | Cliente HTTP |
+| CSS | - | Estilos |
 
 **Dependencias de Desarrollo:**
 ```json
 {
-  "@testing-library/react": "^16.0.2",
-  "@testing-library/jest-dom": "^5.17.0",
-  "react-scripts": "5.0.1"
+  "@testing-library/react": "^.0.",
+  "@testing-library/jest-dom": "^.7.0",
+  "react-scripts": ".0."
 }
 ```
 
-### 4.2 Backend
+### . Backend
 
 | Tecnología | Versión | Propósito |
 |------------|---------|-----------|
-| Node.js | 18.x | Runtime JavaScript |
-| Express | 5.2.1 | Framework web |
-| MySQL2 | 3.12.2 | Driver MySQL |
-| bcryptjs | 3.0.3 | Hash de contraseñas |
-| jsonwebtoken | 9.0.3 | Autenticación JWT |
-| cors | 3.0.0 | Manejo CORS |
-| nodemailer | 7.0.11 | Envío de emails |
-| dotenv | 16.5.0 | Variables de entorno |
+| Node.js | .x | Runtime JavaScript |
+| Express | .. | Framework web |
+| MySQL | .. | Driver MySQL |
+| bcryptjs | .0. | Hash de contraseñas |
+| jsonwebtoken | .0. | Autenticación JWT |
+| cors | .0.0 | Manejo CORS |
+| nodemailer | 7.0. | Envío de emails |
+| dotenv | ..0 | Variables de entorno |
 
-### 4.3 Base de Datos
+### . Base de Datos
 
 | Componente | Detalle |
 |------------|---------|
-| Motor | MySQL 8.0 |
-| Charset | utf8mb4 |
-| Collation | utf8mb4_unicode_ci |
+| Motor | MySQL .0 |
+| Charset | utfmb |
+| Collation | utfmb_unicode_ci |
 | Storage Engine | InnoDB |
 | Transacciones | Soportadas |
 
 ---
 
-## 5. Base de Datos
+## . Base de Datos
 
-### 5.1 Diagrama Entidad-Relación
+### . Diagrama Entidad-Relación
 
 ```
 ┌──────────────────────────────────────────────────────────┐
 │                      USUARIOS                             │
 ├──────────────────────────────────────────────────────────┤
-│ PK  email                    VARCHAR(150)                 │
-│     nombre_usuario           VARCHAR(100)  UNIQUE         │
-│     tipo_identificacion      VARCHAR(5)                   │
-│     identificacion           VARCHAR(50)   UNIQUE         │
+│ PK  email                    VARCHAR(0)                 │
+│     nombre_usuario           VARCHAR(00)  UNIQUE         │
+│     tipo_identificacion      VARCHAR()                   │
+│     identificacion           VARCHAR(0)   UNIQUE         │
 │     fecha_nacimiento         DATE                         │
-│     telefono                 VARCHAR(20)                  │
-│     direccion                VARCHAR(255)                 │
-│     tipo_usuario             VARCHAR(50)   DEFAULT Cliente│
-│     formacion_profesional    VARCHAR(255)  NULL           │
-│     tarjeta_profesional      VARCHAR(100)  NULL           │
-│     password                 VARCHAR(255)                 │
+│     telefono                 VARCHAR(0)                  │
+│     direccion                VARCHAR()                 │
+│     tipo_usuario             VARCHAR(0)   DEFAULT Cliente│
+│     formacion_profesional    VARCHAR()  NULL           │
+│     tarjeta_profesional      VARCHAR(00)  NULL           │
+│     password                 VARCHAR()                 │
 │     verificado               BOOLEAN       DEFAULT FALSE  │
-│     token_verificacion       VARCHAR(255)  NULL           │
-│     token_recuperacion       VARCHAR(255)  NULL           │
+│     token_verificacion       VARCHAR()  NULL           │
+│     token_recuperacion       VARCHAR()  NULL           │
 │     token_recuperacion_expira DATETIME     NULL           │
 │     fecha_registro           TIMESTAMP     AUTO           │
 │     ultimo_acceso            TIMESTAMP     NULL           │
 └──────────────────────────────────────────────────────────┘
 ```
 
-### 5.2 Script de Creación
+### . Script de Creación
 
 ```sql
 CREATE DATABASE IF NOT EXISTS seguramente_db 
-CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CHARACTER SET utfmb COLLATE utfmb_unicode_ci;
 
 USE seguramente_db;
 
 CREATE TABLE usuarios (
-    email VARCHAR(150) PRIMARY KEY,
-    nombre_usuario VARCHAR(100) NOT NULL UNIQUE,
-    tipo_identificacion VARCHAR(5) NOT NULL,
-    identificacion VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(0) PRIMARY KEY,
+    nombre_usuario VARCHAR(00) NOT NULL UNIQUE,
+    tipo_identificacion VARCHAR() NOT NULL,
+    identificacion VARCHAR(0) NOT NULL UNIQUE,
     fecha_nacimiento DATE NOT NULL,
-    telefono VARCHAR(20) NOT NULL,
-    direccion VARCHAR(255) NOT NULL,
-    tipo_usuario VARCHAR(50) DEFAULT 'Cliente',
-    formacion_profesional VARCHAR(255),
-    tarjeta_profesional VARCHAR(100),
-    password VARCHAR(255) NOT NULL,
+    telefono VARCHAR(0) NOT NULL,
+    direccion VARCHAR() NOT NULL,
+    tipo_usuario VARCHAR(0) DEFAULT 'Cliente',
+    formacion_profesional VARCHAR(),
+    tarjeta_profesional VARCHAR(00),
+    password VARCHAR() NOT NULL,
     verificado BOOLEAN DEFAULT FALSE,
-    token_verificacion VARCHAR(255),
-    token_recuperacion VARCHAR(255) DEFAULT NULL,
+    token_verificacion VARCHAR(),
+    token_recuperacion VARCHAR() DEFAULT NULL,
     token_recuperacion_expira DATETIME DEFAULT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     ultimo_acceso TIMESTAMP NULL
@@ -416,26 +416,26 @@ CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 CREATE INDEX idx_fecha_registro ON usuarios(fecha_registro);
 ```
 
-### 5.3 Migraciones
+### . Migraciones
 
-**Migración 1: Campos de Empleado**
+**Migración : Campos de Empleado**
 ```sql
 -- backend/migrations/add_employee_fields.sql
 ALTER TABLE usuarios 
-ADD COLUMN tipo_usuario VARCHAR(50) DEFAULT 'Cliente' AFTER direccion;
+ADD COLUMN tipo_usuario VARCHAR(0) DEFAULT 'Cliente' AFTER direccion;
 
 ALTER TABLE usuarios 
-ADD COLUMN formacion_profesional VARCHAR(255) AFTER tipo_usuario;
+ADD COLUMN formacion_profesional VARCHAR() AFTER tipo_usuario;
 
 ALTER TABLE usuarios 
-ADD COLUMN tarjeta_profesional VARCHAR(100) AFTER formacion_profesional;
+ADD COLUMN tarjeta_profesional VARCHAR(00) AFTER formacion_profesional;
 ```
 
-**Migración 2: Password Reset**
+**Migración : Password Reset**
 ```sql
 -- backend/migrations/add_password_reset_fields.sql
 ALTER TABLE usuarios 
-ADD COLUMN token_recuperacion VARCHAR(255) DEFAULT NULL AFTER token_verificacion;
+ADD COLUMN token_recuperacion VARCHAR() DEFAULT NULL AFTER token_verificacion;
 
 ALTER TABLE usuarios 
 ADD COLUMN token_recuperacion_expira DATETIME DEFAULT NULL AFTER token_recuperacion;
@@ -443,7 +443,7 @@ ADD COLUMN token_recuperacion_expira DATETIME DEFAULT NULL AFTER token_recuperac
 CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 ```
 
-### 5.4 Consultas Comunes
+### . Consultas Comunes
 
 **Crear Usuario:**
 ```sql
@@ -486,9 +486,9 @@ DELETE FROM usuarios WHERE email = ?;
 
 ---
 
-## 6. API REST - Endpoints
+## . API REST - Endpoints
 
-### 6.1 Autenticación
+### . Autenticación
 
 #### POST /api/auth/register
 
@@ -504,16 +504,16 @@ Content-Type: application/json
 {
   "nombreUsuario": "Juan Pérez",
   "tipoIdentificacion": "CC",
-  "identificacion": "1234567890",
-  "fechaNacimiento": "1990-01-15",
-  "telefono": "3001234567",
-  "direccion": "Calle 123 #45-67",
+  "identificacion": "70",
+  "fechaNacimiento": "0-0-",
+  "telefono": "007",
+  "direccion": "Calle  #-7",
   "email": "juan@example.com",
-  "password": "Password123!"
+  "password": "Password!"
 }
 ```
 
-**Response 201:**
+**Response 0:**
 ```json
 {
   "success": true,
@@ -540,16 +540,16 @@ Content-Type: application/json
 ```json
 {
   "email": "juan@example.com",
-  "password": "Password123!"
+  "password": "Password!"
 }
 ```
 
-**Response 200:**
+**Response 00:**
 ```json
 {
   "success": true,
   "message": "Login exitoso",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token": "eyJhbGciOiJIUzINiIsInRcCIIkpXVCJ...",
   "user": {
     "email": "juan@example.com",
     "nombreUsuario": "Juan Pérez",
@@ -564,7 +564,7 @@ Content-Type: application/json
 
 **Descripción:** Verificar email del usuario
 
-**Response 200:**
+**Response 00:**
 ```json
 {
   "success": true,
@@ -574,7 +574,7 @@ Content-Type: application/json
 
 ---
 
-### 6.2 Gestión de Usuarios
+### . Gestión de Usuarios
 
 #### GET /api/users
 
@@ -585,7 +585,7 @@ Content-Type: application/json
 Authorization: Bearer <token>
 ```
 
-**Response 200:**
+**Response 00:**
 ```json
 {
   "success": true,
@@ -594,14 +594,14 @@ Authorization: Bearer <token>
       "email": "juan@example.com",
       "nombre_usuario": "Juan Pérez",
       "tipo_identificacion": "CC",
-      "identificacion": "1234567890",
-      "fecha_nacimiento": "1990-01-15",
-      "telefono": "3001234567",
-      "direccion": "Calle 123 #45-67",
+      "identificacion": "70",
+      "fecha_nacimiento": "0-0-",
+      "telefono": "007",
+      "direccion": "Calle  #-7",
       "tipo_usuario": "Cliente",
       "verificado": true,
-      "fecha_registro": "2026-01-12T00:00:00.000Z",
-      "ultimo_acceso": "2026-01-12T10:30:00.000Z"
+      "fecha_registro": "0-0-T00:00:00.000Z",
+      "ultimo_acceso": "0-0-T0:0:00.000Z"
     }
   ]
 }
@@ -624,15 +624,15 @@ Content-Type: application/json
 {
   "nombre_usuario": "María González",
   "tipo_identificacion": "CC",
-  "identificacion": "9876543210",
-  "fecha_nacimiento": "1985-05-20",
-  "telefono": "3109876543",
-  "direccion": "Carrera 45 #67-89",
+  "identificacion": "70",
+  "fecha_nacimiento": "-0-0",
+  "telefono": "07",
+  "direccion": "Carrera  #7-",
   "tipo_usuario": "Empleado",
   "formacion_profesional": "Psicología - Universidad Nacional",
-  "tarjeta_profesional": "TP-12345",
+  "tarjeta_profesional": "TP-",
   "email": "maria@example.com",
-  "password": "Secure123!"
+  "password": "Secure!"
 }
 ```
 
@@ -651,8 +651,8 @@ Content-Type: application/json
 **Body:** (campos a actualizar)
 ```json
 {
-  "telefono": "3001111111",
-  "direccion": "Nueva dirección 456"
+  "telefono": "00",
+  "direccion": "Nueva dirección "
 }
 ```
 
@@ -667,7 +667,7 @@ Content-Type: application/json
 Authorization: Bearer <token>
 ```
 
-**Response 200:**
+**Response 00:**
 ```json
 {
   "success": true,
@@ -679,40 +679,40 @@ Authorization: Bearer <token>
 
 ## 7. Autenticación y Seguridad
 
-### 7.1 Flujo de Autenticación JWT
+### 7. Flujo de Autenticación JWT
 
 ```
-1. Usuario envía credenciales (email + password)
+. Usuario envía credenciales (email + password)
    ↓
-2. Backend verifica en base de datos
+. Backend verifica en base de datos
    ↓
-3. bcrypt.compare(password, hashedPassword)
+. bcrypt.compare(password, hashedPassword)
    ↓
-4. Si es válido: jwt.sign({ email }, SECRET, { expiresIn: '7d' })
+. Si es válido: jwt.sign({ email }, SECRET, { expiresIn: '7d' })
    ↓
-5. Token enviado al frontend
+. Token enviado al frontend
    ↓
-6. Frontend almacena token en localStorage
+. Frontend almacena token en localStorage
    ↓
 7. Todas las peticiones subsecuentes incluyen:
    Header: Authorization: Bearer <token>
    ↓
-8. Backend verifica token en cada petición protegida
+. Backend verifica token en cada petición protegida
 ```
 
-### 7.2 Hash de Contraseñas
+### 7. Hash de Contraseñas
 
-**Algoritmo:** bcrypt con 10 rounds de salt
+**Algoritmo:** bcrypt con 0 rounds de salt
 
 ```javascript
 // Al registrar
-const hashedPassword = await bcrypt.hash(password, 10);
+const hashedPassword = await bcrypt.hash(password, 0);
 
 // Al login
 const isValid = await bcrypt.compare(inputPassword, storedHash);
 ```
 
-### 7.3 Middleware de Autenticación
+### 7. Middleware de Autenticación
 
 **Archivo:** Implementado inline en `backend/routes/users.js`
 
@@ -722,10 +722,10 @@ const jwt = require('jsonwebtoken');
 // Middleware
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(' ')[];
 
   if (!token) {
-    return res.status(401).json({ 
+    return res.status(0).json({ 
       success: false, 
       message: 'No autorizado' 
     });
@@ -733,7 +733,7 @@ const authenticateToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(403).json({ 
+      return res.status(0).json({ 
         success: false, 
         message: 'Token inválido' 
       });
@@ -744,7 +744,7 @@ const authenticateToken = (req, res, next) => {
 };
 ```
 
-### 7.4 CORS Configuration
+### 7. CORS Configuration
 
 ```javascript
 // backend/server.js
@@ -758,7 +758,7 @@ app.use(cors({
 }));
 ```
 
-### 7.5 Variables de Entorno Sensibles
+### 7. Variables de Entorno Sensibles
 
 **NUNCA commitear al repositorio:**
 - JWT_SECRET
@@ -774,18 +774,18 @@ const secret = process.env.JWT_SECRET;
 
 ---
 
-## 8. Deployment
+## . Deployment
 
-### 8.1 Despliegue Frontend (Vercel)
+### . Despliegue Frontend (Vercel)
 
 **Pasos:**
 
-1. **Conectar Repositorio GitHub**
+. **Conectar Repositorio GitHub**
    - Ir a https://vercel.com
    - "Add New Project"
    - Importar repositorio GitHub
 
-2. **Configurar Build**
+. **Configurar Build**
    ```
    Framework Preset: Create React App
    Build Command: npm run build
@@ -793,27 +793,27 @@ const secret = process.env.JWT_SECRET;
    Install Command: npm install
    ```
 
-3. **Variables de Entorno**
+. **Variables de Entorno**
    ```
    REACT_APP_API_URL=https://[tu-backend].onrender.com/api
    ```
 
-4. **Deploy**
+. **Deploy**
    - Vercel auto-deploya desde el branch `main`
    - URL generada: https://[proyecto].vercel.app
 
 ---
 
-### 8.2 Despliegue Backend (Render)
+### . Despliegue Backend (Render)
 
 **Pasos:**
 
-1. **Crear Web Service**
+. **Crear Web Service**
    - Ir a https://render.com
    - "New Web Service"
    - Conectar GitHub repo
 
-2. **Configurar Service**
+. **Configurar Service**
    ```
    Name: segura-mente-app-backend
    Region: Oregon (US West)
@@ -824,12 +824,12 @@ const secret = process.env.JWT_SECRET;
    Start Command: npm start
    ```
 
-3. **Variables de Entorno** (todas las del .env)
+. **Variables de Entorno** (todas las del .env)
    ```
    NODE_ENV=production
-   PORT=10000
+   PORT=0000
    DB_HOST=caboose.proxy.rlwy.net
-   DB_PORT=43186
+   DB_PORT=
    DB_USER=root
    DB_PASSWORD=[tu_password]
    DB_NAME=railway
@@ -839,42 +839,42 @@ const secret = process.env.JWT_SECRET;
    CLIENT_URL=https://[tu-frontend].vercel.app
    ```
 
-4. **Deploy**
+. **Deploy**
    - Render auto-deploya desde `main`
    - Health check en ruta `/`
 
 ---
 
-### 8.3 Despliegue Base de Datos (Railway)
+### . Despliegue Base de Datos (Railway)
 
 **Pasos:**
 
-1. **Crear MySQL Database**
+. **Crear MySQL Database**
    - Ir a https://railway.app
    - "New Project" → "Provision MySQL"
 
-2. **Habilitar Public Networking**
+. **Habilitar Public Networking**
    - Settings → Networking
    - Enable "Public Networking"
    - Anotar host público y puerto
 
-3. **Ejecutar Scripts**
+. **Ejecutar Scripts**
    - Conectar con cliente MySQL:
    ```bash
-   mysql -h caboose.proxy.rlwy.net -P 43186 -u root -p
+   mysql -h caboose.proxy.rlwy.net -P  -u root -p
    ```
    - Ejecutar `database.sql`
    - Ejecutar migraciones
 
-4. **SSL Requerido**
+. **SSL Requerido**
    - Railway requiere conexiones SSL
    - Configurar en backend: `DB_SSL=true`
 
 ---
 
-## 9. Mantenimiento y Troubleshooting
+## . Mantenimiento y Troubleshooting
 
-### 9.1 Logs del Backend
+### . Logs del Backend
 
 **Render:**
 - Dashboard → Tu servicio → "Logs"
@@ -888,7 +888,7 @@ console.log('Server running on port', PORT);
 console.error('Error de conexión:', error);
 ```
 
-### 9.2 Problemas Comunes
+### . Problemas Comunes
 
 #### Error: "Connection timeout" en Railway
 
@@ -898,7 +898,7 @@ console.error('Error de conexión:', error);
 ```env
 # Usar host público
 DB_HOST=caboose.proxy.rlwy.net
-DB_PORT=43186
+DB_PORT=
 ```
 
 ---
@@ -931,24 +931,24 @@ headers: {
 
 #### Backend tarda mucho en responder (primera vez)
 
-**Causa:** Cold start de Render free tier (15 min inactividad)
+**Causa:** Cold start de Render free tier ( min inactividad)
 
 **Solución:**
-- Esperar 30-60 segundos en primera carga
+- Esperar 0-0 segundos en primera carga
 - Upgrade a plan paid (sin cold start)
 - Implementar keep-alive ping
 
 ---
 
-### 9.3 Monitoreo
+### . Monitoreo
 
 **Uptime Monitoring:**
 - Usar servicio como UptimeRobot
-- Ping cada 5 minutos a: `https://[backend].onrender.com/`
+- Ping cada  minutos a: `https://[backend].onrender.com/`
 
 **Performance:**
 - Vercel Analytics (incluido gratis)
-- Response time promedio < 3s
+- Response time promedio < s
 
 **Database:**
 - Railway dashboard muestra:
@@ -959,30 +959,30 @@ headers: {
 
 ---
 
-### 9.4 Backups
+### . Backups
 
 **Base de Datos:**
 ```bash
 # Exportar desde Railway
-mysqldump -h caboose.proxy.rlwy.net -P 43186 -u root -p railway > backup_$(date +%Y%m%d).sql
+mysqldump -h caboose.proxy.rlwy.net -P  -u root -p railway > backup_$(date +%Y%m%d).sql
 
 # Importar
-mysql -h caboose.proxy.rlwy.net -P 43186 -u root -p railway < backup_20260112.sql
+mysql -h caboose.proxy.rlwy.net -P  -u root -p railway < backup_00.sql
 ```
 
 **Código Fuente:**
 - Automático en GitHub
 - Tags para versiones importantes:
 ```bash
-git tag -a v1.0.0 -m "Primera versión estable"
-git push origin v1.0.0
+git tag -a v.0.0 -m "Primera versión estable"
+git push origin v.0.0
 ```
 
 ---
 
-## 10. Escalabilidad y Mejoras Futuras
+## 0. Escalabilidad y Mejoras Futuras
 
-### 10.1 Optimizaciones Recomendadas
+### 0. Optimizaciones Recomendadas
 
 **Backend:**
 - [ ] Implementar rate limiting (express-rate-limit)
@@ -1005,17 +1005,17 @@ git push origin v1.0.0
 
 ---
 
-### 10.2 Funcionalidades Futuras
+### 0. Funcionalidades Futuras
 
 **Sistema de Roles:**
 ```sql
 CREATE TABLE roles (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(50) UNIQUE NOT NULL
+    nombre VARCHAR(0) UNIQUE NOT NULL
 );
 
 CREATE TABLE usuario_roles (
-    usuario_email VARCHAR(150),
+    usuario_email VARCHAR(0),
     role_id INT,
     FOREIGN KEY (usuario_email) REFERENCES usuarios(email),
     FOREIGN KEY (role_id) REFERENCES roles(id),
@@ -1027,10 +1027,10 @@ CREATE TABLE usuario_roles (
 ```sql
 CREATE TABLE auditoria (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario_email VARCHAR(150),
-    accion VARCHAR(50),
-    tabla VARCHAR(50),
-    registro_id VARCHAR(150),
+    usuario_email VARCHAR(0),
+    accion VARCHAR(0),
+    tabla VARCHAR(0),
+    registro_id VARCHAR(0),
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_email) REFERENCES usuarios(email)
 );
@@ -1043,7 +1043,7 @@ CREATE TABLE auditoria (
 
 ---
 
-## 11. Comandos Útiles
+## . Comandos Útiles
 
 ### Git
 
@@ -1087,7 +1087,7 @@ npm cache clean --force
 
 ```bash
 # Conectar a Railway
-mysql -h caboose.proxy.rlwy.net -P 43186 -u root -p railway
+mysql -h caboose.proxy.rlwy.net -P  -u root -p railway
 
 # Ver tablas
 SHOW TABLES;
@@ -1102,18 +1102,18 @@ SELECT COUNT(*) FROM usuarios;
 SELECT nombre_usuario, email, fecha_registro 
 FROM usuarios 
 ORDER BY fecha_registro DESC 
-LIMIT 10;
+LIMIT 0;
 ```
 
 ---
 
-## 12. Contacto y Soporte
+## . Contacto y Soporte
 
 **Repositorio GitHub:**  
-https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02
+https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0
 
 **Issues:**  
-https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02/issues
+https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0/issues
 
 **Documentación Adicional:**
 - [README.md](README.md) - Introducción al proyecto
@@ -1124,6 +1124,6 @@ https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02/issues
 
 ---
 
-**Versión del Manual:** 1.0.0  
-**Última Actualización:** Enero 12, 2026  
+**Versión del Manual:** .0.0  
+**Última Actualización:** Enero , 0  
 **Autor:** Juan Felipe
