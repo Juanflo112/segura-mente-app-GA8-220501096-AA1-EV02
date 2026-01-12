@@ -336,6 +336,13 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
+        // Temporal: Función deshabilitada debido a limitaciones de SMTP en hosting gratuito
+        return res.status(503).json({
+            success: false,
+            message: 'La función de recuperación de contraseña está temporalmente deshabilitada. Por favor contacta al administrador.'
+        });
+
+        /* COMENTADO TEMPORALMENTE - Reactivar cuando se solucione el problema de SMTP
         // 2. Buscar usuario por email
         const user = await User.findByEmail(email);
         
@@ -368,6 +375,7 @@ exports.forgotPassword = async (req, res) => {
             success: true,
             message: 'Si el correo existe en nuestro sistema, recibirás instrucciones para recuperar tu contraseña.'
         });
+        */
 
     } catch (error) {
         console.error('Error en recuperación de contraseña:', error);
