@@ -53,8 +53,13 @@ const RegisterForm = () => {
 
       if (data.success) {
         console.log('Registro exitoso:', data);
-        // Redirigir a la página de verificación
-        navigate('/verificacion', { state: { email: formData.email } });
+        // Redirigir a la página de éxito
+        navigate('/success', { 
+          state: { 
+            email: formData.email,
+            message: data.message 
+          } 
+        });
       } else {
         // Mostrar errores de validación
         if (data.errors && data.errors.length > 0) {

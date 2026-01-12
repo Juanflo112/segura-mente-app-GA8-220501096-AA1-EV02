@@ -1,12 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './SuccessMessage.css';
 
 const SuccessMessage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const message = location.state?.message || 'Tu cuenta ha sido creada exitosamente.';
 
   const handleGoToLogin = () => {
-    navigate('/dashboard');
+    navigate('/login');
   };
 
   return (
@@ -22,11 +24,11 @@ const SuccessMessage = () => {
       </h2>
       
       <p className="success-text">
-        Tu correo ha sido verificado correctamente.
+        {message}
       </p>
       
       <p className="success-instruction">
-        Tu cuenta ha sido activada y ya puedes iniciar sesión en <span className="brand-segura">SEGURA</span><span className="brand-mente">-MENTE</span>.
+        Ya puedes iniciar sesión en <span className="brand-segura">SEGURA</span><span className="brand-mente">-MENTE</span> con tu correo y contraseña.
       </p>
       
       <button type="button" className="login-button" onClick={handleGoToLogin}>
