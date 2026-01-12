@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './UserEditForm.css';
 import iconoAtras from '../../assets/icons/Atras.svg';
+import API_BASE_URL from '../../config/api';
 
 const UserEditForm = ({ user, onSave, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ const UserEditForm = ({ user, onSave, onCancel }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`http://localhost:5000/api/users/${user.email}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${user.email}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

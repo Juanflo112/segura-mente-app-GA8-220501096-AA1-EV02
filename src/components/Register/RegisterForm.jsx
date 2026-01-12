@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './RegisterForm.css';
 import eyeOpen from '../../assets/icons/eye-open.svg';
 import eyeClosed from '../../assets/icons/eye-closed.svg';
+import API_BASE_URL from '../../config/api';
 
 
 const RegisterForm = () => {
@@ -40,7 +41,7 @@ const RegisterForm = () => {
     
     try {
       // Enviar datos al backend
-      const response = await fetch('http://localhost:5000/api/auth/register', {
+      const response = await fetch(`${API_BASE_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

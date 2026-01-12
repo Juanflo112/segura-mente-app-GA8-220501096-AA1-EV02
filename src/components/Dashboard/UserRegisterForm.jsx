@@ -3,6 +3,7 @@ import './UserRegisterForm.css';
 import eyeOpen from '../../assets/icons/eye-open.svg';
 import eyeClosed from '../../assets/icons/eye-closed.svg';
 import iconoAtras from '../../assets/icons/Atras.svg';
+import API_BASE_URL from '../../config/api';
 
 const UserRegisterForm = ({ onSave, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -64,7 +65,7 @@ const UserRegisterForm = ({ onSave, onCancel }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import './UserList.css';
 import iconoAtras from '../../assets/icons/Atras.svg';
 import iconoEliminar from '../../assets/icons/Eliminar.svg';
 import iconoActualizar from '../../assets/icons/ActualizarUsuario.svg';
+import API_BASE_URL from '../../config/api';
 
 const UserList = ({ onEditUser, onBack }) => {
   const [users, setUsers] = useState([]);
@@ -22,7 +23,7 @@ const UserList = ({ onEditUser, onBack }) => {
     try {
       setLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users', {
+      const response = await fetch(`${API_BASE_URL}/users`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -77,7 +78,7 @@ const UserList = ({ onEditUser, onBack }) => {
         
         // Eliminar cada usuario seleccionado
         const deletePromises = selectedUsers.map(email => 
-          fetch(`http://localhost:5000/api/users/${email}`, {
+          fetch(`${API_BASE_URL}/users/${email}`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${token}`
@@ -121,7 +122,7 @@ const UserList = ({ onEditUser, onBack }) => {
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:5000/api/users/${email}`, {
+        const response = await fetch(`${API_BASE_URL}/users/${email}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`

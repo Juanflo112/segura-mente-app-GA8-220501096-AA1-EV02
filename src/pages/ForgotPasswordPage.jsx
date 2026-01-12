@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import './RegisterPage.css';
+import API_BASE_URL from '../config/api';
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const ForgotPasswordPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/forgot-password', {
+      const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

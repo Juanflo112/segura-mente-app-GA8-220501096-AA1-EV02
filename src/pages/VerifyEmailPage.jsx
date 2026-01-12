@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Logo from '../components/Logo/Logo';
 import './RegisterPage.css';
+import API_BASE_URL from '../config/api';
 
 const VerifyEmailPage = () => {
   const [searchParams] = useSearchParams();
@@ -27,7 +28,7 @@ const VerifyEmailPage = () => {
       }
 
       try {
-        const response = await fetch(`http://localhost:5000/api/auth/verify?token=${token}`);
+        const response = await fetch(`${API_BASE_URL}/auth/verify?token=${token}`);
         const data = await response.json();
 
         if (data.success) {
