@@ -3,10 +3,10 @@
 ##  Información del Documento
 
 **Proyecto:** Segura Mente - Sistema de Gestión de Usuarios  
-**Versión:** .0.0  
-**Fecha:** Enero , 0  
-**Estudiante:** Juan Felipe  
-**Evidencia:** GA-000-AA-EV0 - Módulos Integrados  
+**Versión:** 1.0.0  
+**Fecha:** 12/01/2026
+**Estudiante:** Juan Pablo Mejia Vargas
+**Evidencia:** GA8-220501096-AA1-EV02 módulos integrados 
 **Tipo:** Manual Técnico para Desarrolladores y Administradores
 
 ---

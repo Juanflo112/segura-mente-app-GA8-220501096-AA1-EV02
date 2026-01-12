@@ -2,10 +2,14 @@
 
 ##  Información General
 
+
 **Proyecto:** Segura Mente - Sistema de Gestión de Usuarios  
-**Fecha de Despliegue:** Enero , 0  
-**Estudiante:** Juan Felipe  
-**Evidencia:** GA-000-AA-EV0
+**Versión:** 1.0.0  
+**Fecha:** 12/01/2026
+**Estudiante:** Juan Pablo Mejia Vargas
+**Evidencia:** GA8-220501096-AA1-EV02 módulos integrados 
+**Tipo:** Manual Técnico para Desarrolladores y Administradores
+
 
 ---
 
@@ -44,9 +48,9 @@
 
 ##  Repositorio del Código Fuente
 
-- **GitHub:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0
+- **GitHub:** https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02.git
 - **Rama Principal:** main
-- **Último Commit:** fc7
+-
 
 ---
 
@@ -81,9 +85,3 @@ Contraseña: [Definir durante el registro]
 . **CORS Configurado:** El backend acepta peticiones únicamente desde el dominio del frontend en Vercel.
 
 ---
-
-##  Contacto y Soporte
-
-Para cualquier problema técnico o consulta sobre el despliegue:
-- **Repositorio:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0
-- **Issues:** https://github.com/Juanflo/segura-mente-app-GA-000-AA-EV0/issues

@@ -218,8 +218,8 @@ Para que funcione el envío de correos:
 
 Después del despliegue tendrás:
 
-- **Frontend:** `https://segura-mente-app.vercel.app`
-- **Backend:** `https://seguramente-backend.onrender.com`
+- **Frontend:** `https://segura-mente-app-frontend.vercel.app/  `
+- **Backend:** `https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com`
 - **Base de datos:** Conexión privada vía Railway/PlanetScale
 
 ---
