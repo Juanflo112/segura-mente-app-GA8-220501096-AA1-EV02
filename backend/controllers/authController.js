@@ -73,19 +73,30 @@ exports.register = async (req, res) => {
         const result = await User.create(userData);
         console.log('Usuario creado en la base de datos:', result.email);
 
-        // 8. Enviar email de verificación
+        // 8. Enviar email de verificación (intentar)
+        let emailSent = false;
         try {
             await sendVerificationEmail(email, nombreUsuario, verificationToken);
             console.log('Email de verificación enviado a:', email);
+            emailSent = true;
         } catch (emailError) {
-            console.error('Error al enviar email, pero usuario fue creado:', emailError.message);
-            // No retornamos error porque el usuario ya fue creado
+            console.error('Error al enviar email:', emailError.message);
+            // Auto-verificar usuario si el email falla (workaround para Render free tier)
+            console.log('Auto-verificando usuario debido a error de email...');
+            try {
+                await User.verifyByEmail(email);
+                console.log('Usuario auto-verificado exitosamente');
+            } catch (verifyError) {
+                console.error('Error al auto-verificar:', verifyError.message);
+            }
         }
 
         // 9. Respuesta exitosa
         res.status(201).json({
             success: true,
-            message: 'Usuario registrado exitosamente. Por favor verifica tu correo electrónico.',
+            message: emailSent 
+                ? 'Usuario registrado exitosamente. Por favor verifica tu correo electrónico.'
+                : 'Usuario registrado exitosamente. Ya puedes iniciar sesión.',
             data: {
                 email: result.email,
                 nombreUsuario

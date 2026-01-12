@@ -104,6 +104,21 @@ class User {
     }
 
     /**
+     * Verificar usuario directamente por email (sin token)
+     */
+    static async verifyByEmail(email) {
+        try {
+            const [result] = await db.query(
+                'UPDATE usuarios SET verificado = TRUE, token_verificacion = NULL WHERE email = ?',
+                [email]
+            );
+            return result.affectedRows > 0;
+        } catch (error) {
+            throw new Error('Error al verificar usuario: ' + error.message);
+        }
+    }
+
+    /**
      * Buscar usuario por token de verificación
      */
     static async findByToken(token) {
