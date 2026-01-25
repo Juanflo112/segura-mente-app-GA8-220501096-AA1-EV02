@@ -13,17 +13,60 @@ Cypress.Commands.add('wakeUpBackend', () => {
   const baseUrl = apiUrl.replace('/api', '');
   
   cy.log('Despertando backend de Render...');
+  cy.log('Esto puede tardar hasta 90 segundos en cold start');
   
+  // Intento 1
   cy.request({
     method: 'GET',
     url: baseUrl,
-    timeout: Cypress.env('renderColdStartTimeout') || 60000,
+    timeout: 30000,
     failOnStatusCode: false
   }).then((response) => {
-    cy.log(`Backend respondio con status: ${response.status}`);
+    cy.log(`Intento 1: Status ${response.status}`);
   });
   
-  cy.wait(2000); // Espera adicional para estabilización
+  cy.wait(10000);
+  
+  // Intento 2
+  cy.request({
+    method: 'GET',
+    url: baseUrl,
+    timeout: 30000,
+    failOnStatusCode: false
+  }).then((response) => {
+    cy.log(`Intento 2: Status ${response.status}`);
+  });
+  
+  cy.wait(10000);
+  
+  // Intento 3
+  cy.request({
+    method: 'GET',
+    url: baseUrl,
+    timeout: 30000,
+    failOnStatusCode: false
+  }).then((response) => {
+    cy.log(`Intento 3: Status ${response.status}`);
+  });
+  
+  cy.wait(10000);
+  
+  // Intento 4 - Final
+  cy.request({
+    method: 'GET',
+    url: baseUrl,
+    timeout: 30000,
+    failOnStatusCode: false
+  }).then((response) => {
+    cy.log(`Intento 4: Status ${response.status}`);
+    if (response.status === 200 || response.status === 404) {
+      cy.log('✓ Backend activo y respondiendo');
+    } else {
+      cy.log('⚠ Backend aún no responde correctamente, continuando de todos modos...');
+    }
+  });
+  
+  cy.wait(5000); // Espera final para estabilización
 });
 
 /**
@@ -174,24 +217,24 @@ Cypress.Commands.add('deleteUser', (email) => {
 });
 
 /**
- * Helper: generateUniqueEmail
+ * Comando: generateUniqueEmail
  * Propósito: Generar un email único para pruebas
  * @param {string} prefix - Prefijo del email (default: 'test')
  * @returns {string} Email único
  */
-function generateUniqueEmail(prefix = 'test') {
+Cypress.Commands.add('generateUniqueEmail', (prefix = 'test') => {
   const timestamp = Date.now();
   const email = `${prefix}${timestamp}@example.com`;
   return email;
-}
+});
 
 /**
- * Helper: generateTestUser
+ * Comando: generateTestUser
  * Propósito: Generar datos de usuario de prueba con email único
  * @param {string} type - Tipo de usuario: 'Cliente' o 'Psicólogo/empleado'
  * @returns {object} Datos del usuario
  */
-function generateTestUser(type = 'Cliente') {
+Cypress.Commands.add('generateTestUser', (type = 'Cliente') => {
   const timestamp = Date.now();
   
   const baseUser = {
@@ -213,11 +256,32 @@ function generateTestUser(type = 'Cliente') {
   }
   
   return baseUser;
-}
+});
 
-// Exportar helpers globalmente
-Cypress.generateTestUser = generateTestUser;
-Cypress.generateUniqueEmail = generateUniqueEmail;
+// Exportar también como función global para compatibilidad
+Cypress.generateTestUser = (type = 'Cliente') => {
+  const timestamp = Date.now();
+  
+  const baseUser = {
+    nombreUsuario: `testuser${timestamp}`,
+    tipoIdentificacion: 'CC',
+    identificacion: `${timestamp}`.substring(0, 10),
+    fechaNacimiento: '1990-01-01',
+    telefono: `300${timestamp}`.substring(0, 10),
+    direccion: 'Calle Test 123',
+    email: `test${timestamp}@example.com`,
+    password: 'TestUser123!',
+    confirmPassword: 'TestUser123!',
+    tipo_usuario: type
+  };
+  
+  if (type === 'Psicólogo/empleado') {
+    baseUser.formacion_profesional = 'Psicologo Clinico';
+    baseUser.tarjeta_profesional = `PSI-${timestamp}`.substring(0, 15);
+  }
+  
+  return baseUser;
+};
 
 /**
  * Comando: verifyApiConnection
