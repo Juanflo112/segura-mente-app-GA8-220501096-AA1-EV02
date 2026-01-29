@@ -8,6 +8,7 @@ describe('Autenticacion - Recuperacion de Contraseña', () => {
   
   before(() => {
     cy.wakeUpBackend();
+    cy.wait(10000); // Espera adicional para estabilización completa
     cy.log('Backend debe estar listo, iniciando pruebas...');
   });
 
@@ -51,13 +52,13 @@ describe('Autenticacion - Recuperacion de Contraseña', () => {
         body: {
           email: emailNoExiste
         },
-        timeout: 90000,
+        timeout: 120000,
         failOnStatusCode: false
       }).then((response) => {
-        // Si el backend aún está despertando, reintentar hasta 5 veces
-        if (response.status === 503 && intentos < 5) {
-          cy.log(`Backend aún iniciando (intento ${intentos + 1}/5), esperando 10 segundos...`);
-          cy.wait(10000);
+        // Si el backend aún está despertando, reintentar hasta 8 veces (hasta 2 minutos)
+        if (response.status === 503 && intentos < 8) {
+          cy.log(`Backend aún iniciando (intento ${intentos + 1}/8), esperando 15 segundos...`);
+          cy.wait(15000);
           return intentarRequest(intentos + 1);
         }
         return response;
@@ -108,13 +109,13 @@ describe('Autenticacion - Recuperacion de Contraseña', () => {
         body: {
           email: 'email-sin-arroba'
         },
-        timeout: 90000,
+        timeout: 120000,
         failOnStatusCode: false
       }).then((response) => {
-        // Si el backend aún está despertando, reintentar
-        if (response.status === 503 && intentos < 5) {
-          cy.log(`Backend aún iniciando (intento ${intentos + 1}/5), esperando 10 segundos...`);
-          cy.wait(10000);
+        // Si el backend aún está despertando, reintentar hasta 8 veces
+        if (response.status === 503 && intentos < 8) {
+          cy.log(`Backend aún iniciando (intento ${intentos + 1}/8), esperando 15 segundos...`);
+          cy.wait(15000);
           return intentarRequest(intentos + 1);
         }
         return response;

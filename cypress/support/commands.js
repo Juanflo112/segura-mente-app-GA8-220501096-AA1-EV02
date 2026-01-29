@@ -76,6 +76,13 @@ Cypress.Commands.add('wakeUpBackend', () => {
  * @returns {string} Token JWT
  */
 Cypress.Commands.add('login', (userType = 'testUser') => {
+  // Si ya hay un token guardado, no hacer login de nuevo
+  const existingToken = Cypress.env('authToken');
+  if (existingToken) {
+    cy.log('✓ Usando token existente');
+    return;
+  }
+  
   const apiUrl = Cypress.env('apiUrl');
   const user = Cypress.env(userType);
   

@@ -8,6 +8,41 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
   
   before(() => {
     cy.wakeUpBackend();
+    
+    // Crear usuario temporal para las pruebas
+    const timestamp = Date.now();
+    const tempUser = {
+      nombreUsuario: `deletetest${timestamp}`,
+      tipoIdentificacion: 'CC',
+      identificacion: `${timestamp}`.substring(0, 10),
+      fechaNacimiento: '1990-01-01',
+      telefono: `300${timestamp}`.substring(0, 10),
+      direccion: 'Calle Test',
+      email: `deletetest${timestamp}@example.com`,
+      password: 'TestDelete123!',
+      confirmPassword: 'TestDelete123!'
+    };
+    
+    cy.request({
+      method: 'POST',
+      url: `${Cypress.env('apiUrl')}/auth/register`,
+      body: tempUser,
+      failOnStatusCode: false
+    }).then(() => {
+      cy.wait(2000);
+      cy.request({
+        method: 'POST',
+        url: `${Cypress.env('apiUrl')}/auth/login`,
+        body: { email: tempUser.email, password: tempUser.password },
+        failOnStatusCode: false
+      }).then((res) => {
+        if (res.status === 200) {
+          const token = res.body.token || (res.body.data && res.body.data.token);
+          Cypress.env('authToken', token);
+          cy.log('✓ Login exitoso');
+        }
+      });
+    });
   });
 
   it('Caso 9.1: Debe eliminar usuario existente correctamente', () => {
