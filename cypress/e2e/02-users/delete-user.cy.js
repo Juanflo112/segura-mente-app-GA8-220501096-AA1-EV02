@@ -5,10 +5,10 @@
  */
 
 describe('Gestion de Usuarios - Eliminar Usuario', () => {
-  
+
   before(() => {
     cy.wakeUpBackend();
-    
+
     // Crear usuario temporal para las pruebas
     const timestamp = Date.now();
     const tempUser = {
@@ -22,7 +22,7 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
       password: 'TestDelete123!',
       confirmPassword: 'TestDelete123!'
     };
-    
+
     cy.request({
       method: 'POST',
       url: `${Cypress.env('apiUrl')}/auth/register`,
@@ -39,7 +39,7 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
         if (res.status === 200) {
           const token = res.body.token || (res.body.data && res.body.data.token);
           Cypress.env('authToken', token);
-          cy.log('✓ Login exitoso');
+          cy.log('Login exitoso');
         }
       });
     });
@@ -47,16 +47,16 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.1: Debe eliminar usuario existente correctamente', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         // Crear un usuario temporal para eliminar
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         cy.log('Creando usuario temporal para eliminar...');
-        
+
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
           tipo_identificacion: usuarioTemporal.tipoIdentificacion,
@@ -70,13 +70,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
         }).then((createResponse) => {
           if (createResponse.status === 201 || createResponse.status === 200) {
             cy.log(`Usuario creado: ${usuarioTemporal.email}, procediendo a eliminar...`);
-            
+
             // Eliminar el usuario creado
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((deleteResponse) => {
               if (deleteResponse.status === 200) {
                 expect(deleteResponse.body.success, 'Success debe ser true').to.be.true;
                 expect(deleteResponse.body.message, 'Debe confirmar eliminacion').to.match(/eliminado|deleted|removed/i);
-                
+
                 cy.log('Usuario eliminado exitosamente');
               } else if (deleteResponse.status === 403) {
                 cy.log('Usuario no tiene permisos de administrador - test omitido');
@@ -93,9 +93,9 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
   it('Caso 9.2: Debe fallar sin autenticacion', () => {
     const apiUrl = Cypress.env('apiUrl');
     const emailPrueba = `prueba${Date.now()}@example.com`;
-    
+
     cy.log('Intentando eliminar usuario sin autenticacion');
-    
+
     cy.request({
       method: 'DELETE',
       url: `${apiUrl}/users/${emailPrueba}`,
@@ -103,7 +103,7 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
     }).then((response) => {
       expect(response.status, 'Status debe ser 401 o 403').to.be.oneOf([401, 403]);
       expect(response.body.success, 'Success debe ser false').to.be.false;
-      
+
       cy.log('Endpoint protegido correctamente');
     });
   });
@@ -111,9 +111,9 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
   it('Caso 9.3: Debe fallar con token invalido', () => {
     const apiUrl = Cypress.env('apiUrl');
     const emailPrueba = `prueba${Date.now()}@example.com`;
-    
+
     cy.log('Intentando eliminar con token invalido');
-    
+
     cy.request({
       method: 'DELETE',
       url: `${apiUrl}/users/${emailPrueba}`,
@@ -124,27 +124,27 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
     }).then((response) => {
       expect(response.status, 'Status debe ser 401 o 403').to.be.oneOf([401, 403]);
       expect(response.body.success, 'Success debe ser false').to.be.false;
-      
+
       cy.log('Validacion de token funciona correctamente');
     });
   });
 
   it('Caso 9.4: Debe fallar con usuario no existente', () => {
     const emailNoExiste = `noexiste${Date.now()}@example.com`;
-    
+
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         cy.log(`Intentando eliminar usuario inexistente: ${emailNoExiste}`);
-        
+
         cy.apiRequest('DELETE', `/users/${emailNoExiste}`).then((response) => {
           expect(response.status, 'Status debe ser 404').to.eq(404);
           expect(response.body.success, 'Success debe ser false').to.be.false;
           expect(response.body.message, 'Debe indicar que no se encontro').to.match(/no encontrado|not found|no existe/i);
-          
+
           cy.log('Error 404 manejado correctamente');
         });
       }
@@ -153,13 +153,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.5: Usuario eliminado no debe aparecer en lista', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -177,14 +177,14 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((deleteResponse) => {
               if (deleteResponse.status === 200) {
                 cy.log('Usuario eliminado, verificando que no aparece en lista...');
-                
+
                 // Verificar que no aparece en lista
                 cy.apiRequest('GET', '/users').then((listResponse) => {
                   if (listResponse.status === 200) {
                     const userList = listResponse.body.data || listResponse.body.users || listResponse.body;
                     const usuarioEnLista = userList.find(u => u.email === usuarioTemporal.email);
                     expect(usuarioEnLista, 'Usuario eliminado no debe aparecer en lista').to.be.undefined;
-                    
+
                     cy.log('Usuario eliminado no aparece en lista - correcto');
                   }
                 });
@@ -202,13 +202,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.6: Usuario eliminado no debe ser consultable individualmente', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -226,12 +226,12 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((deleteResponse) => {
               if (deleteResponse.status === 200) {
                 cy.log('Usuario eliminado, intentando consultar...');
-                
+
                 // Intentar consultar usuario eliminado
                 cy.apiRequest('GET', `/users/${usuarioTemporal.email}`).then((getResponse) => {
                   expect(getResponse.status, 'Status debe ser 404').to.eq(404);
                   expect(getResponse.body.success, 'Success debe ser false').to.be.false;
-                  
+
                   cy.log('Usuario eliminado no es consultable - correcto');
                 });
               } else if (deleteResponse.status === 403) {
@@ -248,13 +248,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.7: No debe permitir eliminar el mismo usuario dos veces', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -272,12 +272,12 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((firstDelete) => {
               if (firstDelete.status === 200) {
                 cy.log('Primera eliminacion exitosa, intentando segunda eliminacion...');
-                
+
                 // Segunda eliminación (debe fallar)
                 cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((secondDelete) => {
                   expect(secondDelete.status, 'Status debe ser 404').to.eq(404);
                   expect(secondDelete.body.success, 'Success debe ser false').to.be.false;
-                  
+
                   cy.log('Segunda eliminacion rechazada correctamente');
                 });
               } else if (firstDelete.status === 403) {
@@ -294,13 +294,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.8: Debe validar tiempo de respuesta aceptable', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -315,11 +315,11 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
         }).then((createResponse) => {
           if (createResponse.status === 201 || createResponse.status === 200) {
             const startTime = Date.now();
-            
+
             // Eliminar usuario
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((deleteResponse) => {
               const duration = Date.now() - startTime;
-              
+
               if (deleteResponse.status === 200) {
                 expect(duration, 'Debe responder en menos de 3 segundos').to.be.lessThan(3000);
                 cy.log(`Tiempo de respuesta: ${duration}ms`);
@@ -337,13 +337,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.9: No debe permitir actualizar usuario eliminado', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -361,14 +361,14 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
             cy.apiRequest('DELETE', `/users/${usuarioTemporal.email}`).then((deleteResponse) => {
               if (deleteResponse.status === 200) {
                 cy.log('Usuario eliminado, intentando actualizar...');
-                
+
                 // Intentar actualizar usuario eliminado
                 cy.apiRequest('PUT', `/users/${usuarioTemporal.email}`, {
                   nombre_usuario: 'Nuevo Nombre'
                 }).then((updateResponse) => {
                   expect(updateResponse.status, 'Status debe ser 404').to.eq(404);
                   expect(updateResponse.body.success, 'Success debe ser false').to.be.false;
-                  
+
                   cy.log('Actualizacion de usuario eliminado rechazada correctamente');
                 });
               } else if (deleteResponse.status === 403) {
@@ -385,15 +385,15 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.10: Debe eliminar usuario tipo Psicologo correctamente', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const psicologoTemporal = Cypress.generateTestUser('Psicólogo/empleado');
-        
+
         cy.log('Creando psicologo temporal para eliminar...');
-        
+
         // Crear psicólogo
         cy.apiRequest('POST', '/users', {
           nombre_usuario: psicologoTemporal.nombreUsuario,
@@ -410,7 +410,7 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
         }).then((createResponse) => {
           if (createResponse.status === 201 || createResponse.status === 200) {
             cy.log(`Psicologo creado: ${psicologoTemporal.email}, procediendo a eliminar...`);
-            
+
             // Eliminar psicólogo
             cy.apiRequest('DELETE', `/users/${psicologoTemporal.email}`).then((deleteResponse) => {
               if (deleteResponse.status === 200) {
@@ -430,20 +430,20 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.11: Debe validar formato de email en ruta', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const emailInvalido = 'email-sin-arroba';
-        
+
         cy.log('Intentando eliminar con email invalido en ruta');
-        
+
         cy.apiRequest('DELETE', `/users/${emailInvalido}`).then((response) => {
           // Puede ser 400 (formato inválido) o 404 (no encontrado)
           expect(response.status, 'Status debe ser 400 o 404').to.be.oneOf([400, 404]);
           expect(response.body.success, 'Success debe ser false').to.be.false;
-          
+
           cy.log('Validacion de formato funciona correctamente');
         });
       }
@@ -452,20 +452,20 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.12: Debe manejar emails con caracteres especiales', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const emailEspecial = `usuario+test${Date.now()}@example.com`;
-        
+
         cy.log(`Intentando eliminar email con caracteres especiales: ${emailEspecial}`);
-        
+
         cy.apiRequest('DELETE', `/users/${emailEspecial}`).then((response) => {
           // Debe ser 404 si no existe
           expect(response.status, 'Status debe ser 404').to.eq(404);
           expect(response.body.success, 'Success debe ser false').to.be.false;
-          
+
           cy.log('Sistema maneja correctamente emails con caracteres especiales');
         });
       }
@@ -474,13 +474,13 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.13: Debe retornar estructura de respuesta consistente', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuarioTemporal = Cypress.generateTestUser('Cliente');
-        
+
         // Crear usuario
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuarioTemporal.nombreUsuario,
@@ -502,7 +502,7 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
                 expect(deleteResponse.body, 'Debe tener message').to.have.property('message');
                 expect(typeof deleteResponse.body.success).to.equal('boolean');
                 expect(typeof deleteResponse.body.message).to.equal('string');
-                
+
                 cy.log('Estructura de respuesta es consistente');
               } else if (deleteResponse.status === 403) {
                 cy.log('Sin permisos - test omitido');
@@ -518,16 +518,16 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
 
   it('Caso 9.14: Eliminaciones multiples en secuencia', () => {
     cy.login('testUser');
-    
+
     cy.then(() => {
       const token = Cypress.env('authToken');
-      
+
       if (token) {
         const usuario1 = Cypress.generateTestUser('Cliente');
         const usuario2 = Cypress.generateTestUser('Cliente');
-        
+
         cy.log('Creando dos usuarios para eliminar en secuencia...');
-        
+
         // Crear usuario 1
         cy.apiRequest('POST', '/users', {
           nombre_usuario: usuario1.nombreUsuario,
@@ -555,12 +555,12 @@ describe('Gestion de Usuarios - Eliminar Usuario', () => {
             }).then((create2) => {
               if (create2.status === 201 || create2.status === 200) {
                 cy.log('Dos usuarios creados, eliminando ambos...');
-                
+
                 // Eliminar usuario 1
                 cy.apiRequest('DELETE', `/users/${usuario1.email}`).then((delete1) => {
                   if (delete1.status === 200) {
                     cy.log('Usuario 1 eliminado');
-                    
+
                     // Eliminar usuario 2
                     cy.apiRequest('DELETE', `/users/${usuario2.email}`).then((delete2) => {
                       if (delete2.status === 200) {

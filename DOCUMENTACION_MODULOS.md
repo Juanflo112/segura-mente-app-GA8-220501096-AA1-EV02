@@ -499,17 +499,15 @@ CREATE INDEX idx_token_recuperacion ON usuarios(token_recuperacion);
 ```env
 NODE_ENV=production
 PORT=0000
-DB_HOST=caboose.proxy.rlwy.net
-DB_PORT=
-DB_USER=root
-DB_PASSWORD=[cifrado]
-DB_NAME=railway
+# En producción use la variable `DATABASE_URL` (ej. proporcionada por Supabase)
+# Ejemplo: DATABASE_URL=postgres://user:password@host:5432/database
+DATABASE_URL=<supabase_database_url>
 DB_SSL=true
 JWT_SECRET=[cifrado]
 JWT_EXPIRE=7d
 CLIENT_URL=https://segura-mente-app-frontend.vercel.app
 EMAIL_HOST=smtp.sendgrid.net
-EMAIL_PORT=7
+EMAIL_PORT=587
 EMAIL_SECURE=false
 EMAIL_USER=apikey
 EMAIL_PASS=[API_KEY]

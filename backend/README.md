@@ -1,6 +1,6 @@
 # Backend - Segura-Mente App
 
-Backend API REST para la aplicación Segura-Mente, desarrollado con Node.js, Express y MySQL.
+Backend API REST para la aplicación Segura-Mente, desarrollado con Node.js, Express y PostgreSQL.
 
 ## Características
 
@@ -9,7 +9,7 @@ Backend API REST para la aplicación Segura-Mente, desarrollado con Node.js, Exp
 - Encriptación de contraseñas con bcrypt
 - Envío de correos electrónicos con Nodemailer
 - Validación de datos con express-validator
-- Conexión a MySQL mediante mysql2
+- Conexión a PostgreSQL mediante pg
 - Manejo de CORS
 - Variables de entorno con dotenv
 
@@ -22,10 +22,10 @@ cd backend
 npm install
 ```
 
-### 2. Configurar base de datos (XAMPP)
+### 2. Configurar base de datos (Supabase)
 
-1. Inicia XAMPP y activa MySQL
-2. Abre phpMyAdmin (http://localhost/phpmyadmin)
+1. Crea un proyecto en Supabase
+2. Abre el SQL Editor del proyecto
 3. Ejecuta el script SQL que está en `database.sql`
 
 ### 3. Configurar variables de entorno
@@ -34,10 +34,8 @@ Edita el archivo `.env` con tus credenciales:
 
 ```env
 PORT=5000
-DB_HOST=localhost
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=seguramente_db
+DATABASE_URL=postgresql://postgres:tu_password@tu-host.supabase.co:5432/postgres
+DATABASE_SSL=true
 JWT_SECRET=tu_clave_secreta_muy_segura_12345_seguramente
 EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
@@ -137,7 +135,7 @@ Content-Type: application/json
 ```
 backend/
 ├── config/
-│   └── database.js          # Configuración MySQL
+│   └── database.js          # Configuración PostgreSQL
 ├── controllers/
 │   └── authController.js    # Lógica de autenticación
 ├── middleware/

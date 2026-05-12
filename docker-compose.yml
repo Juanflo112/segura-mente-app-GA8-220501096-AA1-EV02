@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # Servicio de base de datos MySQL
+  # Servicio de base de datos MySQL (solo para desarrollo local)
   mysql:
     image: mysql:8.0
     container_name: seguramente-mysql
@@ -12,14 +12,14 @@ services:
       MYSQL_USER: seguramente_user
       MYSQL_PASSWORD: seguramente_pass_123
     ports:
-      - "3307:3306"  # Puerto 3307 en host para evitar conflictos
+      - "3307:3306" # Puerto 3307 en host para evitar conflictos
     volumes:
       - mysql-data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password_123"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password_123" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -35,6 +35,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 5000
+      # En producción, configure DATABASE_URL (ej. proyecto Supabase)
+      # DATABASE_URL=postgres://user:pass@host:port/dbname
       DB_HOST: mysql
       DB_USER: seguramente_user
       DB_PASSWORD: seguramente_pass_123

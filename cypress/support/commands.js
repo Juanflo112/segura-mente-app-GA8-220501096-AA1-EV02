@@ -11,10 +11,10 @@
 Cypress.Commands.add('wakeUpBackend', () => {
   const apiUrl = Cypress.env('apiUrl');
   const baseUrl = apiUrl.replace('/api', '');
-  
+
   cy.log('Despertando backend de Render...');
   cy.log('Esto puede tardar hasta 90 segundos en cold start');
-  
+
   // Intento 1
   cy.request({
     method: 'GET',
@@ -24,9 +24,9 @@ Cypress.Commands.add('wakeUpBackend', () => {
   }).then((response) => {
     cy.log(`Intento 1: Status ${response.status}`);
   });
-  
+
   cy.wait(10000);
-  
+
   // Intento 2
   cy.request({
     method: 'GET',
@@ -36,9 +36,9 @@ Cypress.Commands.add('wakeUpBackend', () => {
   }).then((response) => {
     cy.log(`Intento 2: Status ${response.status}`);
   });
-  
+
   cy.wait(10000);
-  
+
   // Intento 3
   cy.request({
     method: 'GET',
@@ -48,9 +48,9 @@ Cypress.Commands.add('wakeUpBackend', () => {
   }).then((response) => {
     cy.log(`Intento 3: Status ${response.status}`);
   });
-  
+
   cy.wait(10000);
-  
+
   // Intento 4 - Final
   cy.request({
     method: 'GET',
@@ -60,12 +60,12 @@ Cypress.Commands.add('wakeUpBackend', () => {
   }).then((response) => {
     cy.log(`Intento 4: Status ${response.status}`);
     if (response.status === 200 || response.status === 404) {
-      cy.log('✓ Backend activo y respondiendo');
+      cy.log('Backend activo y respondiendo');
     } else {
-      cy.log('⚠ Backend aún no responde correctamente, continuando de todos modos...');
+      cy.log('Backend aún no responde correctamente, continuando de todos modos...');
     }
   });
-  
+
   cy.wait(5000); // Espera final para estabilización
 });
 
@@ -79,19 +79,19 @@ Cypress.Commands.add('login', (userType = 'testUser') => {
   // Si ya hay un token guardado, no hacer login de nuevo
   const existingToken = Cypress.env('authToken');
   if (existingToken) {
-    cy.log('✓ Usando token existente');
+    cy.log('Usando token existente');
     return;
   }
-  
+
   const apiUrl = Cypress.env('apiUrl');
   const user = Cypress.env(userType);
-  
+
   cy.log(`Iniciando sesion como: ${userType}`);
-  
+
   if (!user || !user.email || !user.password) {
     throw new Error(`Usuario ${userType} no encontrado en cypress.env.json`);
   }
-  
+
   cy.request({
     method: 'POST',
     url: `${apiUrl}/auth/login`,
@@ -128,18 +128,18 @@ Cypress.Commands.add('login', (userType = 'testUser') => {
  */
 Cypress.Commands.add('apiRequest', (method, endpoint, body = null, useToken = true) => {
   const apiUrl = Cypress.env('apiUrl');
-  
+
   const options = {
     method: method,
     url: `${apiUrl}${endpoint}`,
     timeout: 60000,
     failOnStatusCode: false
   };
-  
+
   if (body) {
     options.body = body;
   }
-  
+
   if (useToken) {
     const token = Cypress.env('authToken');
     if (token) {
@@ -148,7 +148,7 @@ Cypress.Commands.add('apiRequest', (method, endpoint, body = null, useToken = tr
       };
     }
   }
-  
+
   cy.log(`${method} ${endpoint}`);
   return cy.request(options);
 });
@@ -174,9 +174,9 @@ Cypress.Commands.add('apiRequestWithDelay', (method, endpoint, body = null, dela
  */
 Cypress.Commands.add('registerUser', (userData) => {
   const apiUrl = Cypress.env('apiUrl');
-  
+
   cy.log(`Registrando usuario: ${userData.email}`);
-  
+
   return cy.request({
     method: 'POST',
     url: `${apiUrl}/auth/register`,
@@ -196,7 +196,7 @@ Cypress.Commands.add('registerUser', (userData) => {
  */
 Cypress.Commands.add('createUserFromDashboard', (userData) => {
   cy.log(`Creando usuario desde dashboard: ${userData.email}`);
-  
+
   return cy.apiRequest('POST', '/users', {
     nombre_usuario: userData.nombreUsuario,
     tipo_identificacion: userData.tipoIdentificacion,
@@ -219,7 +219,7 @@ Cypress.Commands.add('createUserFromDashboard', (userData) => {
  */
 Cypress.Commands.add('deleteUser', (email) => {
   cy.log(`Eliminando usuario: ${email}`);
-  
+
   return cy.apiRequest('DELETE', `/users/${email}`);
 });
 
@@ -243,7 +243,7 @@ Cypress.Commands.add('generateUniqueEmail', (prefix = 'test') => {
  */
 Cypress.Commands.add('generateTestUser', (type = 'Cliente') => {
   const timestamp = Date.now();
-  
+
   const baseUser = {
     nombreUsuario: `testuser${timestamp}`,
     tipoIdentificacion: 'CC',
@@ -256,19 +256,19 @@ Cypress.Commands.add('generateTestUser', (type = 'Cliente') => {
     confirmPassword: 'TestUser123!',
     tipo_usuario: type
   };
-  
+
   if (type === 'Psicólogo/empleado') {
     baseUser.formacion_profesional = 'Psicologo Clinico';
     baseUser.tarjeta_profesional = `PSI-${timestamp}`.substring(0, 15);
   }
-  
+
   return baseUser;
 });
 
 // Exportar también como función global para compatibilidad
 Cypress.generateTestUser = (type = 'Cliente') => {
   const timestamp = Date.now();
-  
+
   const baseUser = {
     nombreUsuario: `testuser${timestamp}`,
     tipoIdentificacion: 'CC',
@@ -281,12 +281,12 @@ Cypress.generateTestUser = (type = 'Cliente') => {
     confirmPassword: 'TestUser123!',
     tipo_usuario: type
   };
-  
+
   if (type === 'Psicólogo/empleado') {
     baseUser.formacion_profesional = 'Psicologo Clinico';
     baseUser.tarjeta_profesional = `PSI-${timestamp}`.substring(0, 15);
   }
-  
+
   return baseUser;
 };
 
@@ -297,9 +297,9 @@ Cypress.generateTestUser = (type = 'Cliente') => {
 Cypress.Commands.add('verifyApiConnection', () => {
   const apiUrl = Cypress.env('apiUrl');
   const baseUrl = apiUrl.replace('/api', '');
-  
+
   cy.log('Verificando conexion al API...');
-  
+
   return cy.request({
     method: 'GET',
     url: baseUrl,
@@ -321,9 +321,9 @@ Cypress.Commands.add('cleanupTestData', (emails = []) => {
     cy.log('No hay datos para limpiar');
     return;
   }
-  
+
   cy.log(`Limpiando ${emails.length} usuarios de prueba...`);
-  
+
   emails.forEach((email) => {
     cy.deleteUser(email);
   });
@@ -337,9 +337,9 @@ Cypress.Commands.add('cleanupTestData', (emails = []) => {
 Cypress.Commands.add('waitForBackend', (maxAttempts = 10) => {
   const apiUrl = Cypress.env('apiUrl');
   const baseUrl = apiUrl.replace('/api', '');
-  
+
   cy.log('Esperando respuesta del backend...');
-  
+
   function attemptConnection(attempt = 1) {
     return cy.request({
       method: 'GET',
@@ -357,7 +357,7 @@ Cypress.Commands.add('waitForBackend', (maxAttempts = 10) => {
       }
     });
   }
-  
+
   return attemptConnection();
 });
 
@@ -369,14 +369,14 @@ Cypress.Commands.add('waitForBackend', (maxAttempts = 10) => {
  */
 Cypress.Commands.add('loginUI', (email, password) => {
   const frontendUrl = Cypress.env('frontendUrl');
-  
+
   cy.log(`Iniciando sesion por UI: ${email}`);
-  
+
   cy.visit(`${frontendUrl}/login`);
   cy.get('[name="email"]', { timeout: 15000 }).should('be.visible').type(email);
   cy.get('[name="password"]').type(password);
   cy.get('button[type="submit"]').click();
-  
+
   // Esperar redirección
   cy.url({ timeout: 30000 }).should('include', '/dashboard');
 });
@@ -398,13 +398,13 @@ Cypress.Commands.add('checkResponseTime', (duration, maxTime) => {
 // ***********************************************
 Cypress.Commands.overwrite('request', (originalFn, ...args) => {
   const startTime = Date.now();
-  
+
   return originalFn(...args).then((response) => {
     const duration = Date.now() - startTime;
-    
+
     // Agregar duración al response
     response.duration = duration;
-    
+
     return response;
   });
 });

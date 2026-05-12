@@ -23,7 +23,7 @@ const transporter = nodemailer.createTransport({
 exports.sendVerificationEmail = async (email, nombreUsuario, token) => {
     try {
         const verificationUrl = `${process.env.CLIENT_URL}/verify?token=${token}`;
-        
+
         const mailOptions = {
             from: `"Segura-Mente App" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -185,7 +185,7 @@ exports.sendWelcomeEmail = async (email, nombreUsuario) => {
 exports.sendPasswordResetEmail = async (email, nombreUsuario, token) => {
     try {
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-        
+
         const mailOptions = {
             from: `"Segura-Mente App" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -260,7 +260,7 @@ exports.sendPasswordResetEmail = async (email, nombreUsuario, token) => {
                                 ${resetUrl}
                             </p>
                             <div class="warning">
-                                <strong>⚠️ Importante:</strong>
+                                <strong>Importante:</strong>
                                 <ul>
                                     <li>Este enlace es válido por <strong>1 hora</strong></li>
                                     <li>Si no solicitaste este cambio, ignora este correo</li>

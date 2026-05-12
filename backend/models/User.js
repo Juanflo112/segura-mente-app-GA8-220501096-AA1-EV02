@@ -9,6 +9,13 @@ class User {
             const [rows] = await db.query('SELECT * FROM usuarios WHERE email = ?', [email]);
             return rows[0];
         } catch (error) {
+            console.error('Error en User.findByEmail:', {
+                message: error.message,
+                code: error.code,
+                detail: error.detail,
+                hint: error.hint,
+                stack: error.stack
+            });
             throw new Error('Error al buscar usuario por email: ' + error.message);
         }
     }
@@ -42,19 +49,19 @@ class User {
      */
     static async create(userData) {
         try {
-            const { 
-                email, 
-                nombreUsuario, 
-                tipoIdentificacion, 
-                identificacion, 
-                fechaNacimiento, 
-                telefono, 
+            const {
+                email,
+                nombreUsuario,
+                tipoIdentificacion,
+                identificacion,
+                fechaNacimiento,
+                telefono,
                 direccion,
                 tipoUsuario,
                 formacionProfesional,
                 tarjetaProfesional,
-                password, 
-                tokenVerificacion 
+                password,
+                tokenVerificacion
             } = userData;
 
             const [result] = await db.query(
@@ -64,24 +71,24 @@ class User {
                 password, token_verificacion) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    email, 
-                    nombreUsuario, 
-                    tipoIdentificacion, 
-                    identificacion, 
-                    fechaNacimiento, 
-                    telefono, 
-                    direccion, 
-                    tipoUsuario || 'Cliente', 
+                    email,
+                    nombreUsuario,
+                    tipoIdentificacion,
+                    identificacion,
+                    fechaNacimiento,
+                    telefono,
+                    direccion,
+                    tipoUsuario || 'Cliente',
                     formacionProfesional === null || formacionProfesional === '' ? null : formacionProfesional,
                     tarjetaProfesional === null || tarjetaProfesional === '' ? null : tarjetaProfesional,
-                    password, 
+                    password,
                     tokenVerificacion
                 ]
             );
 
             return { email, affectedRows: result.affectedRows };
         } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
+            if (error.code === '23505') {
                 throw new Error('El email, nombre de usuario o identificación ya están registrados');
             }
             throw new Error('Error al crear usuario: ' + error.message);
@@ -124,7 +131,7 @@ class User {
     static async findByToken(token) {
         try {
             const [rows] = await db.query(
-                'SELECT * FROM usuarios WHERE token_verificacion = ?', 
+                'SELECT * FROM usuarios WHERE token_verificacion = ?',
                 [token]
             );
             return rows[0];
@@ -166,12 +173,12 @@ class User {
      */
     static async update(email, userData) {
         try {
-            const { 
-                nombreUsuario, 
-                tipoIdentificacion, 
-                identificacion, 
-                fechaNacimiento, 
-                telefono, 
+            const {
+                nombreUsuario,
+                tipoIdentificacion,
+                identificacion,
+                fechaNacimiento,
+                telefono,
                 direccion,
                 tipoUsuario,
                 formacionProfesional,
@@ -185,13 +192,13 @@ class User {
                 formacion_profesional = ?, tarjeta_profesional = ?
                 WHERE email = ?`,
                 [
-                    nombreUsuario, 
-                    tipoIdentificacion, 
-                    identificacion, 
-                    fechaNacimiento, 
-                    telefono, 
-                    direccion, 
-                    tipoUsuario || 'Cliente', 
+                    nombreUsuario,
+                    tipoIdentificacion,
+                    identificacion,
+                    fechaNacimiento,
+                    telefono,
+                    direccion,
+                    tipoUsuario || 'Cliente',
                     formacionProfesional === null || formacionProfesional === '' ? null : formacionProfesional,
                     tarjetaProfesional === null || tarjetaProfesional === '' ? null : tarjetaProfesional,
                     email
@@ -200,7 +207,7 @@ class User {
 
             return result.affectedRows > 0;
         } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
+            if (error.code === '23505') {
                 throw new Error('El nombre de usuario o identificación ya están en uso');
             }
             throw new Error('Error al actualizar usuario: ' + error.message);

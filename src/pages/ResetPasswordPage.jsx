@@ -29,7 +29,7 @@ const ResetPasswordPage = () => {
 
   const validatePassword = (pass) => {
     const errors = [];
-    
+
     if (pass.length < 8) {
       errors.push('La contraseña debe tener al menos 8 caracteres');
     }
@@ -104,12 +104,12 @@ const ResetPasswordPage = () => {
             <Logo />
           </div>
         </header>
-        
+
         <main className="register-main">
           <div className="register-background-image"></div>
           <div className="register-form-container">
             <div style={{ textAlign: 'center', padding: '40px' }}>
-              <div style={{ fontSize: '60px', marginBottom: '20px', color: '#4CAF50' }}>✓</div>
+              <div style={{ fontSize: '60px', marginBottom: '20px', color: '#4CAF50' }}>OK</div>
               <h2 style={{ color: '#4CAF50', marginBottom: '15px' }}>
                 ¡Contraseña actualizada exitosamente!
               </h2>
@@ -147,7 +147,7 @@ const ResetPasswordPage = () => {
           <Logo />
         </div>
       </header>
-      
+
       <main className="register-main">
         <div className="register-background-image"></div>
         <div className="register-form-container">
@@ -193,8 +193,8 @@ const ResetPasswordPage = () => {
                       padding: '5px'
                     }}
                   >
-                    <img 
-                      src={showPassword ? eyeClosed : eyeOpen} 
+                    <img
+                      src={showPassword ? eyeClosed : eyeOpen}
                       alt="Toggle password"
                       style={{ width: '20px', height: '20px' }}
                     />
@@ -237,8 +237,8 @@ const ResetPasswordPage = () => {
                       padding: '5px'
                     }}
                   >
-                    <img 
-                      src={showConfirmPassword ? eyeClosed : eyeOpen} 
+                    <img
+                      src={showConfirmPassword ? eyeClosed : eyeOpen}
                       alt="Toggle password"
                       style={{ width: '20px', height: '20px' }}
                     />

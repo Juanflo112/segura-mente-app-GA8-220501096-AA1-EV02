@@ -51,7 +51,7 @@
 -  Usuario auto-verificado
 -  Redirección correcta
 
-**Evidencia:** Registro exitoso verificado en Railway MySQL
+**Evidencia:** Registro exitoso verificado en la base de datos (antes: Railway MySQL). Para despliegues en producción usar Supabase (PostgreSQL).
 
 ---
 
@@ -296,15 +296,15 @@
 
 ## . Pruebas de Base de Datos
 
-### Prueba .: Conexión SSL a Railway
+### Prueba .: Conexión SSL a la base de datos (ej. Supabase)
 
 **Objetivo:** Verificar la conexión segura a la base de datos
 
 **Configuración:**
 ```javascript
 {
-  host: "caboose.proxy.rlwy.net",
-  port: ,
+  host: "<supabase-host>",
+  port: <port>,
   ssl: { rejectUnauthorized: false }
 }
 ```
@@ -434,7 +434,7 @@ Express: ..
 ```
 Host: localhost
 Puerto: 0
-Motor: MySQL .0
+Motor: PostgreSQL (recomendado para producción con Supabase)
 ```
 
 ---
@@ -460,14 +460,12 @@ Deploy: Automático desde GitHub main branch
 Health Check: GET /
 ```
 
-**Base de Datos:**
+**Base de Datos (Producción recomendada):**
 ```
-Plataforma: Railway
-Host: caboose.proxy.rlwy.net
-Puerto: 
-Motor: MySQL .0
-Red: Pública (Public Networking habilitado)
-SSL: Requerido
+Plataforma: Supabase (PostgreSQL) recomendado
+Use la `DATABASE_URL` proporcionada por Supabase en Render
+Ejemplo: postgres://user:password@host:5432/database
+SSL: Requerido (configure `rejectUnauthorized: false` si usa clientes sin CA)
 ```
 
 ---
@@ -510,21 +508,19 @@ Start Command: npm start
 Plan: Free
 ```
 
-**Environment Variables:**
+**Environment Variables (Render - backend):**
 ```
 NODE_ENV=production
 PORT=0000
-DB_HOST=caboose.proxy.rlwy.net
-DB_PORT=
-DB_USER=root
-DB_PASSWORD=[secreto]
-DB_NAME=railway
+# En producción use DATABASE_URL (ej. Supabase)
+# DATABASE_URL=postgres://user:password@host:5432/database
+DATABASE_URL=<supabase_database_url>
 DB_SSL=true
 JWT_SECRET=[secreto]
 JWT_EXPIRE=7d
 CLIENT_URL=https://segura-mente-app-frontend.vercel.app
 EMAIL_HOST=smtp.sendgrid.net
-EMAIL_PORT=7
+EMAIL_PORT=587
 EMAIL_SECURE=false
 EMAIL_USER=apikey
 EMAIL_PASS=[API_KEY]
@@ -546,30 +542,9 @@ Timeout: 0 seconds
 
 ---
 
-### Railway (Base de Datos)
+### Nota sobre Railway
 
-**Database Settings:**
-```
-Engine: MySQL .0
-Plan: Trial ($ credit)
-Region: us-west
-Storage: GB
-```
-
-**Networking:**
-```
-Public Networking:  Habilitado
-Public Host: caboose.proxy.rlwy.net
-Public Port: 
-Private Host: mysql.railway.internal (no usado)
-SSL:  Requerido
-```
-
-**Variables de Conexión:**
-```
-MYSQL_URL=mysql://root:[password]@caboose.proxy.rlwy.net:/railway
-MYSQL_PUBLIC_URL=mysql://root:[password]@caboose.proxy.rlwy.net:/railway
-```
+Railway fue usado originalmente para pruebas (MySQL), pero su plan trial puede expirar. Se recomienda migrar a Supabase (Postgres) para producción gratuita y estable. Use `DATABASE_URL` en Render y ejecute el script SQL adaptado a Postgres (`backend/database.sql`).
 
 ---
 

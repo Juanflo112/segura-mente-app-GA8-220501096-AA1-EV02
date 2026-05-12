@@ -1,6 +1,7 @@
 # Segura-Mente App
 
-Aplicación web para la gestión segura de usuarios, desarrollada con React.js en el frontend y Node.js + Express + MySQL en el backend.
+Aplicación web para la gestión segura de usuarios, desarrollada con React.js en el frontend y Node.js + Express en el backend.
+Nota: El proyecto soporta MySQL para desarrollo local; para despliegue en la nube se recomienda PostgreSQL (por ejemplo, Supabase).
 
 ## Descripción del Proyecto
 
@@ -83,9 +84,15 @@ npm install
 
 ### ️ Configurar la Base de Datos
 
+Opción A - Desarrollo local (MySQL):
 . **Inicia XAMPP** y activa MySQL
 . **Abre phpMyAdmin**: `http://localhost/phpmyadmin`
 . **Ejecuta el script SQL** que está en `backend/database.sql`
+
+Opción B - Producción (Supabase / PostgreSQL):
+. Cree un proyecto en Supabase y obtenga la `DATABASE_URL`.
+. En Render, configure la variable de entorno `DATABASE_URL` con la URL proporcionada por Supabase.
+. Ejecute el script SQL adaptado a PostgreSQL: `backend/database.sql` (ya preparado para Postgres).
 
 ### ️ Configurar Variables de Entorno
 
@@ -168,9 +175,9 @@ npm run dev        # Inicia con nodemon (recarga automática)
 
 ## Base de Datos
 
-La aplicación utiliza MySQL con la siguiente estructura principal:
+La aplicación puede usar MySQL (para desarrollo local) o PostgreSQL en producción. Se recomienda Supabase (Postgres) para hosting gratuito y estable.
 
-### Tabla: usuarios
+### Tabla: usuarios (estructura principal)
 - **email** (PRIMARY KEY) - Identificador único
 - **nombre_usuario** (UNIQUE) - Nombre de usuario único
 - **identificacion** (UNIQUE) - Documento único
@@ -178,8 +185,7 @@ La aplicación utiliza MySQL con la siguiente estructura principal:
 - **verificado** - Estado de verificación
 - **token_verificacion** - Token de verificación
 
-
-Ver `backend/database.sql` para la estructura completa.
+Ver `backend/database.sql` para la estructura completa; el archivo está preparado para Postgres cuando se despliegue en Supabase.
 
 ## API Endpoints
 

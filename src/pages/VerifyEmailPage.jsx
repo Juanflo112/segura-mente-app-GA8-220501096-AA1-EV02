@@ -34,14 +34,14 @@ const VerifyEmailPage = () => {
         if (data.success) {
           setStatus('success');
           setMessage(data.message || '¡Tu cuenta ha sido verificada exitosamente!');
-          
+
           // Redirigir a la página de éxito después de 3 segundos
           setTimeout(() => {
-            navigate('/success', { 
-              state: { 
+            navigate('/success', {
+              state: {
                 email: data.data?.email,
-                nombreUsuario: data.data?.nombreUsuario 
-              } 
+                nombreUsuario: data.data?.nombreUsuario
+              }
             });
           }, 3000);
         } else {
@@ -65,7 +65,7 @@ const VerifyEmailPage = () => {
           <Logo />
         </div>
       </header>
-      
+
       <main className="register-main">
         <div className="register-background-image"></div>
         <div className="register-form-container">
@@ -87,7 +87,7 @@ const VerifyEmailPage = () => {
 
             {status === 'success' && (
               <>
-                <div style={{ fontSize: '60px', marginBottom: '20px', color: '#4CAF50' }}>✓</div>
+                <div style={{ fontSize: '60px', marginBottom: '20px', color: '#4CAF50' }}>OK</div>
                 <h2 style={{ color: '#4CAF50' }}>{message}</h2>
                 <p>Redirigiendo a la página de éxito...</p>
               </>
@@ -97,7 +97,7 @@ const VerifyEmailPage = () => {
               <>
                 <div style={{ fontSize: '60px', marginBottom: '20px', color: '#f44336' }}>✗</div>
                 <h2 style={{ color: '#f44336' }}>{message}</h2>
-                <button 
+                <button
                   onClick={() => navigate('/register')}
                   style={{
                     marginTop: '20px',

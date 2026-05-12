@@ -1,6 +1,6 @@
 # Resumen de Implementación Docker - Segura-Mente App
 
-## ✅ Implementación Completada Exitosamente
+##  Implementación Completada Exitosamente
 
 Fecha: 8 de febrero de 2026
 
@@ -12,7 +12,7 @@ Fecha: 8 de febrero de 2026
    - Expone puerto 5000
 
 2. **docker-compose.yml**
-   - Servicio MySQL 8.0 con healthcheck
+   - Servicio MySQL 8.0 (solo para desarrollo local) con healthcheck
    - Servicio Backend Node.js
    - Red interna app-network
    - Volumen persistente mysql-data
@@ -45,23 +45,23 @@ seguramente-mysql     Up 36 seconds (healthy)   0.0.0.0:3307->3306/tcp
 
 ### Pruebas Realizadas
 
-✅ **Construcción de imágenes**: Exitosa
-- MySQL: Imagen oficial descargada
+**Construcción de imágenes**: Exitosa
+- MySQL (local): Imagen oficial descargada
 - Backend: Imagen construida desde Dockerfile
 
-✅ **Inicialización de base de datos**: Exitosa
-- Base de datos seguramente_db creada
+- **Inicialización de base de datos (local)**: Exitosa
+- Base de datos seguramente_db creada (solo en entorno Docker local)
 - Tabla usuarios creada con todos los campos
 - Usuario admin@seguramente.com precargado
 
-✅ **Conexión Backend-MySQL**: Exitosa
-- Backend se conectó a MySQL correctamente
-- Mensaje en logs: "Conexión exitosa a la base de datos MySQL"
+**Conexión Backend-MySQL (local)**: Exitosa
+- Backend se conectó a MySQL en el entorno Docker local correctamente
+- Mensaje en logs: "Conexión exitosa a la base de datos MySQL (local)"
 
-✅ **API REST funcionando**: Exitosa
-- Endpoint de registro: ✅ Usuario dockertest@example.com registrado
-- Endpoint de login: ✅ Token JWT generado correctamente
-- Endpoint de listar usuarios: ✅ Devuelve 2 usuarios (admin + dockertest)
+**API REST funcionando**: Exitosa
+- Endpoint de registro: Usuario dockertest@example.com registrado
+- Endpoint de login: Token JWT generado correctamente
+- Endpoint de listar usuarios: Devuelve 2 usuarios (admin + dockertest)
 
 ### Datos de Prueba
 
@@ -101,17 +101,18 @@ docker-compose up -d --build
 
 | Endpoint | Método | Estado |
 |----------|--------|--------|
-| /api/auth/register | POST | ✅ Funcional |
-| /api/auth/login | POST | ✅ Funcional |
-| /api/users | GET | ✅ Funcional |
+| /api/auth/register | POST | Funcional |
+| /api/auth/login | POST | Funcional |
+| /api/users | GET | Funcional |
 
 ### Notas Importantes
 
 1. **Puerto MySQL**: Se usa 3307 en el host para evitar conflictos con instalaciones locales
 2. **Persistencia**: Los datos se guardan en volumen `mysql-data` y persisten entre reinicios
 3. **Healthcheck**: MySQL verifica su salud cada 10 segundos
-4. **Dependencias**: Backend espera a que MySQL esté healthy antes de iniciar
+4. **Dependencias (local)**: Backend espera a que MySQL esté healthy antes de iniciar
 5. **Red aislada**: Los contenedores se comunican a través de la red `app-network`
+6. **Producción recomendada**: Para despliegue en la nube se recomienda usar Supabase (PostgreSQL). Configure `DATABASE_URL` en Render y ejecute el script `backend/database.sql` (ya adaptado a PostgreSQL).
 
 ### Próximos Pasos Sugeridos
 
@@ -159,4 +160,4 @@ El sistema está funcionando correctamente con:
 - Persistencia de datos configurada
 
 **Tiempo de implementación**: ~5 minutos
-**Resultado**: Exitoso ✅
+**Resultado**: Exitoso

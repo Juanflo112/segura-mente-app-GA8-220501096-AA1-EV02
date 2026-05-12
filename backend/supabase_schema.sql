@@ -1,3 +1,6 @@
+-- Supabase / PostgreSQL schema for Segura-Mente App
+-- Paste this into the Supabase SQL Editor or run with psql.
+
 -- Tabla de usuarios con email como PRIMARY KEY
 CREATE TABLE IF NOT EXISTS usuarios (
     email VARCHAR(150) PRIMARY KEY,
@@ -24,3 +27,9 @@ CREATE INDEX IF NOT EXISTS idx_nombre_usuario ON usuarios(nombre_usuario);
 CREATE INDEX IF NOT EXISTS idx_identificacion ON usuarios(identificacion);
 CREATE INDEX IF NOT EXISTS idx_token_verificacion ON usuarios(token_verificacion);
 CREATE INDEX IF NOT EXISTS idx_token_recuperacion ON usuarios(token_recuperacion);
+
+-- Seguridad en Supabase
+
+ALTER TABLE usuarios ENABLE ROW LEVEL SECURITY;
+
+

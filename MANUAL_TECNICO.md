@@ -60,16 +60,16 @@
 │  - Express ..                                             │
 │  - JWT Authentication                                        │
 │  - Bcrypt Password Hashing                                   │
-│  - MySQL Driver                                             │
+│  - MySQL Driver (local) / PostgreSQL (producción - Supabase)
 │  - Nodemailer (Email)                                        │
 └────────────────────────┬────────────────────────────────────┘
                          │
                          │ MySQL Connection (SSL)
                          │
 ┌────────────────────────▼────────────────────────────────────┐
-│                  BASE DE DATOS (MySQL .0)                   │
-│                   Railway Cloud Platform                     │
-│  Host: caboose.proxy.rlwy.net:                          │
+│                 BASE DE DATOS                                   │
+│  - Desarrollo local: MySQL (opcional con Docker Compose / XAMPP)  │
+│  - Producción recomendada: PostgreSQL (Supabase)                  │
 │                                                              │
 │  - Tabla: usuarios                                           │
 │  - Índices optimizados                                       │
@@ -100,7 +100,8 @@
 ```bash
 Node.js: v.0.0 o superior
 npm: v.0.0 o superior
-MySQL: v.0 o superior
+MySQL: v.0 o superior (solo para desarrollo local)
+PostgreSQL: soportado para producción (recomendado Supabase)
 Git: v.0.0 o superior
 ```
 
@@ -160,8 +161,11 @@ EMAIL_FROM=noreply@seguramente.com
 ### . Configuración de la Base de Datos Local
 
 ```bash
-# Conectar a MySQL
+# Conectar a la base de datos
+# Para MySQL local:
 mysql -u root -p
+
+# Para conectarse a Supabase (Postgres) use psql o el cliente SQL del dashboard de Supabase
 
 # Crear base de datos
 CREATE DATABASE seguramente_db CHARACTER SET utfmb COLLATE utfmb_unicode_ci;
@@ -825,19 +829,17 @@ const secret = process.env.JWT_SECRET;
    ```
 
 . **Variables de Entorno** (todas las del .env)
-   ```
-   NODE_ENV=production
-   PORT=0000
-   DB_HOST=caboose.proxy.rlwy.net
-   DB_PORT=
-   DB_USER=root
-   DB_PASSWORD=[tu_password]
-   DB_NAME=railway
-   DB_SSL=true
-   JWT_SECRET=[tu_secret]
-   JWT_EXPIRE=7d
-   CLIENT_URL=https://[tu-frontend].vercel.app
-   ```
+  ```
+  NODE_ENV=production
+  PORT=0000
+  # En producción usar DATABASE_URL (Supabase)
+  # Ejemplo: DATABASE_URL=postgres://user:password@host:5432/database
+  DATABASE_URL=<supabase_database_url>
+  DB_SSL=true
+  JWT_SECRET=[tu_secret]
+  JWT_EXPIRE=7d
+  CLIENT_URL=https://[tu-frontend].vercel.app
+  ```
 
 . **Deploy**
    - Render auto-deploya desde `main`
@@ -845,30 +847,24 @@ const secret = process.env.JWT_SECRET;
 
 ---
 
-### . Despliegue Base de Datos (Railway)
+### . Despliegue Base de Datos (Producción: Supabase recomendado)
 
 **Pasos:**
 
-. **Crear MySQL Database**
-   - Ir a https://railway.app
-   - "New Project" → "Provision MySQL"
+. **Crear proyecto en Supabase**
+  - Ir a https://app.supabase.com
+  - Crear nuevo proyecto (Free tier disponible)
 
-. **Habilitar Public Networking**
-   - Settings → Networking
-   - Enable "Public Networking"
-   - Anotar host público y puerto
+. **Obtener `DATABASE_URL`**
+  - En Settings → Database → Connection string, copie la `DATABASE_URL`
+  - Configure en Render la variable de entorno `DATABASE_URL`
 
-. **Ejecutar Scripts**
-   - Conectar con cliente MySQL:
-   ```bash
-   mysql -h caboose.proxy.rlwy.net -P  -u root -p
-   ```
-   - Ejecutar `database.sql`
-   - Ejecutar migraciones
+. **Ejecutar Scripts SQL**
+  - Abra el SQL Editor de Supabase
+  - Ejecute el contenido de `backend/database.sql` (archivo preparado para Postgres)
 
-. **SSL Requerido**
-   - Railway requiere conexiones SSL
-   - Configurar en backend: `DB_SSL=true`
+. **SSL y seguridad**
+  - Supabase requiere SSL; asegúrese de que `DATABASE_SSL=true` o use la `DATABASE_URL` con SSL incorporado.
 
 ---
 
@@ -961,13 +957,13 @@ headers: {
 
 ### . Backups
 
-**Base de Datos:**
+**Base de Datos (Backups - Supabase/Postgres):**
 ```bash
-# Exportar desde Railway
-mysqldump -h caboose.proxy.rlwy.net -P  -u root -p railway > backup_$(date +%Y%m%d).sql
+# Exportar usando pg_dump (desde una máquina con psql/pg_dump instalado)
+PGPASSWORD=<db_password> pg_dump --dbname=<supabase_database_url> -Fc -f backup_$(date +%Y%m%d).dump
 
-# Importar
-mysql -h caboose.proxy.rlwy.net -P  -u root -p railway < backup_00.sql
+# Restaurar usando pg_restore
+PGPASSWORD=<db_password> pg_restore --clean --dbname=<supabase_database_url> backup_YYYYMMDD.dump
 ```
 
 **Código Fuente:**
