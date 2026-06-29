@@ -6,6 +6,7 @@ import VerificationPage from './pages/VerificationPage';
 import VerifyEmailPage from './pages/VerifyEmailPage';
 import SuccessPage from './pages/SuccessPage';
 import DashboardPage from './pages/DashboardPage';
+import AppointmentPage from './pages/AppointmentPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -26,6 +27,11 @@ function App() {
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        } />
+        <Route path="/citas" element={
+          <ProtectedRoute>
+            <AppointmentPage />
           </ProtectedRoute>
         } />
       </Routes>

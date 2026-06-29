@@ -3,6 +3,7 @@ import Sidebar from '../components/Dashboard/Sidebar';
 import UserList from '../components/Dashboard/UserList';
 import UserEditForm from '../components/Dashboard/UserEditForm';
 import UserRegisterForm from '../components/Dashboard/UserRegisterForm';
+import AppointmentScheduler from '../components/Appointments/AppointmentScheduler';
 import SessionWarning from '../components/SessionWarning';
 import useSessionTimeout from '../hooks/useSessionTimeout';
 import './DashboardPage.css';
@@ -12,6 +13,7 @@ const DashboardPage = () => {
   const [currentView, setCurrentView] = useState('home');
   const [selectedUser, setSelectedUser] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState('');
+  const [tipoUsuario, setTipoUsuario] = useState('');
   const timeoutRef = useRef(null);
 
   // Hook de control de sesión - 5 minutos de inactividad, advertencia 1 minuto antes
@@ -25,8 +27,11 @@ const DashboardPage = () => {
     if (userData) {
       const user = JSON.parse(userData);
       setNombreUsuario(user.nombreUsuario || user.nombre || 'Usuario');
+      setTipoUsuario(user.tipoUsuario || user.tipo_usuario || '');
     }
   }, []);
+
+  const isClientUser = (tipoUsuario || '').toLowerCase() === 'cliente';
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -121,6 +126,18 @@ const DashboardPage = () => {
             onCancel={handleCancelRegister}
           />
         );
+      case 'citas':
+        if (!isClientUser) {
+          return (
+            <div className="content-area">
+              <h2 className="content-title">Acceso restringido</h2>
+            </div>
+          );
+        }
+
+        return (
+          <AppointmentScheduler />
+        );
       default:
         return (
           <div className="content-area">
@@ -160,6 +177,7 @@ const DashboardPage = () => {
           onInteraction={handleSidebarInteraction}
           onMenuClick={handleMenuClick}
           onMouseLeave={handleSidebarMouseLeave}
+          isClient={isClientUser}
         />
 
         <main className={`dashboard-main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>

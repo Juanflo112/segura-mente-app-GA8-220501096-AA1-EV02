@@ -7,7 +7,7 @@ import iconoCerrarSesion from '../../assets/icons/CerrarSesion.svg';
 import iconoCrearUsuario from '../../assets/icons/CrearUsuario.svg';
 import iconoActualizarUsuario from '../../assets/icons/ActualizarUsuario.svg';
 
-const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
+const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave, isClient }) => {
   const navigate = useNavigate();
   const [showUserSubmenu, setShowUserSubmenu] = useState(false);
 
@@ -49,6 +49,10 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
     }
   };
 
+  const handleAppointmentsClick = () => {
+    navigate('/citas');
+  };
+
   const handleSubmenuMouseEnter = () => {
     setShowUserSubmenu(true);
   };
@@ -69,10 +73,12 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
         <h2 className="welcome-titleS">¡Te damos la bienvenida!</h2>
 
         <nav className="sidebar-nav">
-          <button className="nav-item">
-            <img src={iconoCatalogo} alt="Catálogo" className="nav-icon-img" />
-            <span className="nav-text">Gestionar agendamiento de citas</span>
-          </button>
+          {isClient && (
+            <button className="nav-item" onClick={handleAppointmentsClick}>
+              <img src={iconoCatalogo} alt="Agendamiento de citas" className="nav-icon-img" />
+              <span className="nav-text">Gestionar agendamiento de citas</span>
+            </button>
+          )}
 
           <div
             className="nav-item-container"

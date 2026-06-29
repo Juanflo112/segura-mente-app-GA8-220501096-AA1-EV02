@@ -307,6 +307,7 @@ exports.login = async (req, res) => {
             user: {
                 email: user.email,
                 nombreUsuario: user.nombre_usuario,
+                tipoUsuario: user.tipo_usuario || 'Cliente',
                 tipoIdentificacion: user.tipo_identificacion,
                 identificacion: user.identificacion,
                 telefono: user.telefono,
