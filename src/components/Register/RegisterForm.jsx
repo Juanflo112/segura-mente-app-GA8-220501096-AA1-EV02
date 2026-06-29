@@ -8,7 +8,7 @@ import API_BASE_URL from '../../config/api';
 
 const RegisterForm = () => {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     nombreUsuario: '',
     tipoIdentificacion: 'CC',
@@ -17,6 +17,9 @@ const RegisterForm = () => {
     telefono: '',
     direccion: '',
     email: '',
+    tipoUsuario: 'Cliente',
+    formacionProfesional: '',
+    tarjetaProfesional: '',
     password: '',
     confirmPassword: ''
   });
@@ -25,20 +28,30 @@ const RegisterForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    if (name === 'tipoUsuario' && value === 'Cliente') {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value,
+        formacionProfesional: '',
+        tarjetaProfesional: ''
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       alert('Las contraseñas no coinciden');
       return;
     }
-    
+
     try {
       // Enviar datos al backend
       const response = await fetch(`${API_BASE_URL}/auth/register`, {
@@ -46,7 +59,20 @@ const RegisterForm = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          nombreUsuario: formData.nombreUsuario,
+          tipoIdentificacion: formData.tipoIdentificacion,
+          identificacion: formData.identificacion,
+          fechaNacimiento: formData.fechaNacimiento,
+          telefono: formData.telefono,
+          direccion: formData.direccion,
+          email: formData.email,
+          tipoUsuario: formData.tipoUsuario,
+          formacionProfesional: formData.formacionProfesional || null,
+          tarjetaProfesional: formData.tarjetaProfesional || null,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword
+        })
       });
 
       const data = await response.json();
@@ -54,11 +80,11 @@ const RegisterForm = () => {
       if (data.success) {
         console.log('Registro exitoso:', data);
         // Redirigir a la página de éxito
-        navigate('/success', { 
-          state: { 
+        navigate('/success', {
+          state: {
             email: formData.email,
-            message: data.message 
-          } 
+            message: data.message
+          }
         });
       } else {
         // Mostrar errores de validación
@@ -97,7 +123,7 @@ const RegisterForm = () => {
             required
           />
         </div>
-        
+
         <div className="form-row">
           <div className="form-group">
             <label htmlFor="identificacion">Documento de identificación</label>
@@ -180,6 +206,50 @@ const RegisterForm = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="tipoUsuario">Tipo de Usuario</label>
+          <select
+            id="tipoUsuario"
+            name="tipoUsuario"
+            value={formData.tipoUsuario}
+            onChange={handleChange}
+            required
+          >
+            <option value="Cliente">Cliente</option>
+            <option value="Psicólogo/empleado">Psicólogo/empleado</option>
+          </select>
+        </div>
+
+        {formData.tipoUsuario === 'Psicólogo/empleado' && (
+          <div className="employee-fields">
+            <div className="form-group">
+              <label htmlFor="formacionProfesional">Formación profesional (Título)</label>
+              <input
+                type="text"
+                id="formacionProfesional"
+                name="formacionProfesional"
+                placeholder="Ej: Psicólogo Clínico"
+                value={formData.formacionProfesional}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="tarjetaProfesional">Número de tarjeta profesional</label>
+              <input
+                type="text"
+                id="tarjetaProfesional"
+                name="tarjetaProfesional"
+                placeholder="Número de tarjeta profesional"
+                value={formData.tarjetaProfesional}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+        )}
+
+        <div className="form-group">
           <label htmlFor="password">Crea una contraseña</label>
           <p className="password-hint">
             De mínimo 8 caracteres y deben incluir símbolos, al menos una mayúscula y al menos un número
@@ -200,8 +270,8 @@ const RegisterForm = () => {
               onClick={() => setShowPassword(!showPassword)}
               aria-label="Mostrar u ocultar contraseña"
             >
-              <img 
-                src={showPassword ? eyeOpen : eyeClosed} 
+              <img
+                src={showPassword ? eyeOpen : eyeClosed}
                 alt={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               />
             </button>
@@ -226,8 +296,8 @@ const RegisterForm = () => {
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
               aria-label="Mostrar u ocultar confirmación de contraseña"
             >
-              <img 
-                src={showConfirmPassword ? eyeOpen : eyeClosed} 
+              <img
+                src={showConfirmPassword ? eyeOpen : eyeClosed}
                 alt={showConfirmPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
               />
             </button>

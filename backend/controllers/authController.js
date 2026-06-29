@@ -17,6 +17,9 @@ exports.register = async (req, res) => {
             telefono,
             direccion,
             email,
+            tipoUsuario,
+            formacionProfesional,
+            tarjetaProfesional,
             password
         } = req.body;
 
@@ -65,6 +68,9 @@ exports.register = async (req, res) => {
             fechaNacimiento,
             telefono,
             direccion,
+            tipoUsuario: tipoUsuario || 'Cliente',
+            formacionProfesional: formacionProfesional || null,
+            tarjetaProfesional: tarjetaProfesional || null,
             password: hashedPassword,
             tokenVerificacion: verificationToken
         };
