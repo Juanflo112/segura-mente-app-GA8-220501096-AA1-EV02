@@ -101,7 +101,7 @@ const DashboardPage = () => {
     switch (currentView) {
       case 'editar':
         return (
-          <UserList 
+          <UserList
             onEditUser={handleEditUser}
             onBack={handleBackToHome}
           />
@@ -125,7 +125,7 @@ const DashboardPage = () => {
         return (
           <div className="content-area">
             <h2 className="content-title">
-              Bienvenido {nombreUsuario && <span>{nombreUsuario}</span>} a <span className="brand-segura">SEGURA</span>
+              Bienvenido/a {nombreUsuario && <span>{nombreUsuario}</span>} a <span className="brand-segura">SEGURA</span>
               <span className="brand-mente">-MENTE</span>
             </h2>
           </div>
@@ -138,16 +138,16 @@ const DashboardPage = () => {
       <header className="dashboard-header-top">
         <div className="header-pattern"></div>
         <div className="logo-container-round">
-          <img 
-            src={require('../assets/images/LogoRedondo.png')} 
-            alt="Logo Segura-Mente" 
+          <img
+            src={require('../assets/images/LogoRedondo.png')}
+            alt="Logo Segura-Mente"
             className="logo-round"
           />
         </div>
       </header>
 
       <div className="dashboard-container">
-        <button 
+        <button
           className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`}
           onClick={toggleSidebar}
           aria-label="Abrir/Cerrar menú"
@@ -155,8 +155,8 @@ const DashboardPage = () => {
           <span className="toggle-icon">☰</span>
         </button>
 
-        <Sidebar 
-          isOpen={sidebarOpen} 
+        <Sidebar
+          isOpen={sidebarOpen}
           onInteraction={handleSidebarInteraction}
           onMenuClick={handleMenuClick}
           onMouseLeave={handleSidebarMouseLeave}
@@ -171,7 +171,7 @@ const DashboardPage = () => {
 
       {/* Modal de advertencia de sesión */}
       {showWarning && (
-        <SessionWarning 
+        <SessionWarning
           remainingTime={remainingTime}
           onContinue={resetTimer}
         />

@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
   };
 
   return (
-    <aside 
+    <aside
       className={`sidebar ${isOpen ? 'open' : 'closed'}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseMove}
@@ -67,14 +67,14 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
     >
       <div className="sidebar-content">
         <h2 className="welcome-titleS">¡Te damos la bienvenida!</h2>
-        
+
         <nav className="sidebar-nav">
           <button className="nav-item">
             <img src={iconoCatalogo} alt="Catálogo" className="nav-icon-img" />
-            <span className="nav-text">Gestionar catálogo de servicios</span>
+            <span className="nav-text">Gestionar agendamiento de citas</span>
           </button>
-          
-          <div 
+
+          <div
             className="nav-item-container"
             onMouseEnter={handleSubmenuMouseEnter}
             onMouseLeave={handleSubmenuMouseLeave}
@@ -84,17 +84,17 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
               <span className="nav-text">Gestionar usuarios</span>
               <span className={`submenu-arrow ${showUserSubmenu ? 'open' : ''}`}>▼</span>
             </button>
-            
+
             {showUserSubmenu && (
               <div className="submenu">
-                <button 
+                <button
                   className="submenu-item"
                   onClick={() => handleSubmenuClick('registrar')}
                 >
                   <img src={iconoCrearUsuario} alt="Crear usuario" className="submenu-icon-img" />
                   <span className="submenu-text">Registrar nuevo usuario</span>
                 </button>
-                <button 
+                <button
                   className="submenu-item"
                   onClick={() => handleSubmenuClick('editar')}
                 >
