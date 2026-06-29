@@ -357,7 +357,10 @@ exports.forgotPassword = async (req, res) => {
                 console.log('Email de recuperación enviado a:', email);
             } catch (emailError) {
                 console.error('Error al enviar email de recuperación:', emailError.message);
-                // No retornar error al usuario por seguridad
+                return res.status(503).json({
+                    success: false,
+                    message: 'No fue posible enviar el correo de recuperación en este momento. Intenta nuevamente más tarde.'
+                });
             }
         } else {
             console.log('Usuario no encontrado, pero responderemos éxito por seguridad');

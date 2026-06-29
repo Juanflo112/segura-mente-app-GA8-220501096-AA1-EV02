@@ -1,11 +1,16 @@
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
+const emailPort = parseInt(process.env.EMAIL_PORT, 10) || 587;
+
 // Configurar transporter de nodemailer
 const transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.EMAIL_PORT) || 587,
-    secure: process.env.EMAIL_SECURE === 'true', // true para 465, false para otros puertos
+    port: emailPort,
+    secure: process.env.EMAIL_SECURE
+        ? process.env.EMAIL_SECURE === 'true'
+        : emailPort === 465,
+    requireTLS: emailPort === 587,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
@@ -13,8 +18,9 @@ const transporter = nodemailer.createTransport({
     tls: {
         rejectUnauthorized: false
     },
-    connectionTimeout: 10000, // 10 segundos
-    greetingTimeout: 10000
+    connectionTimeout: 30000,
+    greetingTimeout: 30000,
+    socketTimeout: 30000
 });
 
 /**
@@ -23,7 +29,7 @@ const transporter = nodemailer.createTransport({
 exports.sendVerificationEmail = async (email, nombreUsuario, token) => {
     try {
         const verificationUrl = `${process.env.CLIENT_URL}/verify?token=${token}`;
-        
+
         const mailOptions = {
             from: `"Segura-Mente App" <${process.env.EMAIL_USER}>`,
             to: email,
@@ -185,7 +191,7 @@ exports.sendWelcomeEmail = async (email, nombreUsuario) => {
 exports.sendPasswordResetEmail = async (email, nombreUsuario, token) => {
     try {
         const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${token}`;
-        
+
         const mailOptions = {
             from: `"Segura-Mente App" <${process.env.EMAIL_USER}>`,
             to: email,
