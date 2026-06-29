@@ -23,11 +23,6 @@ const AppointmentPage = () => {
         }
         try {
             const user = JSON.parse(userData);
-            const tipo = (user.tipoUsuario || user.tipo_usuario || '').toLowerCase();
-            if (tipo !== 'cliente') {
-                navigate('/dashboard', { replace: true });
-                return;
-            }
             setNombreUsuario(user.nombreUsuario || user.nombre || 'Usuario');
         } catch {
             navigate('/login', { replace: true });

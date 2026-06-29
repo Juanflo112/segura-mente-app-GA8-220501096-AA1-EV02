@@ -73,12 +73,10 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave, isClient })
         <h2 className="welcome-titleS">¡Te damos la bienvenida!</h2>
 
         <nav className="sidebar-nav">
-          {isClient && (
-            <button className="nav-item" onClick={handleAppointmentsClick}>
-              <img src={iconoCatalogo} alt="Agendamiento de citas" className="nav-icon-img" />
-              <span className="nav-text">Gestionar agendamiento de citas</span>
-            </button>
-          )}
+          <button className="nav-item" onClick={handleAppointmentsClick}>
+            <img src={iconoCatalogo} alt="Agendamiento de citas" className="nav-icon-img" />
+            <span className="nav-text">Gestionar agendamiento de citas</span>
+          </button>
 
           <div
             className="nav-item-container"
