@@ -645,8 +645,8 @@ const AppointmentScheduler = () => {
                                             <span>{isAvailable ? 'Disponible' : 'Ocupado'}</span>
                                         </div>
                                     );
-                                })}
-              )}
+                                })
+                            )}
                         </div>
                     </div>
                 </aside>

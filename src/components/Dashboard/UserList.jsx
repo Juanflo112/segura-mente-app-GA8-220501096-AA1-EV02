@@ -5,7 +5,7 @@ import iconoEliminar from '../../assets/icons/Eliminar.svg';
 import iconoActualizar from '../../assets/icons/ActualizarUsuario.svg';
 import API_BASE_URL from '../../config/api';
 
-const UserList = ({ onEditUser, onBack }) => {
+const UserList = ({ onEditUser, onBack, adminEmail = 'administrador@seguramente.com' }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -53,12 +53,13 @@ const UserList = ({ onEditUser, onBack }) => {
     if (selectAll) {
       setSelectedUsers([]);
     } else {
-      setSelectedUsers(currentUsers.map(user => user.email));
+      setSelectedUsers(currentUsers.filter(u => u.email !== adminEmail).map(user => user.email));
     }
     setSelectAll(!selectAll);
   };
 
   const handleSelectUser = (email) => {
+    if (email === adminEmail) return;
     if (selectedUsers.includes(email)) {
       setSelectedUsers(selectedUsers.filter(e => e !== email));
     } else {
@@ -71,13 +72,22 @@ const UserList = ({ onEditUser, onBack }) => {
       alert('Selecciona al menos un usuario para eliminar');
       return;
     }
-    
-    if (window.confirm(`¿Estás seguro de eliminar ${selectedUsers.length} usuario(s)?`)) {
+
+    const toDelete = selectedUsers.filter(email => email !== adminEmail);
+    if (toDelete.length === 0) {
+      alert('El usuario administrador no puede ser eliminado.');
+      return;
+    }
+    if (toDelete.length < selectedUsers.length) {
+      alert('El usuario administrador no puede ser eliminado y será excluido de la operación.');
+    }
+
+    if (window.confirm(`¿Estás seguro de eliminar ${toDelete.length} usuario(s)?`)) {
       try {
         const token = localStorage.getItem('token');
-        
+
         // Eliminar cada usuario seleccionado
-        const deletePromises = selectedUsers.map(email => 
+        const deletePromises = toDelete.map(email =>
           fetch(`${API_BASE_URL}/users/${email}`, {
             method: 'DELETE',
             headers: {
@@ -87,7 +97,7 @@ const UserList = ({ onEditUser, onBack }) => {
         );
 
         await Promise.all(deletePromises);
-        
+
         // Recargar la lista de usuarios
         await fetchUsers();
         setSelectedUsers([]);
@@ -105,7 +115,7 @@ const UserList = ({ onEditUser, onBack }) => {
       alert('Selecciona un solo usuario para editar');
       return;
     }
-    
+
     const userToEdit = users.find(user => user.email === selectedUsers[0]);
     if (onEditUser) {
       onEditUser(userToEdit);
@@ -119,6 +129,10 @@ const UserList = ({ onEditUser, onBack }) => {
   };
 
   const handleDeleteSingle = async (email) => {
+    if (email === adminEmail) {
+      alert('El usuario administrador no puede ser eliminado.');
+      return;
+    }
     if (window.confirm('¿Estás seguro de eliminar este usuario?')) {
       try {
         const token = localStorage.getItem('token');
@@ -144,10 +158,10 @@ const UserList = ({ onEditUser, onBack }) => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', { 
-      day: '2-digit', 
-      month: '2-digit', 
-      year: 'numeric' 
+    return date.toLocaleDateString('es-ES', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
     });
   };
 
@@ -211,6 +225,7 @@ const UserList = ({ onEditUser, onBack }) => {
                         checked={selectedUsers.includes(user.email)}
                         onChange={() => handleSelectUser(user.email)}
                         className="checkbox-input"
+                        disabled={user.email === adminEmail}
                       />
                     </td>
                     <td>{user.verificado ? 'Activo' : 'Pendiente'}</td>
@@ -223,14 +238,16 @@ const UserList = ({ onEditUser, onBack }) => {
                     <td>{user.formacion_profesional || 'N/A'}</td>
                     <td>{user.tarjeta_profesional || 'N/A'}</td>
                     <td className="options-cell">
-                      <button 
-                        className="icon-button delete-button"
-                        onClick={() => handleDeleteSingle(user.email)}
-                        title="Eliminar"
-                      >
-                        <img src={iconoEliminar} alt="Eliminar" className="option-icon" />
-                      </button>
-                      <button 
+                      {user.email !== adminEmail && (
+                        <button
+                          className="icon-button delete-button"
+                          onClick={() => handleDeleteSingle(user.email)}
+                          title="Eliminar"
+                        >
+                          <img src={iconoEliminar} alt="Eliminar" className="option-icon" />
+                        </button>
+                      )}
+                      <button
                         className="icon-button edit-button"
                         onClick={() => handleEditSingle(user)}
                         title="Editar"
@@ -255,7 +272,7 @@ const UserList = ({ onEditUser, onBack }) => {
             </div>
 
             <div className="pagination">
-              <button 
+              <button
                 className="pagination-button"
                 onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
@@ -264,7 +281,7 @@ const UserList = ({ onEditUser, onBack }) => {
               </button>
               <span className="page-number current">{currentPage}</span>
               <span className="page-number">{currentPage + 1 <= totalPages ? currentPage + 1 : ''}</span>
-              <button 
+              <button
                 className="pagination-button"
                 onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
                 disabled={currentPage === totalPages}
