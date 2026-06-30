@@ -31,3 +31,6 @@ cypress/reports/
 
 # Additional
 node_modules/
+
+.vercel
+.env*
