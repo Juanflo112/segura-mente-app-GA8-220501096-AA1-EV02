@@ -3,6 +3,7 @@ import Sidebar from '../components/Dashboard/Sidebar';
 import UserList from '../components/Dashboard/UserList';
 import UserEditForm from '../components/Dashboard/UserEditForm';
 import UserRegisterForm from '../components/Dashboard/UserRegisterForm';
+import AppointmentScheduler from '../components/Appointments/AppointmentScheduler';
 import SessionWarning from '../components/SessionWarning';
 import useSessionTimeout from '../hooks/useSessionTimeout';
 import './DashboardPage.css';
@@ -12,21 +13,28 @@ const DashboardPage = () => {
   const [currentView, setCurrentView] = useState('home');
   const [selectedUser, setSelectedUser] = useState(null);
   const [nombreUsuario, setNombreUsuario] = useState('');
+  const [emailUsuario, setEmailUsuario] = useState('');
   const timeoutRef = useRef(null);
+
+  const ADMIN_EMAIL = 'administrador@seguramente.com';
+  const ADMIN_USERNAME = 'administrador';
 
   // Hook de control de sesión - 5 minutos de inactividad, advertencia 1 minuto antes
   const { showWarning, remainingTime, resetTimer } = useSessionTimeout(5, 1);
 
   // Obtener información del usuario al cargar el componente
   useEffect(() => {
-    // Aquí obtendrías el usuario desde localStorage o desde el estado global
-    // Por ahora usaremos localStorage como ejemplo
     const userData = localStorage.getItem('userData');
     if (userData) {
       const user = JSON.parse(userData);
       setNombreUsuario(user.nombreUsuario || user.nombre || 'Usuario');
+      setEmailUsuario(user.email || '');
     }
   }, []);
+
+  const isAdmin =
+    emailUsuario.toLowerCase() === ADMIN_EMAIL &&
+    nombreUsuario.toLowerCase() === ADMIN_USERNAME;
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -101,9 +109,10 @@ const DashboardPage = () => {
     switch (currentView) {
       case 'editar':
         return (
-          <UserList 
+          <UserList
             onEditUser={handleEditUser}
             onBack={handleBackToHome}
+            adminEmail={ADMIN_EMAIL}
           />
         );
       case 'edit-form':
@@ -121,11 +130,13 @@ const DashboardPage = () => {
             onCancel={handleCancelRegister}
           />
         );
+      case 'citas':
+        return <AppointmentScheduler />;
       default:
         return (
           <div className="content-area">
             <h2 className="content-title">
-              Bienvenido {nombreUsuario && <span>{nombreUsuario}</span>} a <span className="brand-segura">SEGURA</span>
+              Bienvenido/a {nombreUsuario && <span>{nombreUsuario}</span>} a <span className="brand-segura">SEGURA</span>
               <span className="brand-mente">-MENTE</span>
             </h2>
           </div>
@@ -138,16 +149,16 @@ const DashboardPage = () => {
       <header className="dashboard-header-top">
         <div className="header-pattern"></div>
         <div className="logo-container-round">
-          <img 
-            src={require('../assets/images/LogoRedondo.png')} 
-            alt="Logo Segura-Mente" 
+          <img
+            src={require('../assets/images/LogoRedondo.png')}
+            alt="Logo Segura-Mente"
             className="logo-round"
           />
         </div>
       </header>
 
       <div className="dashboard-container">
-        <button 
+        <button
           className={`sidebar-toggle ${sidebarOpen ? 'open' : ''}`}
           onClick={toggleSidebar}
           aria-label="Abrir/Cerrar menú"
@@ -155,11 +166,12 @@ const DashboardPage = () => {
           <span className="toggle-icon">☰</span>
         </button>
 
-        <Sidebar 
-          isOpen={sidebarOpen} 
+        <Sidebar
+          isOpen={sidebarOpen}
           onInteraction={handleSidebarInteraction}
           onMenuClick={handleMenuClick}
           onMouseLeave={handleSidebarMouseLeave}
+          isAdmin={isAdmin}
         />
 
         <main className={`dashboard-main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
@@ -171,7 +183,7 @@ const DashboardPage = () => {
 
       {/* Modal de advertencia de sesión */}
       {showWarning && (
-        <SessionWarning 
+        <SessionWarning
           remainingTime={remainingTime}
           onContinue={resetTimer}
         />

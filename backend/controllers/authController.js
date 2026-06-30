@@ -9,15 +9,18 @@ const { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail } = requ
  */
 exports.register = async (req, res) => {
     try {
-        const { 
-            nombreUsuario, 
-            tipoIdentificacion, 
-            identificacion, 
-            fechaNacimiento, 
-            telefono, 
-            direccion, 
-            email, 
-            password 
+        const {
+            nombreUsuario,
+            tipoIdentificacion,
+            identificacion,
+            fechaNacimiento,
+            telefono,
+            direccion,
+            email,
+            tipoUsuario,
+            formacionProfesional,
+            tarjetaProfesional,
+            password
         } = req.body;
 
         console.log('Intentando registrar usuario:', email);
@@ -25,27 +28,27 @@ exports.register = async (req, res) => {
         // 1. Verificar si el email ya existe (PRIMARY KEY)
         const existingEmail = await User.findByEmail(email);
         if (existingEmail) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'El correo electrónico ya está registrado' 
+                message: 'El correo electrónico ya está registrado'
             });
         }
 
         // 2. Verificar si el nombre de usuario ya existe
         const existingUsername = await User.findByUsername(nombreUsuario);
         if (existingUsername) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'El nombre de usuario ya está en uso' 
+                message: 'El nombre de usuario ya está en uso'
             });
         }
 
         // 3. Verificar si la identificación ya existe
         const existingIdentification = await User.findByIdentification(identificacion);
         if (existingIdentification) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'El número de identificación ya está registrado' 
+                message: 'El número de identificación ya está registrado'
             });
         }
 
@@ -65,6 +68,9 @@ exports.register = async (req, res) => {
             fechaNacimiento,
             telefono,
             direccion,
+            tipoUsuario: tipoUsuario || 'Cliente',
+            formacionProfesional: formacionProfesional || null,
+            tarjetaProfesional: tarjetaProfesional || null,
             password: hashedPassword,
             tokenVerificacion: verificationToken
         };
@@ -94,7 +100,7 @@ exports.register = async (req, res) => {
         // 9. Respuesta exitosa
         res.status(201).json({
             success: true,
-            message: emailSent 
+            message: emailSent
                 ? 'Usuario registrado exitosamente. Por favor verifica tu correo electrónico.'
                 : 'Usuario registrado exitosamente. Ya puedes iniciar sesión.',
             data: {
@@ -105,7 +111,7 @@ exports.register = async (req, res) => {
 
     } catch (error) {
         console.error('Error en registro:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
             message: error.message || 'Error al registrar usuario',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
@@ -124,24 +130,24 @@ exports.verifyEmail = async (req, res) => {
 
         // 1. Validar que el token esté presente
         if (!token) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'Token de verificación no proporcionado' 
+                message: 'Token de verificación no proporcionado'
             });
         }
 
         // 2. Buscar usuario por token
         const user = await User.findByToken(token);
         if (!user) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'Token inválido o expirado' 
+                message: 'Token inválido o expirado'
             });
         }
 
         // 3. Verificar si el usuario ya está verificado
         if (user.verificado) {
-            return res.status(200).json({ 
+            return res.status(200).json({
                 success: true,
                 message: 'Esta cuenta ya ha sido verificada previamente',
                 alreadyVerified: true
@@ -150,7 +156,7 @@ exports.verifyEmail = async (req, res) => {
 
         // 4. Actualizar estado de verificación
         const verified = await User.verifyEmail(token);
-        
+
         if (verified) {
             console.log('Email verificado exitosamente para:', user.email);
 
@@ -171,15 +177,15 @@ exports.verifyEmail = async (req, res) => {
                 }
             });
         } else {
-            res.status(400).json({ 
+            res.status(400).json({
                 success: false,
-                message: 'Error al verificar el email. Intenta nuevamente.' 
+                message: 'Error al verificar el email. Intenta nuevamente.'
             });
         }
 
     } catch (error) {
         console.error('Error en verificación:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
             message: 'Error al verificar email',
             error: process.env.NODE_ENV === 'development' ? error.message : undefined
@@ -197,23 +203,23 @@ exports.resendVerificationEmail = async (req, res) => {
         // 1. Buscar usuario
         const user = await User.findByEmail(email);
         if (!user) {
-            return res.status(404).json({ 
+            return res.status(404).json({
                 success: false,
-                message: 'Usuario no encontrado' 
+                message: 'Usuario no encontrado'
             });
         }
 
         // 2. Verificar si ya está verificado
         if (user.verificado) {
-            return res.status(400).json({ 
+            return res.status(400).json({
                 success: false,
-                message: 'Esta cuenta ya está verificada' 
+                message: 'Esta cuenta ya está verificada'
             });
         }
 
         // 3. Generar nuevo token
         const newToken = crypto.randomBytes(32).toString('hex');
-        
+
         // 4. Actualizar token en la base de datos (necesitarías agregar este método en el modelo)
         // await User.updateVerificationToken(email, newToken);
 
@@ -227,9 +233,9 @@ exports.resendVerificationEmail = async (req, res) => {
 
     } catch (error) {
         console.error('Error al reenviar email:', error);
-        res.status(500).json({ 
+        res.status(500).json({
             success: false,
-            message: 'Error al reenviar email de verificación' 
+            message: 'Error al reenviar email de verificación'
         });
     }
 };
@@ -280,7 +286,7 @@ exports.login = async (req, res) => {
 
         // 5. Generar token JWT
         const token = jwt.sign(
-            { 
+            {
                 email: user.email,
                 nombreUsuario: user.nombre_usuario
             },
@@ -301,6 +307,7 @@ exports.login = async (req, res) => {
             user: {
                 email: user.email,
                 nombreUsuario: user.nombre_usuario,
+                tipoUsuario: user.tipo_usuario || 'Cliente',
                 tipoIdentificacion: user.tipo_identificacion,
                 identificacion: user.identificacion,
                 telefono: user.telefono,
@@ -336,22 +343,15 @@ exports.forgotPassword = async (req, res) => {
             });
         }
 
-        // Temporal: Función deshabilitada debido a limitaciones de SMTP en hosting gratuito
-        return res.status(503).json({
-            success: false,
-            message: 'La función de recuperación de contraseña está temporalmente deshabilitada. Por favor contacta al administrador.'
-        });
-
-        /* COMENTADO TEMPORALMENTE - Reactivar cuando se solucione el problema de SMTP
         // 2. Buscar usuario por email
         const user = await User.findByEmail(email);
-        
+
         // Por seguridad, no revelar si el usuario existe o no
         // Siempre responder éxito pero solo enviar email si el usuario existe
         if (user) {
             // 3. Generar token de recuperación único
             const resetToken = crypto.randomBytes(32).toString('hex');
-            
+
             // 4. Calcular fecha de expiración (1 hora desde ahora)
             const expirationDate = new Date(Date.now() + 3600000); // 1 hora
 
@@ -364,7 +364,10 @@ exports.forgotPassword = async (req, res) => {
                 console.log('Email de recuperación enviado a:', email);
             } catch (emailError) {
                 console.error('Error al enviar email de recuperación:', emailError.message);
-                // No retornar error al usuario por seguridad
+                return res.status(503).json({
+                    success: false,
+                    message: 'No fue posible enviar el correo de recuperación en este momento. Intenta nuevamente más tarde.'
+                });
             }
         } else {
             console.log('Usuario no encontrado, pero responderemos éxito por seguridad');
@@ -375,7 +378,6 @@ exports.forgotPassword = async (req, res) => {
             success: true,
             message: 'Si el correo existe en nuestro sistema, recibirás instrucciones para recuperar tu contraseña.'
         });
-        */
 
     } catch (error) {
         console.error('Error en recuperación de contraseña:', error);
@@ -414,7 +416,7 @@ exports.resetPassword = async (req, res) => {
 
         // 3. Buscar usuario por token válido (no expirado)
         const user = await User.findByPasswordResetToken(token);
-        
+
         if (!user) {
             return res.status(400).json({
                 success: false,

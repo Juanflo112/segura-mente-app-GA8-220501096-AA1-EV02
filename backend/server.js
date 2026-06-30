@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const appointmentRoutes = require('./routes/appointments');
 
 // Cargar variables de entorno
 dotenv.config();
@@ -13,8 +14,20 @@ const app = express();
 // ==================== MIDDLEWARES ====================
 
 // CORS - Permitir peticiones desde el frontend
+const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:5173',
+    'https://segura-mente-app-ga-8-220501096-aa.vercel.app',
+    process.env.CLIENT_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:3000',
+    origin: function (origin, callback) {
+        // Permitir peticiones sin origin (Postman, curl, etc.)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.includes(origin)) return callback(null, true);
+        callback(new Error('Origen no permitido por CORS: ' + origin));
+    },
     credentials: true
 }));
 
@@ -32,7 +45,7 @@ app.use((req, res, next) => {
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-    res.json({ 
+    res.json({
         success: true,
         message: 'API Segura-Mente funcionando correctamente',
         version: '1.0.0',
@@ -45,6 +58,9 @@ app.use('/api/auth', authRoutes);
 
 // Rutas de gestión de usuarios
 app.use('/api/users', userRoutes);
+
+// Rutas de agendamiento de citas
+app.use('/api/appointments', appointmentRoutes);
 
 // ==================== MANEJO DE ERRORES ====================
 

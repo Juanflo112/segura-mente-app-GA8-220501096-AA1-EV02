@@ -57,7 +57,7 @@ const ForgotPasswordPage = () => {
           <Logo />
         </div>
       </header>
-      
+
       <main className="register-main">
         <div className="register-background-image"></div>
         <div className="register-form-container">
@@ -131,7 +131,7 @@ const ForgotPasswordPage = () => {
                   marginTop: '10px'
                 }}
               >
-                {isLoading ? 'Enviando...' : 'Enviar Correo de verigficación'}
+                {isLoading ? 'Enviando...' : 'Enviar Correo de recuperación'}
               </button>
             </form>
 

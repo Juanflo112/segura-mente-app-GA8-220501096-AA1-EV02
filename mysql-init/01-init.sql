@@ -31,6 +31,26 @@ CREATE INDEX idx_token_verificacion ON usuarios(token_verificacion);
 CREATE INDEX idx_reset_token ON usuarios(reset_token);
 CREATE INDEX idx_tipo_usuario ON usuarios(tipo_usuario);
 
+-- Tabla de citas / agendamientos
+CREATE TABLE IF NOT EXISTS citas (
+    id                     VARCHAR(36)  PRIMARY KEY,
+    client_email           VARCHAR(150) NOT NULL,
+    client_name            VARCHAR(100) NOT NULL,
+    date                   DATE         NOT NULL,
+    time                   VARCHAR(10)  NOT NULL,
+    psychologist_email     VARCHAR(150) NOT NULL,
+    psychologist_name      VARCHAR(100) NOT NULL,
+    psychologist_specialty VARCHAR(255) DEFAULT 'Psicólogo/a',
+    notes                  TEXT,
+    status                 ENUM('Agendada', 'Cancelada') DEFAULT 'Agendada',
+    created_at             TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at             TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_citas_client       (client_email),
+    INDEX idx_citas_psychologist (psychologist_email),
+    INDEX idx_citas_status       (status),
+    INDEX idx_citas_date         (date)
+);
+
 -- Insertar usuario administrador de prueba (password: Admin123!)
 -- Nota: En producción, elimina este usuario o cambia la contraseña
 INSERT INTO usuarios (

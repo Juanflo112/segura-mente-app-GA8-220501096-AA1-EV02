@@ -7,7 +7,7 @@ import iconoCerrarSesion from '../../assets/icons/CerrarSesion.svg';
 import iconoCrearUsuario from '../../assets/icons/CrearUsuario.svg';
 import iconoActualizarUsuario from '../../assets/icons/ActualizarUsuario.svg';
 
-const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
+const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave, isAdmin }) => {
   const navigate = useNavigate();
   const [showUserSubmenu, setShowUserSubmenu] = useState(false);
 
@@ -49,6 +49,10 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
     }
   };
 
+  const handleAppointmentsClick = () => {
+    navigate('/citas');
+  };
+
   const handleSubmenuMouseEnter = () => {
     setShowUserSubmenu(true);
   };
@@ -58,7 +62,7 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
   };
 
   return (
-    <aside 
+    <aside
       className={`sidebar ${isOpen ? 'open' : 'closed'}`}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseMove}
@@ -67,43 +71,45 @@ const Sidebar = ({ isOpen, onInteraction, onMenuClick, onMouseLeave }) => {
     >
       <div className="sidebar-content">
         <h2 className="welcome-titleS">¡Te damos la bienvenida!</h2>
-        
+
         <nav className="sidebar-nav">
-          <button className="nav-item">
-            <img src={iconoCatalogo} alt="Catálogo" className="nav-icon-img" />
-            <span className="nav-text">Gestionar catálogo de servicios</span>
+          <button className="nav-item" onClick={handleAppointmentsClick}>
+            <img src={iconoCatalogo} alt="Agendamiento de citas" className="nav-icon-img" />
+            <span className="nav-text">Gestionar agendamiento de citas</span>
           </button>
-          
-          <div 
-            className="nav-item-container"
-            onMouseEnter={handleSubmenuMouseEnter}
-            onMouseLeave={handleSubmenuMouseLeave}
-          >
-            <button className="nav-item" onClick={toggleUserSubmenu}>
-              <img src={iconoGestionarUsuarios} alt="Usuarios" className="nav-icon-img" />
-              <span className="nav-text">Gestionar usuarios</span>
-              <span className={`submenu-arrow ${showUserSubmenu ? 'open' : ''}`}>▼</span>
-            </button>
-            
-            {showUserSubmenu && (
-              <div className="submenu">
-                <button 
-                  className="submenu-item"
-                  onClick={() => handleSubmenuClick('registrar')}
-                >
-                  <img src={iconoCrearUsuario} alt="Crear usuario" className="submenu-icon-img" />
-                  <span className="submenu-text">Registrar nuevo usuario</span>
-                </button>
-                <button 
-                  className="submenu-item"
-                  onClick={() => handleSubmenuClick('editar')}
-                >
-                  <img src={iconoActualizarUsuario} alt="Actualizar usuario" className="submenu-icon-img" />
-                  <span className="submenu-text">Editar usuarios</span>
-                </button>
-              </div>
-            )}
-          </div>
+
+          {isAdmin && (
+            <div
+              className="nav-item-container"
+              onMouseEnter={handleSubmenuMouseEnter}
+              onMouseLeave={handleSubmenuMouseLeave}
+            >
+              <button className="nav-item" onClick={toggleUserSubmenu}>
+                <img src={iconoGestionarUsuarios} alt="Usuarios" className="nav-icon-img" />
+                <span className="nav-text">Gestionar usuarios</span>
+                <span className={`submenu-arrow ${showUserSubmenu ? 'open' : ''}`}>▼</span>
+              </button>
+
+              {showUserSubmenu && (
+                <div className="submenu">
+                  <button
+                    className="submenu-item"
+                    onClick={() => handleSubmenuClick('registrar')}
+                  >
+                    <img src={iconoCrearUsuario} alt="Crear usuario" className="submenu-icon-img" />
+                    <span className="submenu-text">Registrar nuevo usuario</span>
+                  </button>
+                  <button
+                    className="submenu-item"
+                    onClick={() => handleSubmenuClick('editar')}
+                  >
+                    <img src={iconoActualizarUsuario} alt="Actualizar usuario" className="submenu-icon-img" />
+                    <span className="submenu-text">Editar usuarios</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </nav>
       </div>
 
