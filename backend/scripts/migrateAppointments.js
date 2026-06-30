@@ -3,8 +3,9 @@
  * Uso: node backend/scripts/migrateAppointments.js
  */
 
-const mysql = require('mysql2/promise');
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+// Reusar el pool de conexiones ya configurado en el backend
+const db = require('../config/database');
 
 const CREATE_TABLE_SQL = `
 CREATE TABLE IF NOT EXISTS citas (
@@ -28,25 +29,21 @@ CREATE TABLE IF NOT EXISTS citas (
 `;
 
 async function migrate() {
-    let connection;
     try {
-        connection = await mysql.createConnection({
-            host: process.env.DB_HOST,
-            port: Number(process.env.DB_PORT) || 3306,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_NAME,
-            ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined
-        });
-
-        console.log('Conectado a la base de datos:', process.env.DB_NAME);
-        await connection.execute(CREATE_TABLE_SQL);
+        console.log('Conectando a la base de datos:', process.env.DB_NAME);
+        await db.query(CREATE_TABLE_SQL);
         console.log('Tabla "citas" creada o ya existente. Listo.');
+
+        const [rows] = await db.query("SHOW TABLES LIKE 'citas'");
+        if (rows.length > 0) {
+            console.log('Verificado: la tabla "citas" existe en la base de datos.');
+        }
     } catch (error) {
-        console.error('Error durante la migración:', error.message);
+        console.error('Error durante la migración:', error.message || error.code || error);
+        console.error('Detalle completo:', JSON.stringify(error, null, 2));
         process.exit(1);
     } finally {
-        if (connection) await connection.end();
+        process.exit(0);
     }
 }
 
