@@ -4,7 +4,6 @@ import API_BASE_URL from '../../config/api';
 import './AppointmentScheduler.css';
 
 const TIME_SLOTS = ['08:00', '09:30', '11:00', '14:00', '15:30', '17:00'];
-const STORAGE_KEY = 'seguraMenteAppointments';
 
 const todayDateString = () => {
     const today = new Date();
@@ -73,14 +72,6 @@ const getMonthCells = (monthOffset) => {
     return cells;
 };
 
-const createAppointmentId = () => {
-    if (window.crypto && window.crypto.randomUUID) {
-        return window.crypto.randomUUID();
-    }
-
-    return `${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
-};
-
 const AppointmentScheduler = () => {
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(null);
@@ -114,16 +105,27 @@ const AppointmentScheduler = () => {
     }, [navigate]);
 
     useEffect(() => {
-        const storedAppointments = localStorage.getItem(STORAGE_KEY);
-        if (storedAppointments) {
-            try {
-                setAppointments(JSON.parse(storedAppointments));
-            } catch (parseError) {
-                console.error('Error leyendo citas guardadas:', parseError);
-                setAppointments([]);
+        const loadAppointments = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setLoadingAppointments(false);
+                return;
             }
-        }
-        setLoadingAppointments(false);
+            try {
+                const response = await fetch(`${API_BASE_URL}/appointments`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setAppointments(data.appointments || []);
+                }
+            } catch (loadError) {
+                console.error('Error cargando citas:', loadError);
+            } finally {
+                setLoadingAppointments(false);
+            }
+        };
+        loadAppointments();
     }, []);
 
     useEffect(() => {
@@ -231,9 +233,20 @@ const AppointmentScheduler = () => {
         return TIME_SLOTS.filter((time) => getAvailablePsychologists(date, time).length > 0);
     }
 
-    const persistAppointments = (nextAppointments) => {
-        setAppointments(nextAppointments);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(nextAppointments));
+    const reloadAppointments = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+        try {
+            const response = await fetch(`${API_BASE_URL}/appointments`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (response.ok) {
+                setAppointments(data.appointments || []);
+            }
+        } catch (reloadError) {
+            console.error('Error recargando citas:', reloadError);
+        }
     };
 
     const clearForm = () => {
@@ -273,7 +286,7 @@ const AppointmentScheduler = () => {
         setError('');
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setMessage('');
         setError('');
@@ -299,29 +312,44 @@ const AppointmentScheduler = () => {
         }
 
         const selectedPsychologist = psychologists.find((psychologist) => psychologist.email === selectedPsychologistEmail);
-        const existingAppointment = appointments.find((appointment) => appointment.id === editingAppointmentId);
-        const nextAppointment = {
-            id: editingAppointmentId || createAppointmentId(),
-            clientEmail,
-            clientName,
+        const token = localStorage.getItem('token');
+        const payload = {
             date: selectedDate,
             time: selectedTime,
             psychologistEmail: selectedPsychologistEmail,
             psychologistName: selectedPsychologist?.name || 'Psicólogo/a',
             psychologistSpecialty: selectedPsychologist?.specialty || 'Psicólogo/a',
-            notes: notes.trim(),
-            status: 'Agendada',
-            createdAt: existingAppointment?.createdAt || new Date().toISOString(),
-            updatedAt: new Date().toISOString()
+            notes: notes.trim()
         };
 
-        const nextAppointments = editingAppointmentId
-            ? appointments.map((appointment) => (appointment.id === editingAppointmentId ? nextAppointment : appointment))
-            : [...appointments, nextAppointment];
+        try {
+            const url = editingAppointmentId
+                ? `${API_BASE_URL}/appointments/${editingAppointmentId}`
+                : `${API_BASE_URL}/appointments`;
+            const method = editingAppointmentId ? 'PUT' : 'POST';
 
-        persistAppointments(nextAppointments);
-        setMessage(editingAppointmentId ? 'Tu cita fue actualizada correctamente.' : 'Tu cita fue agendada correctamente.');
-        clearForm();
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            if (!response.ok) {
+                setError(data.message || 'No fue posible guardar la cita.');
+                return;
+            }
+
+            await reloadAppointments();
+            setMessage(editingAppointmentId ? 'Tu cita fue actualizada correctamente.' : 'Tu cita fue agendada correctamente.');
+            clearForm();
+        } catch (submitError) {
+            console.error('Error al guardar cita:', submitError);
+            setError('Error de conexión. Verifica que el servidor esté disponible.');
+        }
     };
 
     const handleEditAppointment = (appointment) => {
@@ -339,23 +367,31 @@ const AppointmentScheduler = () => {
         setMonthOffset(monthDifference);
     };
 
-    const handleCancelAppointment = (appointmentId) => {
+    const handleCancelAppointment = async (appointmentId) => {
         const confirmed = window.confirm('¿Deseas cancelar esta cita?');
         if (!confirmed) {
             return;
         }
 
-        const nextAppointments = appointments.map((appointment) => (
-            appointment.id === appointmentId
-                ? { ...appointment, status: 'Cancelada', updatedAt: new Date().toISOString() }
-                : appointment
-        ));
-
-        persistAppointments(nextAppointments);
-        setMessage('La cita fue cancelada correctamente.');
-
-        if (editingAppointmentId === appointmentId) {
-            clearForm();
+        const token = localStorage.getItem('token');
+        try {
+            const response = await fetch(`${API_BASE_URL}/appointments/${appointmentId}/cancel`, {
+                method: 'PATCH',
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                setError(data.message || 'No fue posible cancelar la cita.');
+                return;
+            }
+            await reloadAppointments();
+            setMessage('La cita fue cancelada correctamente.');
+            if (editingAppointmentId === appointmentId) {
+                clearForm();
+            }
+        } catch (cancelError) {
+            console.error('Error al cancelar cita:', cancelError);
+            setError('Error de conexión. Verifica que el servidor esté disponible.');
         }
     };
 

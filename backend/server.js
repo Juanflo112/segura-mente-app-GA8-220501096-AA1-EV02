@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/users');
+const appointmentRoutes = require('./routes/appointments');
 
 // Cargar variables de entorno
 dotenv.config();
@@ -32,7 +33,7 @@ app.use((req, res, next) => {
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-    res.json({ 
+    res.json({
         success: true,
         message: 'API Segura-Mente funcionando correctamente',
         version: '1.0.0',
@@ -45,6 +46,9 @@ app.use('/api/auth', authRoutes);
 
 // Rutas de gestión de usuarios
 app.use('/api/users', userRoutes);
+
+// Rutas de agendamiento de citas
+app.use('/api/appointments', appointmentRoutes);
 
 // ==================== MANEJO DE ERRORES ====================
 
