@@ -16,21 +16,21 @@
 ##  URLs de Producción
 
 ### **Frontend (Aplicación Web)**
-- **URL:** https://segura-mente-app-frontend.vercel.app/
+- **URL:** https://segura-mente-app-final.vercel.app/
 - **Plataforma:** Vercel
 - **Tecnología:** React ..0
 - **Estado:**  Activo
 
 ### **Backend (API REST)**
-- **URL:** https://segura-mente-app-ga-000-aa-ev0.onrender.com
+- **URL:** https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com
 - **Plataforma:** Render.com
 - **Tecnología:** Node.js + Express
 - **Estado:**  Activo
 
 ### **Base de Datos**
 - **Plataforma:** Railway
-- **Tipo:** MySQL .0
-- **Host:** caboose.proxy.rlwy.net:
+- **Tipo:** MySQL 8.0
+- **Host:** segura-mente-app-final-production.up.railway.app
 - **Estado:**  Activo
 
 ---
@@ -48,8 +48,9 @@
 
 ##  Repositorio del Código Fuente
 
-- **GitHub:** https://github.com/Juanflo112/segura-mente-app-GA8-220501096-AA1-EV02.git
+- **GitHub:** https://github.com/Juanflo112/Segura-Mente-App-Final.git
 - **Rama Principal:** main
+- **Nota:** Repositorio migrado desde `segura-mente-app-GA8-220501096-AA1-EV02` por mejoras en la funcionalidad para el despliegue.
 -
 
 ---

@@ -1,19 +1,130 @@
 # Segura-Mente App
 
-Aplicación web para la gestión segura de usuarios, desarrollada con React.js en el frontend y Node.js + Express + MySQL en el backend.
+**Evidencia:** GA8-220501096-AA1-EV02 - Modulos Integrados  
+**Estudiante:** Juan Pablo Mejia Vargas  
+**Version:** 1.0.0  
+**Fecha:** 12/01/2026
 
-## Descripción del Proyecto
+---
 
-**Segura-Mente** es una plataforma de registro y autenticación de usuarios con verificación de email. El proyecto incluye:
+## Descripcion de la Solucion
 
-- Sistema de registro con validaciones completas
-- Verificación de correo electrónico
-- Dashboard de administración de usuarios
-- Interfaz moderna y responsiva
-- Backend REST API con Node.js y Express
-- Base de datos MySQL
-- Encriptación de contraseñas
-- Envío de correos electrónicos
+**Segura-Mente** es una aplicacion web de gestion de usuarios con autenticacion segura, desarrollada con React.js en el frontend y Node.js + Express + MySQL en el backend.
+
+### Funcionalidades Principales
+
+- Registro de usuarios con validaciones completas de campos
+- Autenticacion con JWT y encriptacion de contrasenas con bcrypt
+- Dashboard de administracion para gestion de usuarios y citas
+- Control de sesion por inactividad con advertencia configurable
+- API REST documentada con separacion MVC
+- Interfaz responsiva y moderna
+
+### Arquitectura del Sistema
+
+La solucion sigue una arquitectura de tres capas distribuidas en la nube:
+
+```
+[Usuario Final (Navegador)]
+          |  HTTPS
+          v
+[Frontend - React 18 / Vercel]
+          |  REST API / HTTPS
+          v
+[Backend - Node.js + Express / Render]
+          |  MySQL (SSL)
+          v
+[Base de Datos - MySQL 8.0 / Railway]
+```
+
+**Patron de diseno:** MVC Distribuido
+
+| Capa | Tecnologia | Responsabilidad |
+|------|-----------|-----------------|
+| Vista | React.js, React Router | Presentacion e interaccion |
+| Controlador | Express.js, JWT | Logica de negocio y autenticacion |
+| Modelo | MySQL, mysql2 | Persistencia de datos |
+
+### Stack Tecnologico
+
+**Frontend**
+- React 18
+- React Router
+- Axios
+- CSS
+
+**Backend**
+- Node.js
+- Express.js
+- bcryptjs
+- jsonwebtoken
+- nodemailer
+- express-validator
+
+**Infraestructura**
+- Vercel (frontend)
+- Render.com (backend)
+- Railway (base de datos MySQL)
+
+### Estructura del Proyecto
+
+```
+segura-mente-app/
+├── backend/               # Servidor Node.js + Express
+│   ├── config/           # Configuracion de base de datos
+│   ├── controllers/      # Logica de negocio
+│   ├── middleware/       # Validaciones y middleware
+│   ├── models/          # Modelos de datos
+│   ├── routes/          # Rutas de la API
+│   ├── utils/           # Utilidades (email, etc.)
+│   ├── database.sql     # Script de base de datos
+│   └── server.js        # Servidor principal
+├── src/                 # Frontend React
+│   ├── components/      # Componentes reutilizables
+│   ├── pages/           # Paginas de la aplicacion
+│   ├── hooks/           # Hooks personalizados
+│   └── App.jsx          # Componente principal
+└── public/              # Archivos publicos
+```
+
+### Modulo de Control de Sesion
+
+El sistema detecta inactividad del usuario (mouse, teclado, scroll, touch) y ejecuta el siguiente flujo:
+
+```
+Minutos 0 a 14  -> Usuario activo, temporizador se reinicia con cada accion
+Minuto 14       -> Aparece advertencia "Sesion por expirar"
+Minuto 15       -> Cierre automatico de sesion
+```
+
+### Seguridad
+
+- Contrasenas encriptadas con bcrypt
+- Autenticacion basada en JWT
+- CORS restringido al dominio del frontend
+- Validacion de datos con express-validator
+- Variables sensibles en .env (nunca en el repositorio)
+
+### Base de Datos - Tabla Principal: usuarios
+
+| Campo | Tipo | Descripcion |
+|-------|------|-------------|
+| email | PRIMARY KEY | Identificador unico |
+| nombre_usuario | UNIQUE | Nombre de usuario |
+| identificacion | UNIQUE | Documento de identidad |
+| password | VARCHAR | Contrasena encriptada |
+| verificado | BOOLEAN | Estado de verificacion |
+| token_verificacion | VARCHAR | Token de activacion |
+
+### API Endpoints Principales
+
+| Metodo | Endpoint | Descripcion |
+|--------|----------|-------------|
+| POST | /api/auth/register | Registro de usuario |
+| POST | /api/auth/login | Inicio de sesion |
+| GET | /api/auth/verify | Verificacion de email |
+| GET | /api/users | Listar usuarios |
+| POST | /api/appointments | Crear cita |
 
 ## Estructura del Proyecto
 
@@ -43,190 +154,253 @@ segura-mente-app/
 └── public/              # Archivos públicos
 ```
 
-## Instalación y Configuración
+---
 
-### Requisitos Previos
+## Proceso de Despliegue
 
-- Node.js (v o superior)
-- XAMPP (para MySQL y phpMyAdmin)
+### URLs de Produccion
+
+| Componente | URL | Plataforma |
+|-----------|-----|-----------|
+| Frontend | https://segura-mente-app-final.vercel.app/ | Vercel |
+| Backend | https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com | Render |
+| Base de Datos | segura-mente-app-final-production.up.railway.app | Railway |
+
+**Repositorio:** https://github.com/Juanflo112/Segura-Mente-App-Final.git
+
+> **Nota de migracion:** El repositorio original `segura-mente-app-GA8-220501096-AA1-EV02` fue reemplazado por `Segura-Mente-App-Final` para incorporar mejoras en la funcionalidad orientadas al despliegue en produccion.
+
+---
+
+### Ejecucion Local
+
+#### Requisitos Previos
+
+- Node.js v18 o superior
+- MySQL 8.0 o superior
 - Git
-- Editor de código (VS Code recomendado)
 
-### ️ Clonar el Repositorio
+#### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/Juanflo/GA7-000-AA-EV0-Dise-o-y-desarrollo-de-servicios-web----Proyecto.git
-cd segura-mente-app
+git clone https://github.com/Juanflo112/Segura-Mente-App-Final.git
+cd Segura-Mente-App-Final
 ```
 
-### ️ Configurar el Frontend
+#### 2. Configurar el Backend
 
 ```bash
-# Instalar dependencias
-npm install
-
-# Iniciar el servidor de desarrollo
-npm start
-```
-
-La aplicación se abrirá en [http://localhost:000](http://localhost:000)
-
-### ️ Configurar el Backend
-
-```bash
-# Navegar a la carpeta backend
 cd backend
-
-# Instalar dependencias
 npm install
 ```
 
-### ️ Configurar la Base de Datos
-
-. **Inicia XAMPP** y activa MySQL
-. **Abre phpMyAdmin**: `http://localhost/phpmyadmin`
-. **Ejecuta el script SQL** que está en `backend/database.sql`
-
-### ️ Configurar Variables de Entorno
-
-Edita el archivo `backend/.env` con tus credenciales:
+Crear el archivo `backend/.env` con las siguientes variables:
 
 ```env
-PORT=000
+PORT=5000
 DB_HOST=localhost
 DB_USER=root
 DB_PASSWORD=
 DB_NAME=seguramente_db
-JWT_SECRET=tu_clave_secreta_muy_segura
+JWT_SECRET=clave_secreta_muy_larga_y_aleatoria
 EMAIL_HOST=smtp.gmail.com
-EMAIL_PORT=7
+EMAIL_PORT=587
 EMAIL_USER=tu_email@gmail.com
-EMAIL_PASSWORD=tu_contraseña_app_gmail
-FRONTEND_URL=http://localhost:000
+EMAIL_PASSWORD=tu_contrasena_app_gmail
+FRONTEND_URL=http://localhost:3000
 ```
 
-** Importante:** Para enviar emails, necesitas una "Contraseña de aplicación" de Gmail. Ver instrucciones en `backend/README.md`
+#### 3. Configurar la Base de Datos
 
-### ️ Iniciar el Backend
+Ejecutar el script SQL en MySQL:
 
 ```bash
-# Desde la carpeta backend
+mysql -u root -p seguramente_db < backend/database.sql
+```
+
+#### 4. Configurar el Frontend
+
+```bash
+# En la raiz del proyecto
+npm install
+```
+
+Crear el archivo `.env` en la raiz:
+
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+```
+
+#### 5. Iniciar la Aplicacion
+
+```bash
+# Terminal 1 - Backend
+cd backend
+npm start
+
+# Terminal 2 - Frontend
 npm start
 ```
 
-El servidor se ejecutará en [http://localhost:000](http://localhost:000)
+- Frontend: http://localhost:3000
+- Backend: http://localhost:5000
 
-## Uso de la Aplicación
+---
 
-### Registro de Usuario
+### Despliegue en Produccion
 
-. Navega a la página de registro
-. Completa el formulario con:
-   - Nombre de usuario
-   - Documento de identificación
-   - Fecha de nacimiento
-   - Teléfono
-   - Dirección
-   - Correo electrónico
-   - Contraseña (mínimo  caracteres, con mayúsculas, minúsculas, números y símbolos)
-. Haz clic en "Crear cuenta"
-. Verifica tu correo electrónico
-. Haz clic en el enlace de verificación
-. ¡Cuenta activada!
+#### Paso 1: Base de Datos en Railway
 
-### Login
-
-. Ingresa tu correo y contraseña
-. Accede al dashboard
-
-##  Scripts Disponibles
-
-### Frontend
+1. Crear cuenta en [railway.app](https://railway.app) con GitHub
+2. Crear nuevo proyecto: "New Project" > "Provision MySQL"
+3. Copiar las credenciales de conexion (host, user, password, database, port)
+4. Ejecutar el script de base de datos:
 
 ```bash
-npm start          # Inicia el servidor de desarrollo
-npm test           # Ejecuta las pruebas
-npm run build      # Construye la aplicación para producción
-npm run eject      # Expone la configuración (irreversible)
+mysql -h <MYSQL_HOST> -P <MYSQL_PORT> -u <MYSQL_USER> -p<MYSQL_PASSWORD> <MYSQL_DATABASE> < backend/database.sql
 ```
 
-### Backend
+#### Paso 2: Backend en Render
+
+1. Crear cuenta en [render.com](https://render.com) con GitHub
+2. "New +" > "Web Service" > conectar el repositorio
+3. Configurar el servicio:
+   - **Root Directory:** `backend`
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+   - **Instance Type:** Free
+
+4. Agregar las siguientes variables de entorno en Render:
+
+```
+NODE_ENV=production
+PORT=10000
+DB_HOST=<host de Railway>
+DB_USER=<usuario de Railway>
+DB_PASSWORD=<contrasena de Railway>
+DB_NAME=<nombre de BD Railway>
+DB_PORT=<puerto de Railway>
+JWT_SECRET=<generar con: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))">
+JWT_EXPIRE=7d
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=<correo@gmail.com>
+EMAIL_PASS=<contrasena de aplicacion Gmail>
+EMAIL_FROM=<correo@gmail.com>
+CLIENT_URL=<URL del frontend en Vercel>
+```
+
+5. Click en "Create Web Service" y esperar el despliegue (5-10 minutos)
+
+**Nota sobre contrasenas de aplicacion Gmail:** Activar verificacion en dos pasos en la cuenta de Google, luego ir a Seguridad > Contrasenas de aplicaciones y generar una para la aplicacion.
+
+#### Paso 3: Frontend en Vercel
+
+1. Crear cuenta en [vercel.com](https://vercel.com) con GitHub
+2. "Add New" > "Project" > importar el repositorio
+3. Configurar:
+   - **Framework Preset:** Create React App
+   - **Root Directory:** `./`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `build`
+
+4. Agregar variable de entorno:
+
+```
+REACT_APP_API_URL=https://<nombre-del-servicio>.onrender.com/api
+```
+
+5. Click en "Deploy"
+
+#### Paso 4: Actualizar CORS
+
+Una vez obtenida la URL del frontend de Vercel, actualizar en Render la variable:
+
+```
+CLIENT_URL=https://<tu-proyecto>.vercel.app
+```
+
+---
+
+### Scripts de Comandos Utiles
 
 ```bash
-npm start          # Inicia el servidor backend
-npm run dev        # Inicia con nodemon (recarga automática)
+# Construir el frontend para produccion
+npm run build
+
+# Generar JWT_SECRET seguro
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+# Verificar salud del backend
+curl https://<backend>.onrender.com/api/health
 ```
 
-## Seguridad
+---
 
-- Contraseñas encriptadas con bcrypt
-- Validación de datos con express-validator
-- CORS configurado
-- Variables sensibles en .env
-- Email como PRIMARY KEY
-- Tokens únicos de verificación
+### Checklist de Despliegue
 
-## Base de Datos
+- [ ] Base de datos MySQL creada y tablas migradas
+- [ ] Backend desplegado en Render con todas las variables de entorno
+- [ ] Frontend desplegado en Vercel
+- [ ] Variable `REACT_APP_API_URL` configurada en Vercel apuntando al backend
+- [ ] Variable `CLIENT_URL` configurada en Render apuntando al frontend
+- [ ] Contrasena de aplicacion de Gmail configurada
+- [ ] Prueba de registro y login funcionando correctamente
+- [ ] Emails de verificacion recibidos
 
-La aplicación utiliza MySQL con la siguiente estructura principal:
+---
 
-### Tabla: usuarios
-- **email** (PRIMARY KEY) - Identificador único
-- **nombre_usuario** (UNIQUE) - Nombre de usuario único
-- **identificacion** (UNIQUE) - Documento único
-- **password** - Contraseña encriptada
-- **verificado** - Estado de verificación
-- **token_verificacion** - Token de verificación
+### Consideraciones del Plan Gratuito
 
+| Servicio | Costo | Restriccion |
+|----------|-------|-------------|
+| Railway (MySQL) | Gratuito | 500 horas/mes |
+| Render (Backend) | Gratuito | Duerme tras 15 min de inactividad (cold start 30-50 s) |
+| Vercel (Frontend) | Gratuito | 100 GB bandwidth/mes |
 
-Ver `backend/database.sql` para la estructura completa.
+---
 
-## API Endpoints
+### Solucion de Problemas Comunes
 
-### Autenticación
+**Error: CORS blocked**
+Verificar que `CLIENT_URL` en el backend coincida exactamente con la URL de Vercel.
 
-- `POST /api/auth/register` - Registrar usuario
-- `GET /api/auth/verify?token=...` - Verificar email
-- `POST /api/auth/resend-verification` - Reenviar email
+**Error: Cannot connect to database**
+Verificar las credenciales de MySQL en Render y que la instancia de Railway este activa.
 
-Ver `backend/README.md` para documentación completa de la API.
+**Backend muy lento en la primera solicitud**
+Comportamiento normal en el plan gratuito de Render. El servicio se "duerme" tras 15 minutos de inactividad.
 
-## Tecnologías Utilizadas
+**Emails no llegan**
+Verificar que `EMAIL_PASS` sea una contrasena de aplicacion de Gmail y no la contrasena de la cuenta.
 
-### Frontend
-- React.js
-- React Router
-- CSS
+---
 
-### Backend
-- Node.js
-- Express.js
-- MySQL (mysql)
-- bcryptjs (encriptación)
-- jsonwebtoken (JWT)
-- nodemailer (envío de emails)
-- express-validator (validaciones)
+## Derechos de Autor
 
-## Documentación Adicional
+**Proyecto:** Segura-Mente - Sistema de Gestión de Usuarios  
+**Autor:** Juan Pablo Mejia Vargas  
+**Programa:** Tecnologia en Analisis y Desarrollo de Sistemas de Informacion (ADSI)  
+**Institucion:** SENA - Servicio Nacional de Aprendizaje  
+**Evidencia:** GA8-220501096-AA1-EV02 - Modulos Integrados  
+**Año:** 2026
 
-- [Documentación del Backend](backend/README.md)
-- [Documentación de Create React App](https://facebook.github.io/create-react-app/docs/getting-started)
-- [Documentación de React](https://reactjs.org/)
+### Licencia
 
-##  Solución de Problemas
+Este proyecto fue desarrollado con fines academicos en el marco del programa de formacion del SENA. El codigo fuente es de autoria original del estudiante y puede ser consultado como evidencia de aprendizaje.
 
-### Error de conexión a la base de datos
-- Verifica que XAMPP esté ejecutándose
-- Verifica las credenciales en `backend/.env`
-- Asegúrate de haber ejecutado `database.sql`
+Queda prohibida la reproduccion total o parcial del presente trabajo con fines comerciales sin la autorizacion expresa del autor.
 
-### Error al enviar emails
-- Usa una "Contraseña de aplicación" de Gmail
-- Activa la verificación en  pasos en tu cuenta de Google
+### Tecnologias de Terceros
 
-### Puerto en uso
-- Verifica que ningún otro proceso esté usando el puerto 000 o 000
-- Cambia el puerto en las variables de entorno si es necesario
+Este proyecto hace uso de librerias y frameworks de codigo abierto. Sus respectivas licencias se encuentran en los archivos `package.json` de cada modulo del proyecto:
+
+- React (MIT License) - Meta Platforms, Inc.
+- Express.js (MIT License) - TJ Holowaychuk
+- MySQL2 (MIT License) - Sidorenko Dmytro
+- bcryptjs (MIT License) - Tobias Rodaebel
+- jsonwebtoken (MIT License) - Auth0
+- nodemailer (MIT License) - Andris Reinman
 
 
 

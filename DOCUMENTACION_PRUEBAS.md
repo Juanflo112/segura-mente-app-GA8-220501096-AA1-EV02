@@ -34,7 +34,7 @@
 ```
 
 **Pasos:**
-. Acceder a https://segura-mente-app-frontend.vercel.app/
+. Acceder a https://segura-mente-app-final.vercel.app/
 . Hacer clic en "Registrarse"
 . Llenar el formulario con los datos de prueba
 . Hacer clic en "Registrarse"
@@ -303,7 +303,7 @@
 **Configuración:**
 ```javascript
 {
-  host: "caboose.proxy.rlwy.net",
+  host: "segura-mente-app-final-production.up.railway.app",
   port: ,
   ssl: { rejectUnauthorized: false }
 }
@@ -377,7 +377,7 @@
 
 **Configuración:**
 ```javascript
-CORS Origin: https://segura-mente-app-frontend.vercel.app
+CORS Origin: https://segura-mente-app-final.vercel.app
 ```
 
 **Resultado Esperado:**
@@ -444,7 +444,7 @@ Motor: MySQL .0
 **Frontend:**
 ```
 Plataforma: Vercel
-URL: https://segura-mente-app-frontend.vercel.app/
+URL: https://segura-mente-app-final.vercel.app/
 Build: React Production Build
 Node: v.x (Vercel)
 Deploy: Automático desde GitHub main branch
@@ -453,7 +453,7 @@ Deploy: Automático desde GitHub main branch
 **Backend:**
 ```
 Plataforma: Render.com
-URL: https://segura-mente-app-ga-000-aa-ev0.onrender.com
+URL: https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com
 Runtime: Node.js .x
 Plan: Free Tier
 Deploy: Automático desde GitHub main branch
@@ -463,7 +463,7 @@ Health Check: GET /
 **Base de Datos:**
 ```
 Plataforma: Railway
-Host: caboose.proxy.rlwy.net
+Host: segura-mente-app-final-production.up.railway.app
 Puerto: 
 Motor: MySQL .0
 Red: Pública (Public Networking habilitado)
@@ -487,12 +487,12 @@ Node Version: .x
 
 **Environment Variables:**
 ```
-REACT_APP_API_URL=https://segura-mente-app-ga-000-aa-ev0.onrender.com/api
+REACT_APP_API_URL=https://segura-mente-app-ga8-220501096-aa1-ev02.onrender.com/api
 ```
 
 **Configuraciones Adicionales:**
 - Auto-deploy desde main branch: 
-- Production domain: https://segura-mente-app-frontend.vercel.app
+- Production domain: https://segura-mente-app-final.vercel.app
 - Preview deployments: 
 - HTTPS:  (automático)
 
@@ -514,7 +514,7 @@ Plan: Free
 ```
 NODE_ENV=production
 PORT=0000
-DB_HOST=caboose.proxy.rlwy.net
+DB_HOST=segura-mente-app-final-production.up.railway.app
 DB_PORT=
 DB_USER=root
 DB_PASSWORD=[secreto]
@@ -522,7 +522,7 @@ DB_NAME=railway
 DB_SSL=true
 JWT_SECRET=[secreto]
 JWT_EXPIRE=7d
-CLIENT_URL=https://segura-mente-app-frontend.vercel.app
+CLIENT_URL=https://segura-mente-app-final.vercel.app
 EMAIL_HOST=smtp.sendgrid.net
 EMAIL_PORT=7
 EMAIL_SECURE=false
@@ -559,7 +559,7 @@ Storage: GB
 **Networking:**
 ```
 Public Networking:  Habilitado
-Public Host: caboose.proxy.rlwy.net
+Public Host: segura-mente-app-final-production.up.railway.app
 Public Port: 
 Private Host: mysql.railway.internal (no usado)
 SSL:  Requerido
@@ -567,8 +567,8 @@ SSL:  Requerido
 
 **Variables de Conexión:**
 ```
-MYSQL_URL=mysql://root:[password]@caboose.proxy.rlwy.net:/railway
-MYSQL_PUBLIC_URL=mysql://root:[password]@caboose.proxy.rlwy.net:/railway
+MYSQL_URL=mysql://root:[password]@segura-mente-app-final-production.up.railway.app:/railway
+MYSQL_PUBLIC_URL=mysql://root:[password]@segura-mente-app-final-production.up.railway.app:/railway
 ```
 
 ---

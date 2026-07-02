@@ -41,7 +41,7 @@
 ┌────────────────────────▼────────────────────────────────────┐
 │                    FRONTEND (React)                          │
 │                  Vercel Cloud Platform                       │
-│  URL: segura-mente-app-frontend.vercel.app                   │
+│  URL: segura-mente-app-final.vercel.app                      │
 │                                                              │
 │  - React ..0                                              │
 │  - React Router 7.0.                                       │
@@ -55,7 +55,7 @@
 ┌────────────────────────▼────────────────────────────────────┐
 │                 BACKEND (Node.js + Express)                  │
 │                   Render Cloud Platform                      │
-│  URL: segura-mente-app-ga-000-aa-ev0.onrender.com  │
+│  URL: segura-mente-app-ga8-220501096-aa1-ev02.onrender.com   │
 │                                                              │
 │  - Express ..                                             │
 │  - JWT Authentication                                        │
@@ -69,7 +69,7 @@
 ┌────────────────────────▼────────────────────────────────────┐
 │                  BASE DE DATOS (MySQL .0)                   │
 │                   Railway Cloud Platform                     │
-│  Host: caboose.proxy.rlwy.net:                          │
+│  Host: segura-mente-app-final-production.up.railway.app     │
 │                                                              │
 │  - Tabla: usuarios                                           │
 │  - Índices optimizados                                       │
@@ -828,7 +828,7 @@ const secret = process.env.JWT_SECRET;
    ```
    NODE_ENV=production
    PORT=0000
-   DB_HOST=caboose.proxy.rlwy.net
+   DB_HOST=segura-mente-app-final-production.up.railway.app
    DB_PORT=
    DB_USER=root
    DB_PASSWORD=[tu_password]
@@ -836,7 +836,7 @@ const secret = process.env.JWT_SECRET;
    DB_SSL=true
    JWT_SECRET=[tu_secret]
    JWT_EXPIRE=7d
-   CLIENT_URL=https://[tu-frontend].vercel.app
+   CLIENT_URL=https://segura-mente-app-final.vercel.app
    ```
 
 . **Deploy**
@@ -861,7 +861,7 @@ const secret = process.env.JWT_SECRET;
 . **Ejecutar Scripts**
    - Conectar con cliente MySQL:
    ```bash
-   mysql -h caboose.proxy.rlwy.net -P  -u root -p
+   mysql -h segura-mente-app-final-production.up.railway.app -P  -u root -p
    ```
    - Ejecutar `database.sql`
    - Ejecutar migraciones
@@ -897,7 +897,7 @@ console.error('Error de conexión:', error);
 **Solución:**
 ```env
 # Usar host público
-DB_HOST=caboose.proxy.rlwy.net
+DB_HOST=segura-mente-app-final-production.up.railway.app
 DB_PORT=
 ```
 
@@ -910,7 +910,7 @@ DB_PORT=
 **Solución:**
 ```env
 # Asegurar que coincide exactamente
-CLIENT_URL=https://segura-mente-app-frontend.vercel.app
+CLIENT_URL=https://segura-mente-app-final.vercel.app
 ```
 
 ---
@@ -964,10 +964,10 @@ headers: {
 **Base de Datos:**
 ```bash
 # Exportar desde Railway
-mysqldump -h caboose.proxy.rlwy.net -P  -u root -p railway > backup_$(date +%Y%m%d).sql
+mysqldump -h segura-mente-app-final-production.up.railway.app -P  -u root -p railway > backup_$(date +%Y%m%d).sql
 
 # Importar
-mysql -h caboose.proxy.rlwy.net -P  -u root -p railway < backup_00.sql
+mysql -h segura-mente-app-final-production.up.railway.app -P  -u root -p railway < backup_00.sql
 ```
 
 **Código Fuente:**
@@ -1087,7 +1087,7 @@ npm cache clean --force
 
 ```bash
 # Conectar a Railway
-mysql -h caboose.proxy.rlwy.net -P  -u root -p railway
+mysql -h segura-mente-app-final-production.up.railway.app -P  -u root -p railway
 
 # Ver tablas
 SHOW TABLES;
